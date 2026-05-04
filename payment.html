@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dex.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                
+                <div>
+                    <h2>ManoloStays</h2>
+                    <p>Book. Stay. Relax.</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dash.html"><span>🏠</span> Dashboard</a>
+                <a href="dation.html" ><span>🏨</span> Accommodations</a>
+                <a href="books.html"><span>📅</span> My Bookings</a>
+                <a href="#"class="active"><span>💳</span> Payments</a>
+                <a href="prof.html" ><span>👤</span> Profile</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>© 2026 ManoloStays- All rights reserved.</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+    <!-- Top Header -->
+    <header class="content-header">
+        <div class="welcome-text">
+            <h1>Payments</h1>
+            <p>View your payment history and details.</p>
+        </div>
+        <div class="header-actions">
+            <div class="user-profile">
+                <span id="nav-user-name"></span>
+                <img src="/image/AVA1.jpg" alt="User">
+            </div>
+        </div>
+    </header>
+
+    <!-- Summary Cards -->
+   <div class="payment-cards">
+    <div class="card total-paid">
+        <div class="card-icon">💵</div>
+        <div class="card-info">
+            <span>Total Paid</span>
+            <h3 id="stat-total-paid">₱0</h3> <!-- Added ID -->
+            <small>All time</small>
+        </div>
+    </div>
+    <div class="card pending-pmt">
+        <div class="card-icon">⏳</div>
+        <div class="card-info">
+            <span>Pending Payments</span>
+            <h3 id="stat-pending-amount">₱0</h3> <!-- Added ID -->
+            <small id="stat-pending-count">0 payments</small> <!-- Added ID -->
+        </div>
+    </div>
+    <div class="card last-pmt">
+        <div class="card-icon">💳</div>
+        <div class="card-info">
+            <span>Last Payment</span>
+            <h3 id="stat-last-date">---</h3> <!-- Added ID -->
+            <small>Recent</small>
+        </div>
+    </div>
+</div>
+        
+    <!-- Table Card -->
+    <div class="table-card">
+        <table class="payments-table">
+            <thead>
+                <tr>
+                    <th>Booking</th>
+                    <th>Payment Date</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+           <tbody id="payments-body">
+           <tr>
+                    <td>Balai Dicklum</td>
+                    <td>April 01, 2026</td>
+                    <td>₱4,080</td>
+                    <td>GCash</td>
+                    <td><span class="status-pill paid">Paid</span></td>
+                </tr>
+                <tr>
+                    <td>Sky's Travellers Inn</td>
+                    <td>May 09, 2026</td>
+                    <td>₱3,900</td>
+                    <td>GCash</td>
+                    <td><span class="status-pill refunded">Refunded</span></td>
+                </tr>
+                <tr>
+                    <td>Sorelle</td>
+                    <td>Jan 05, 2026</td>
+                    <td>₱5,780</td>
+                    <td>Gcash</td>
+                    <td><span class="status-pill paid">Paid</span></td>
+                </tr>
+        </tbody>
+        </table>
+    </div>
+</main>
+<script src="payment.js"></script>
+</body>
+</html>
