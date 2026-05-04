@@ -1,0 +1,1032 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Background Image Setup */
+.hero {
+    background: linear-gradient(rgba(54, 54, 54, 0.789), rgba(34, 34, 34, 0.296)), 
+                url('/image/BG5.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+}
+
+/* Navigation Bar */
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: transparent;
+    z-index: 100;
+}
+.navbar :hover,
+.navbar .active {
+color: #F3DE2C;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff; /* Dark Blue */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #f9f9f9;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* Auth Buttons */
+.auth-buttons .login-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px 25px;
+    border-radius: 8px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.auth-buttons .signup-btn {
+    background: #0056D2; /* Vibrant Blue */
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Hero Content */
+.hero-content h1 {
+    font-size: 3.5rem;
+    color: #d4e3ff;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin: 20px 0 35px 0;
+}
+
+.explore-btn {
+    background: #0056D2;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.explore-btn:hover {
+    background: #030638;
+}
+
+/* ... [Previous Hero/Navbar Styles] ... */
+
+/* This makes the background fill the entire screen */
+.auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(/image/b1.jpg) no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* The card itself */
+.auth-container {
+    background: white;
+    width: 1090px; /* Wider view */
+    height: 600px; /* Taller view */
+    display: flex;
+    border-radius: 15px; /* Rounded corners */
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1); /* Soft shadow */
+}
+
+/* Left side image - making sure it covers the full half */
+.auth-image {
+    flex: 1;
+    background: url('/image/b1.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+/* Right side form padding */
+.auth-form-side {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+/* Branding and Typography */
+.auth-form-side h1 {
+    font-size: 42px;
+    font-weight: 800;
+    color: #001d4d;
+    margin-bottom: 20px;
+}
+
+.auth-form-side h2 {
+    font-size: 24px;
+    color: #001d4d;
+    margin-bottom: 25px;
+}
+
+/* Form Inputs */
+.auth-form-side input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Full width blue button */
+.blue-btn {
+    width: 100%;
+    background: #0056D2;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+/* Centered links at the bottom */
+.auth-footer {
+    text-align: center;
+    font-size: 14px;
+    color: #0b0135;
+}
+
+.back-home-link {
+    display: block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ---DASHBOARD------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f4f7fe; /* Light grayish-blue background */
+    color: #333;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+    width: 260px;
+    background-color: #0A1931; /* Dark navy from HOME.jpg */
+    color: white;
+    padding: 25px 0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+}
+
+.sidebar-header {
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.sidebar-header .logo {
+    width: 45px;
+}
+
+.sidebar-header h2 {
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-header p {
+    font-size: 11px;
+    color: #adb5bd;
+}
+
+/* Navigation Links */
+.sidebar-nav {
+    flex-grow: 1;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #adb5bd;
+    text-decoration: none;
+    padding: 15px 25px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.sidebar-nav a.active {
+    background: #1a2a47;
+    color: white;
+    border-left: 4px solid #0056D2;
+}
+
+.sidebar-nav a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-footer {
+    padding: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-footer a {
+    color: #adb5bd;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.sidebar-footer p {
+    font-size: 11px;
+    color: #666;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* Offset for the fixed sidebar */
+    padding: 30px 40px;
+}
+
+/* Header */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.welcome-text h1 {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.welcome-text p {
+    color: #666;
+    margin-top: 5px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-profile .notif {
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+}
+
+.user-profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Statistics Cards --- */
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.card .icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+/* Specific Card Colors from HOME.jpg */
+.card.blue .icon { background: #E7F0FF; color: #0056D2; }
+.card.green .icon { background: #E6FFED; color: #28A745; }
+.card.orange .icon { background: #FFF4E5; color: #FF9800; }
+.card.purple .icon { background: #F3E5F5; color: #9C27B0; }
+
+.card .info h3 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.card .info p {
+    font-size: 13px;
+    color: #666;
+}
+
+.card .info span {
+    font-size: 11px;
+    color: #999;
+}
+
+/* --- Grid for Charts and Lists --- */
+.charts-grid, .lower-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.chart-container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.chart-container h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+/* --- Recent Bookings List --- */
+.recent-bookings {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.booking-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.booking-item:last-child {
+    border-bottom: none;
+}
+
+.booking-item img {
+    width: 55px;
+    height: 55px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.booking-item .details {
+    flex-grow: 1;
+}
+
+.booking-item .details h4 {
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.booking-item .details p {
+    font-size: 12px;
+    color: #777;
+}
+
+.status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+.status.confirmed { background: #E6FFED; color: #28A745; }
+.status.completed { background: #E7F0FF; color: #0056D2; }
+
+.view-all {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #0056D2;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+
+/* --- ACCOMMODATION --- */
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.search-box { display: flex; align-items: center; flex: 1; gap: 10px; }
+.search-box input { border: none; width: 80%; outline: none; }
+
+.filter-group { display: flex; gap: 20px; align-items: center; }
+.select-wrapper label { display: block; font-size: 10px; color: #777; }
+.select-wrapper select { border: none; font-weight: 600; outline: none; }
+
+/* --- Accommodations Grid --- */
+.accomm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.accomm-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+}
+
+.card-banner {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    padding: 15px;
+}
+
+.price-badge {
+    background: rgba(230, 255, 237, 0.95);
+    color: #28a745;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.card-body { padding: 20px; }
+.card-body h3 { font-size: 18px; margin-bottom: 5px; }
+.loc { font-size: 13px; color: #666; margin-bottom: 5px; }
+.rate { font-size: 13px; font-weight: 600; color: #bd760a; margin-bottom: 10px; }
+.desc { font-size: 12px; color: #313030; margin-bottom: 20px; line-height: 1.4; }
+
+.primary-btn {
+    width: 100%;
+    background: #0056D2;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* --- Details View Styles --- */
+.details-container { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-top: 25px; }
+.hero-image { width: 100%; height: 450px; border-radius: 20px; object-fit: cover; }
+.image-gallery { display: flex; gap: 10px; margin-top: 15px; }
+.image-gallery img { width: 110px; height: 80px; border-radius: 10px; object-fit: cover; }
+
+.amenities-grid { display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 15px; 
+    margin-top: 2rem;
+}
+
+.user-info-preview {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 15px 0;
+    border: 1px solid #e0e0e0;
+}
+
+.user-info-preview h4 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #0A1931;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.user-info-preview .input-field {
+    margin-bottom: 10px;
+}
+
+.user-info-preview label {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.user-info-preview input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    background: white;
+}
+
+.user-info-preview input:focus {
+    border-color: #0056D2;
+    outline: none;
+}
+
+.details-main h1{
+    font-size: 2rem;
+    margin-top: 2%;
+    color: black;
+    line-height: 4rem;
+}
+
+.details-main p{
+    font-size: 1rem;
+    margin-top: 2%;
+    color: black;
+    /* line-height: 4rem; */
+}
+.details-main h3{
+    font-size: 2rem;
+    margin-top: 5%;
+    color: black;
+}
+.amenities-grid span { font-size: 13px; background: #f8f9fa; padding: 10px; border-radius: 8px; 
+    box-shadow: 0 5px 5px rgba(14, 5, 52, 0.353);
+}
+
+.booking-card {
+    background: rgb(255, 255, 255);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.497);
+    position: sticky;
+    top: 30px;
+}
+.booking-card h2 {
+   font-size: 2rem;
+   color: black;
+   margin-bottom: 2rem;
+}
+.input-field {
+    margin-top: 2rem;
+    color: #000000;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.book-btn { width: 100%; background: #0056D2; color: white; padding: 15px; border-radius: 10px; border: none; font-weight: 700; margin-bottom: 10px; cursor: pointer;
+    margin-top: 2rem;
+}
+/* .wishlist-btn { width: 100%; background: white; border: 1px solid #0056D2; color: #0056D2; padding: 12px; border-radius: 10px; cursor: pointer; } */
+
+
+
+/* Layout Grid */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Card Styling */
+.profile-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.profile-card h3 {
+    margin-bottom: 1.5rem;
+    color: #000000;
+}
+
+/* Info Labels */
+.info-group {
+    margin-bottom: 1.2rem;
+}
+
+.info-group label, .input-field label {
+    display: block;
+    font-size: 0.85rem;
+    color: #000000;
+    margin-bottom: 0.3rem;
+}
+
+.info-group p {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Inputs */
+.input-field input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #f9f9f9;
+}
+
+/* Logout Button (Bottom Right) */
+.logout-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 0.8rem 2rem;
+    background: white;
+    border: 2px solid black;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex; /* Script will toggle this */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none; border: none;
+    font-size: 24px; cursor: pointer;
+}
+
+.primary-btn {
+    margin-top: 2rem;
+}
+
+
+/* book----------------------------- */
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #f4f7fe; /* Light blue-gray background */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header Spacing */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Filter Tabs */
+.booking-filters {
+    display: flex;
+    gap: 30px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    padding: 10px 0;
+    font-size: 15px;
+    cursor: pointer;
+    color: #666;
+    font-weight: 500;
+}
+
+.filter-btn.active {
+    color: #1a73e8;
+    border-bottom: 3px solid #1a73e8;
+}
+
+/* The White Card */
+.table-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bookings-table th {
+    text-align: left;
+    padding: 15px;
+    font-size: 13px;
+    color: #888;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.bookings-table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #f8f8f8;
+    font-size: 14px;
+}
+
+/* Image + Text in Cell */
+.acc-cell {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+}
+
+.acc-cell img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Status Colors */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.confirmed { background: #e6f4ea; color: #1e7e34; }
+.completed { background: #e8f0fe; color: #1967d2; }
+.cancelled { background: #ffbeb5; color: #d23b19; }
+.pending { background: #fff9bb; color: #7a8a01; }
+
+/* Buttons */
+.action-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #444;
+}
+
+.action-btn:hover {
+    background: #f8f8f8;
+}
+
+/* Modal Background */
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 110%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+/* Modal Box */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    font-family: sans-serif;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+}
+
+#modal-details-body p {
+    margin: 15px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.close-modal-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a2a44; /* Matches your sidebar */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.status-badge.cancelled {
+    background-color: #ffdce0;
+    color: #e74c3c;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: #f39c12; /* Orange for edit */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: #e74c3c; /* Red for cancel */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-btn:hover { background-color: #e67e22; }
+.cancel-btn:hover { background-color: #c0392b; }
+
+
+/* pay */
+
+/* Ensure main content starts after the sidebar */
+.main-content {
+    margin-left: 260px; /* Adjust this to match your sidebar width */
+    padding: 30px;
+    background-color: #f8faff;
+    min-height: 100vh;
+}
+
+/* Header Styling */
+.content-header {
+    margin-bottom: 30px;
+}
+
+/* Payment Cards Grid */
+.payment-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Card Specific Backgrounds */
+.total-paid { background-color: #eefbee; }
+.pending-pmt { background-color: #fff9e6; }
+.last-pmt { background-color: #eef7ff; }
+
+.card-icon {
+    font-size: 24px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.card-info span { font-size: 14px; color: #666; }
+.card-info h3 { margin: 2px 0; font-size: 22px; color: #333; }
+.card-info small { color: #888; }
+
+/* Table Styling */
+.table-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.payments-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payments-table th {
+    text-align: left;
+    padding: 15px;
+    color: #888;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+}
+
+.payments-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+/* Pills */
+.status-pill {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.paid { background: #e8f5e9; color: #2e7d32; }
+.refunded { background: #fff3e0; color: #ef6c00; }
