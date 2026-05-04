@@ -37,7 +37,7 @@ const SESSION_KEY = "loggedInUser";
 window.onload = function() {
     const email = localStorage.getItem(SESSION_KEY);
     if (!email) {
-        window.location.href = "dex.html"; 
+        window.location.href = "index.html"; 
         return;
     }
     loadProfileData(email);
@@ -117,6 +117,6 @@ function closeModal() { document.getElementById('edit-modal').style.display = 'n
 function handleLogout() {
     if(confirm("Are you sure you want to logout?")) {
         // Optional: localStorage.clear(); // Uncomment if you want to wipe data on logout
-        window.location.href = "dex.html"; 
+        window.location.href = "index.html"; 
     }
 }
