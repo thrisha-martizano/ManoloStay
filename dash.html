@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManoloStays Dashboard</title>
+    <link rel="stylesheet" href="dex.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                
+                <div>
+                    <h2>ManoloStays</h2>
+                    <p>Book. Stay. Relax.</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active"><span>🏠</span> Dashboard</a>
+                <a href="dation.html"><span>🏨</span> Accommodations</a>
+                <a href="books.html"><span>📅</span> My Bookings</a>
+                <a href="payment.html"><span>💳</span> Payments</a>
+                <a href="prof.html"><span>👤</span> Profile</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>© 2026 ManoloStays- All rights reserved.</p>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="welcome-text">
+                    <h1>Dashboard</h1>
+                    <p>Welcome To MANOLOSTAY!👋</p>
+                </div>
+                <div class="header-actions">
+            <div class="user-profile">
+                <span id="nav-user-name"></span>
+                <img src="/image/AVA1.jpg" alt="User">
+            </div>
+        </div>
+            </header>
+
+            <!-- STAT CARDS -->
+           <!-- Change your Stat Cards section to this -->
+<section class="stat-cards">
+    <div class="card blue">
+        <div class="icon">📅</div>
+        <div class="info"><h3 id="total-bookings-count">0</h3><p>Total Bookings</p><span>All time</span></div>
+    </div>
+    <div class="card green">
+        <div class="icon">💳</div>
+        <div class="info"><h3 id="total-spent-amount">₱0</h3><p>Total Spent</p><span>All time</span></div>
+    </div>
+    <div class="card orange">
+        <div class="icon">🏢</div>
+        <div class="info"><h3 id="upcoming-bookings-count">0</h3><p>Upcoming Bookings</p><span>Next 30 days</span></div>
+    </div>
+    <div class="card purple">
+        <div class="icon">⭐</div>
+        <div class="info"><h3 id="completed-stays-count">0</h3><p>Completed Stays</p><span>All time</span></div>
+    </div>
+</section>
+
+<!-- Add an ID to the Recent Bookings container -->
+<div class="recent-bookings" id="recent-bookings-list">
+    <h3>Recent Accommodation Bookings</h3>
+    <!-- JS will inject items here -->
+</div>
+
+            <!-- CHARTS SECTION -->
+            <section class="charts-grid">
+                <div class="chart-container">
+                    <h3>Bookings Per Month</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Bookings by Accommodation</h3>
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </section>
+
+            <section class="lower-grid">
+                <div class="chart-container">
+                    <h3>Monthly Spending</h3>
+                    <canvas id="lineChart"></canvas>
+                </div>
+                
+            </section>
+        </main>
+    </div>
+
+    <script src="dash.js"></script>
+</body>
+</html>
