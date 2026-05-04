@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManoloStays | Find Your Perfect Stay</title>
+    <link rel="stylesheet" href="dex.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><span>ManoloStays</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Accommodations</a></li>
+                <li><a href="#">My Booking</a></li>
+                <li><a href="#">Payments</a></li>
+                 <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button class="login-btn" onclick="showSection('login')">Login</button>
+            <button class="signup-btn" onclick="showSection('signup')">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        
+        <div class="hero-content">
+            <h1>"Your Stay, <br>Just a Click Away"</h1>
+            <p>Discover comfortable places to stay and create unforgettable memories with ManoloStays.</p>
+            <button class="explore-btn">Explore Accommodations</button>
+        </div>
+    </main>
+
+    <!-- SECTION 2: LOGIN  -->
+    <div id="login-section" class="auth-overlay" style="display: none;">
+    <div class="auth-container">
+        <!-- Image Side -->
+        <div class="auth-image"></div>
+        <div class="auth-form-side">
+            <h1>ManoloStays</h1>
+            <h2>Welcome Back!</h2>
+            
+            <form onsubmit="handleLogin(event)">
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                <button type="submit" class="blue-btn">Login</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <span class="link" onclick="showSection('signup')">Sign up here</span></p>
+                <a href="#" class="back-home-link" onclick="showSection('hero')">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <div id="signup-section" class="page-section auth-overlay" style="display: none;">
+    <div class="auth-container">
+        <!-- Image Side -->
+        <div class="auth-image"></div>
+        
+        <!-- Form Side -->
+        <div class="auth-form-side">
+            <h1>ManoloStays</h1>
+            <h2>Create an Account</h2>
+            
+            <form onsubmit="handleSignup(event)">
+                 <input type="text" id="signupName" placeholder="Full Name" required>
+                    <input type="email" id="signupEmail" placeholder="Email Address" required>
+                    <input type="password" id="signupPassword" placeholder="Create Password" required>
+                    <button type="submit" class="blue-btn">Sign Up</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <span class="link" onclick="showSection('login')">Login here</span></p>
+                <a href="#" class="back-home-link" onclick="showSection('hero')">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+
+    <script src="dex.js"></script>
+</body>
+</html>
