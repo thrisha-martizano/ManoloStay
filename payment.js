@@ -1,0 +1,78 @@
+window.onload = function() {
+    // User Name Sync
+    const loggedInUserEmail = localStorage.getItem("loggedInUser");
+    if (loggedInUserEmail) {
+        const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
+        if(document.getElementById('nav-user-name')) {
+            document.getElementById('nav-user-name').innerText = userData.name || "User";
+        }
+    }
+    
+    // LoadPayments
+    loadPaymentTable();
+};
+
+function loadPaymentTable() {
+    const paymentsBody = document.getElementById('payments-body');
+    const myPayments = JSON.parse(localStorage.getItem('userPayments')) || [];
+
+    // Optional: Clear existing static rows to show only real data
+    // paymentsBody.innerHTML = '';
+
+    myPayments.forEach(pmt => {
+        const row = document.createElement('tr');
+        
+        // Match status (paid, pending, refunded)
+        const statusClass = pmt.status.toLowerCase();
+
+        row.innerHTML = `
+            <td>${pmt.bookingName}</td>
+            <td>${pmt.date}</td>
+            <td>${pmt.amount}</td>
+            <td>${pmt.method}</td>
+            <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
+        `;
+        paymentsBody.appendChild(row);
+    });
+
+    // After loading rows, update the summary cards (Total Paid, etc.)
+    updatePaymentStats();
+}
+
+function updatePaymentStats() {
+    const rows = document.querySelectorAll('#payments-body tr');
+    let totalPaid = 0;
+    let pendingAmount = 0;
+    let pendingCount = 0;
+    let dates = [];
+
+    rows.forEach(row => {
+        const amountText = row.cells[2].innerText.replace(/[₱,]/g, '');
+        const amount = parseFloat(amountText) || 0;
+        const statusElement = row.querySelector('.status-pill');
+        if (!statusElement) return; 
+
+        const status = statusElement.innerText.toLowerCase();
+        const dateText = row.cells[1].innerText;
+
+        if (status === 'paid') {
+            totalPaid += amount;
+        } else if (status === 'pending') {
+            pendingAmount += amount;
+            pendingCount++;
+        }
+        // Note: MAWALA SA TOTAL PAID IF REFUNDED 'Total Paid'
+        
+        if (dateText !== "---") dates.push(new Date(dateText));
+    });
+
+    document.getElementById('stat-total-paid').innerText = `₱${totalPaid.toLocaleString()}`;
+    document.getElementById('stat-pending-amount').innerText = `₱${pendingAmount.toLocaleString()}`;
+    document.getElementById('stat-pending-count').innerText = `${pendingCount} payments`;
+    if (dates.length > 0) {
+        const latestDate = new Date(Math.max(...dates));
+        document.getElementById('stat-last-date').innerText = latestDate.toLocaleDateString('en-US', { 
+            year: 'numeric', month: 'short', day: 'numeric' 
+        });
+    }
+}
