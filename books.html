@@ -1,0 +1,179 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dex.css">
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+     <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                
+                <div>
+                    <h2>ManoloStays</h2>
+                    <p>Book. Stay. Relax.</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dash.html"><span>🏠</span> Dashboard</a>
+                <a href="dation.html"><span>🏨</span> Accommodations</a>
+                <a href="books.html" class="active"><span>📅</span> My Bookings</a>
+                <a href="payment.html"><span>💳</span> Payments</a>
+                <a href="prof.html"><span>👤</span> Profile</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>© 2026 ManoloStays- All rights reserved.</p>
+            </div>
+        </aside>
+
+      <main class="main-content">
+    <!-- Top Header -->
+    <header class="content-header">
+        <div class="welcome-text">
+            <h1>My Bookings</h1>
+            <p>View and manage your bookings.</p>
+        </div>
+        <div class="header-actions">
+            <div class="user-profile">
+                <span id="nav-user-name"></span>
+                <img src="/image/AVA1.jpg" alt="User">
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="booking-filters">
+        <button class="filter-btn active" onclick="filterBookings('all')">All Bookings</button>
+        <button class="filter-btn" onclick="filterBookings('upcoming')">Upcoming</button>
+        <button class="filter-btn" onclick="filterBookings('completed')">Completed</button>
+        <button class="filter-btn" onclick="filterBookings('cancelled')">Cancelled</button>
+        <button class="filter-btn" onclick="filterBookings('pending')">Pending</button>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-card">
+        <table class="bookings-table">
+            <thead>
+                <tr>
+                    <th>Accommodation</th>
+                    <th>Check-in / Check-out</th>
+                    <th>Guests</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            
+            <tbody id="bookings-body">
+                <tr data-status="upcoming">
+                    <td>
+                        <div class="acc-cell">
+                            <img src="/image/contdres.png" alt="">
+                            <span>Concetta Inn</span>
+                        </div>
+                    </td>
+                    <td>May 20, 2026 - May 22, 2026</td>
+                    <td>2</td>
+                    <td>₱5,000</td>
+                    <td><span class="status-badge confirmed">Confirmed</span></td>
+                    <td><button class="action-btn" onclick="showDetails(this)">View Details</button></td>
+                </tr>
+
+                <tr data-status="cancelled">
+                    <td>
+                        <div class="acc-cell">
+                            <img src="/image/sky.png" alt="">
+                            <span>Sky's Travellers Inn</span>
+                        </div>
+                    </td>
+                    <td>May 09, 2026 - May 12, 2026</td>
+                    <td>3</td>
+                    <td>₱3,900</td>
+                    <td><span class="status-badge cancelled">Cancelled</span></td>
+                   <td><button class="action-btn" onclick="showDetails(this)">View Details</button></td>
+                </tr>
+
+                <tr data-status="completed">
+                    <td>
+                        <div class="acc-cell">
+                            <img src="/image/bali.png" alt="">
+                            <span>Balai Dicklum</span>
+                        </div>
+                    </td>
+                    <td>April 01, 2026 - April 05, 2026</td>
+                    <td>3</td>
+                    <td>₱4,080</td>
+                    <td><span class="status-badge completed">Completed</span></td>
+                    <td><button class="action-btn" onclick="showDetails(this)">View Details</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-footer">
+            MANOLOSTAYS
+        </div>
+    </div>  
+</div>
+
+</main>
+   <!-- Main Modal Overlay -->
+<div id="detailsModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+
+        <!-- 1. SUMMARY VIEW: This is what the user sees first -->
+        <div id="summary-view">
+            <h2>Booking Summary</h2>
+            <hr>
+            
+            <!-- This is where your JS injects the text -->
+            <div id="modal-details-body"></div>
+
+            <!-- This is where your JS injects Edit/Cancel buttons for PENDING -->
+            <div id="modal-actions" style="margin-top: 20px; display: flex; gap: 10px;"></div>
+            
+            <button class="close-modal-btn" onclick="closeModal()" 
+                    style="background: #0b064a; color: #eaeaea; width: 100%; margin-top: 15px;">
+                Close
+            </button>
+        </div>
+
+        <!-- 2. EDIT VIEW: This is hidden until "Edit Details" is clicked -->
+        <div id="edit-view" style="display: none;">
+            <h2>Update Your Stay</h2>
+            <hr>
+            
+            <div class="edit-form-container" style="margin-top: 15px; text-align: left;">
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
+                        Check-in / Check-out Dates
+                    </label>
+                    <input type="text" id="edit-input-dates" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display:block; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
+                        Number of Guests
+                    </label>
+                    <input type="number" id="edit-input-guests" min="1"
+                           style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button onclick="saveEdit()" 
+                        style="flex: 1; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    Save Changes
+                </button>
+                <button onclick="cancelEdit()" style="flex: 1; padding: 12px; background: #a6d0d3; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Go Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="books.js"></script>
+</body>
+</html>
