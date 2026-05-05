@@ -69,12 +69,11 @@
         <div class="auth-form-side">
             <h1>ManoloStays</h1>
             <h2>Create an Account</h2>
-            
-            <form onsubmit="handleSignup(event)">
-                 <input type="text" id="signupName" placeholder="Full Name" required>
-                    <input type="email" id="signupEmail" placeholder="Email Address" required>
-                    <input type="password" id="signupPassword" placeholder="Create Password" required>
-                    <button type="submit" class="blue-btn">Sign Up</button>
+            <form action="signup.php" method="POST">
+                <input type="text" name="userName" placeholder="Full Name" required>
+                <input type="email" name="userEmail" placeholder="Email Address" required>
+                <input type="password" name="password" placeholder="Create Password" required>
+                <button type="submit" class="blue-btn">Sign Up</button>
             </form>
             
             <div class="auth-footer">
