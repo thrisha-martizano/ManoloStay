@@ -29,17 +29,26 @@ function filterPlaces() {
 
 // Function to open the details view SA ACCOMMODATION
 function openDetails(name, price, image, location, description) {
+    // 1. Switch the views
     document.getElementById('accomm-list-view').style.display = 'none';
     document.getElementById('property-details-view').style.display = 'block';
 
-    // Update the Hidden View elements
+    // 2. Update visible UI elements
     document.getElementById('detail-title').innerText = name;
     document.getElementById('detail-price').innerHTML = `${price} <small>/ night</small>`;
     document.getElementById('detail-main-img').src = image;
     
-    // gaselect the specific paragraphs to update
+    // 3. Update location and description
     document.querySelector('.sub-info').innerHTML = `⭐ 4.8 | <i class='bx bx-location-plus'></i> ${location}`;
     document.querySelector('.long-desc').innerText = description;
+
+    // --- CRITICAL ADDITION FOR DATABASE ---
+    // This updates the hidden input so the PHP script gets the correct name
+    const hiddenInput = document.getElementById('hidden-booking-name');
+    if (hiddenInput) {
+        hiddenInput.value = name; 
+    }
+    // --------------------------------------
 
     window.scrollTo(0, 0);
 }

@@ -163,43 +163,51 @@
 
         <!-- Right Column: Booking Card -->
         <aside class="booking-sticky">
-            <div class="booking-card">
-                <h2 id="detail-price">₱2,500 <small>/ night</small></h2>
-
-                <div class="user-info-preview">
-                    <h4>Guest Details</h4>
-                    <div class="input-field">
-                        <label>Full Name</label>
-                        <input type="text" id="guest-name" placeholder="Enter your name">
-                    </div>
-                    <div class="input-field">
-                        <label>Email Address</label>
-                        <input type="email" id="guest-email" placeholder="Enter your email">
-                    </div>
-                    <div class="input-field">
-                        <label>Contact Number</label>
-                        <input type="text" id="guest-phone" placeholder="+63 9XX XXX XXXX">
-                    </div>
-                </div>
-                <div class="input-field">
-                    <label>Check-in</label>
-                    <input type="date">
-                </div>
-                <div class="input-field">
-                    <label>Check-out</label>
-                    <input type="date">
-                </div>
-                <div class="input-field">
-                    <label>Guests</label>
-                        <select>
-                            <option>1</option>
-                            <option selected>2</option>
-                            <option>3</option>
-                        </select>
-                </div>
-                <button class="book-btn" onclick="confirmBooking()">Confirm Booking</button>
+    <!-- Form points to your PHP processing script -->
+    <form action="dationbok.php" method="POST" class="booking-card">
+        <h2 id="detail-price">₱2,500 <small>/ night</small></h2>
+    
+        <!-- Placeholder for the accommodation name from dation.js -->
+        <!-- <input type="hidden" name="accommodation" id="hidden-booking-name" value=""> -->
+    
+        <div class="user-info-preview">
+            <h4>Guest Details</h4>
+            <div class="input-field">
+                <label>Full Name</label>
+                <input type="text" name="fullname" id="guest-name" placeholder="Enter your name" required>
             </div>
-        </aside>
+            <div class="input-field">
+                <label>Email Address</label>
+                <!-- This helps link to the userEmail column in your table -->
+                <input type="email" name="userEmail" id="guest-email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-field">
+                <label>Contact Number</label>
+                <input type="text" name="contactNo" id="guest-phone" placeholder="+63 9XX XXX XXXX">
+            </div>
+        </div>
+    
+        <div class="input-field">
+            <label>Check-in</label>
+            <input type="date" name="check_in" required>
+        </div>
+        <div class="input-field">
+            <label>Check-out</label>
+            <input type="date" name="check_out" required>
+        </div>
+        <div class="input-field">
+            <label>Guests</label>
+            <select name="guests">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    
+        <!-- Submit button triggers the PHP script -->
+        <button type="submit" class="book-btn">Confirm Booking</button>
+    </form>
+    </aside>
     </div>
 </main>
 

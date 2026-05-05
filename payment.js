@@ -76,3 +76,21 @@ function updatePaymentStats() {
         });
     }
 }
+
+// payment.js
+window.onload = function() {
+    console.log("Payment page loaded with database records.");
+    // You can add code here for search filters or opening modals
+};
+
+// If you want to add a search bar later to filter the table:
+function filterPayments() {
+    let input = document.getElementById("paymentSearch");
+    let filter = input.value.toUpperCase();
+    let tr = document.querySelectorAll("#payments-body tr");
+
+    tr.forEach(row => {
+        let text = row.textContent || row.innerText;
+        row.style.display = text.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+    });
+}
