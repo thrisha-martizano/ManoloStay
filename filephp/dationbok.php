@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1); // This will show errors in the F12 Console
 
-include('<filesPHP>connection.php'); 
+include('<filephp>connection.php'); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
