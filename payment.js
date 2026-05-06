@@ -39,7 +39,7 @@ async function loadPaymentTable() {
                 <td>${pmt.bookingName}</td>
                 <td>${formatDate(pmt.payment_date)}</td>
                 <td>₱${parseFloat(pmt.amount).toLocaleString()}</td>
-                <td>${pmt.method}</td>
+                const method = pmt.method.toUpperCase();
                 <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
             `;
 
@@ -77,7 +77,9 @@ function updatePaymentStats() {
         }
         // Note: MAWALA SA TOTAL PAID IF REFUNDED 'Total Paid'
         
-        if (dateText !== "---") dates.push(new Date(dateText));
+        // if (dateText !== "---") dates.push(new Date(dateText));
+        const dateParts = dateText.split(" ");
+        const date = new Date(dateText);
     });
 
     document.getElementById('stat-total-paid').innerText = `₱${totalPaid.toLocaleString()}`;
