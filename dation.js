@@ -45,9 +45,9 @@ function openDetails(name, price, image, location, description) {
     // --- CRITICAL ADDITION FOR DATABASE ---
     // This updates the hidden input so the PHP script gets the correct name
     const hiddenInput = document.getElementById('hidden-booking-name');
-    if (hiddenInput) {
-        hiddenInput.value = name; 
-    }
+if (hiddenInput) {
+    hiddenInput.value = name;
+}
     
 
     window.scrollTo(0, 0);
@@ -68,7 +68,7 @@ function confirmBooking() {
         return;
     }
 
-const accommodation = document.getElementById('detail-title')?.innerText || "Unknown Property";
+    const accommodation = document.getElementById('detail-title')?.innerText || "Unknown Property";
     const priceText = document.getElementById('detail-price')?.innerText || "0";
     
    
@@ -135,4 +135,11 @@ const accommodation = document.getElementById('detail-title')?.innerText || "Unk
     } catch (error) {
         console.error("Error:", error);
     }
+
+    // SET VALUES BEFORE SUBMIT
+
+    document.getElementById('hidden-amount').value = totalAmount;
+    document.getElementById('hidden-booking-name').value = accommodation;
+
+    document.querySelector('.booking-card').submit();
 }

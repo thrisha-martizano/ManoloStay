@@ -45,13 +45,13 @@
         <div class="auth-form-side">
             <h1>ManoloStays</h1>
             <h2>Welcome Back!</h2>
-            
-            <form onsubmit="handleLogin(event)">
-                <input type="email" id="loginEmail" placeholder="Enter your email" required>
-                <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                <button type="submit" class="blue-btn">Login</button>
-            </form>
-            
+        
+        <form action="login.php" method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" class="blue-btn">Login</button>
+        </form>
+
             <div class="auth-footer">
                 <p>Don't have an account? <span class="link" onclick="showSection('signup')">Sign up here</span></p>
                 <a href="#" class="back-home-link" onclick="showSection('hero')">Back to Home</a>
@@ -69,6 +69,7 @@
         <div class="auth-form-side">
             <h1>ManoloStays</h1>
             <h2>Create an Account</h2>
+
             <form action="signup.php" method="POST">
                 <input type="text" name="userName" placeholder="Full Name" required>
                 <input type="email" name="userEmail" placeholder="Email Address" required>

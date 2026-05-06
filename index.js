@@ -53,56 +53,12 @@ function handleLogin(event) {
     
     // In a real app, you would validate credentials against a database here.
     // For now, we save the email to track who is "logged in".
-    localStorage.setItem("loggedInUser", email);
+    // localStorage.setItem("loggedInUser", email);
     
     alert("Login successful! Redirecting to your dashboard...");
     window.location.href = "dash.html";
 }
 
-function handleSignup(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('signupName').value;
-    const email = document.getElementById('signupEmail').value;
-    const password = document.getElementById('signupPassword').value;
-
-    const userData = {
-        name: name,
-        email: email,
-        password: password,
-        phone: 'not set',
-        dob: 'not set',
-        address: 'not set'
-    };
-
-    // Save the whole object using email as the key
-    localStorage.setItem(email, JSON.stringify(userData));
-    localStorage.setItem("loggedInUser", email);
-    
-    alert("Account created!");
-    window.location.href = "dash.html";
-}
-
-function handleLogin(event) {
-    event.preventDefault();
-    
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
-    const storedData = localStorage.getItem(email);
-    
-    if (storedData) {
-        const userData = JSON.parse(storedData);
-        if (userData.password === password) {
-            localStorage.setItem("loggedInUser", email);
-            window.location.href = "dash.html";
-        } else {
-            alert("Wrong password!");
-        }
-    } else {
-        alert("User not found!");
-    }
-}
 
 // --- UI Enhancements ---
 

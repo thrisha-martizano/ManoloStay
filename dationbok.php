@@ -14,6 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $guests = $_POST['guests'];
     $status = "Pending";
 
+
+    $amount = $_POST['amount'];
+    $bookingName = $_POST['accommodation_name'];
+
     // 👉 INSERT BOOKING
     $query = "INSERT INTO bookings 
     (fullname, userEmail, contactNo, check_in, check_out, guests, status) 
@@ -33,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $date = date("Y-m-d");
 
         // ✅ INSERT PAYMENT
-       $paymentQuery = "INSERT INTO payment
+       $paymentQuery = "INSERT INTO payments 
 (booking_id, userEmail, bookingName, payment_date, amount, method, status)
 VALUES 
 ('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', '$payment_status')";
