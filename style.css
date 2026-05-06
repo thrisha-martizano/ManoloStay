@@ -1343,7 +1343,7 @@ z-index: 0;
 }
 
 /* Delete button on each image */
-.delete-photo {
+/* .delete-photo {
   position: absolute;
   top: -6px;
   right: -6px;
@@ -1359,4 +1359,4 @@ z-index: 0;
 
 .delete-photo:hover {
   background: darkred;
-}
+} */

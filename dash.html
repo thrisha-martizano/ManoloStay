@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +10,14 @@
     <!-- Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
     <div class="dashboard-container">
         <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                
+
                 <div>
                     <h2>ManoloStays</h2>
                     <p>Book. Stay. Relax.</p>
@@ -41,39 +43,50 @@
                     <p>Welcome To MANOLOSTAY!👋</p>
                 </div>
                 <div class="header-actions">
-            <div class="user-profile">
-                <span id="nav-user-name"></span>
-                <img src="/image/AVA1.jpg" alt="User">
-            </div>
-        </div>
+                    <div class="user-profile">
+                        <span id="nav-user-name"></span>
+                        <img src="/image/AVA1.jpg" alt="User">
+                    </div>
+                </div>
             </header>
 
-            <!-- STAT CARDS -->
-           <!-- Change your Stat Cards section to this -->
-<section class="stat-cards">
-    <div class="card blue">
-        <div class="icon">📅</div>
-        <div class="info"><h3 id="total-bookings-count">0</h3><p>Total Bookings</p><span>All time</span></div>
-    </div>
-    <div class="card green">
-        <div class="icon">💳</div>
-        <div class="info"><h3 id="total-spent-amount">₱0</h3><p>Total Spent</p><span>All time</span></div>
-    </div>
-    <div class="card orange">
-        <div class="icon">🏢</div>
-        <div class="info"><h3 id="upcoming-bookings-count">0</h3><p>Upcoming Bookings</p><span>Next 30 days</span></div>
-    </div>
-    <div class="card purple">
-        <div class="icon">⭐</div>
-        <div class="info"><h3 id="completed-stays-count">0</h3><p>Completed Stays</p><span>All time</span></div>
-    </div>
-</section>
 
-<!-- Add an ID to the Recent Bookings container -->
-<div class="recent-bookings" id="recent-bookings-list">
-    <h3>Recent Accommodation Bookings</h3>
-    <!-- JS will inject items here -->
-</div>
+            <section class="stat-cards">
+                <div class="card blue">
+                    <div class="icon">📅</div>
+                    <div class="info">
+                        <h3 id="total-bookings-count">0</h3>
+                        <p>Total Bookings</p><span>All time</span>
+                    </div>
+                </div>
+                <div class="card green">
+                    <div class="icon">💳</div>
+                    <div class="info">
+                        <h3 id="total-spent-amount">₱0</h3>
+                        <p>Total Spent</p><span>All time</span>
+                    </div>
+                </div>
+                <div class="card orange">
+                    <div class="icon">🏢</div>
+                    <div class="info">
+                        <h3 id="upcoming-bookings-count">0</h3>
+                        <p>Upcoming Bookings</p><span>Next 30 days</span>
+                    </div>
+                </div>
+                <div class="card purple">
+                    <div class="icon">⭐</div>
+                    <div class="info">
+                        <h3 id="completed-stays-count">0</h3>
+                        <p>Completed Stays</p><span>All time</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add an ID to the Recent Bookings container -->
+            <div class="recent-bookings" id="recent-bookings-list">
+                <h3>Recent Accommodation Bookings</h3>
+                <!-- JS will inject items here -->
+            </div>
 
             <!-- CHARTS SECTION -->
             <section class="charts-grid">
@@ -92,11 +105,12 @@
                     <h3>Monthly Spending</h3>
                     <canvas id="lineChart"></canvas>
                 </div>
-                
+
             </section>
         </main>
     </div>
 
     <script src="dash.js"></script>
 </body>
+
 </html>
