@@ -18,7 +18,7 @@ async function loadPaymentTable() {
     
     try {
         // You would create a small 'get_payments.php' to SELECT from your table
-        const response = await fetch('get_payments.php'); 
+        const response = await fetch('get_payment.php'); 
         const myPayments = await response.json();
 
         paymentsBody.innerHTML = ''; // Clear static rows
