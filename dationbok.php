@@ -1,24 +1,26 @@
 <?php
-include('connection.php'); // Your database connection file
+error_reporting(E_ALL);
+ini_set('display_errors', 1); // This will show errors in the F12 Console
+
+include('connection.php'); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect data from the 'name' attributes in your HTML
     $fullname = $_POST['fullname'];
     $email = $_POST['userEmail'];
     $contactNo = $_POST['contactNo'];
     $check_in = $_POST['check_in'];
     $check_out = $_POST['check_out'];
     $guests = $_POST['guests'];
-    $status = "Pending"; // Matches the 'status' column in your image
+    $status = "Pending";
 
-    // SQL matching image_e6b116.png columns
     $query = "INSERT INTO bookings (fullname, userEmail, contactNo, check_in, check_out, guests, status) 
               VALUES ('$fullname','$email', '$contactNo', '$check_in', '$check_out', '$guests', '$status')";
 
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Booking Saved to Database!'); window.location.href='books.php';</script>";
+        echo "Success";
     } else {
-        echo "Error: " . mysqli_error($conn);
+        // This will print the exact SQL error to your JavaScript console
+        echo "SQL Error: " . mysqli_error($conn); 
     }
 }
 ?>

@@ -1,9 +1,8 @@
 <?php
 session_start();
-include('connection.php'); // Your handshake file
+include('connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the email from the session so we know which user to update[cite: 11]
     $email = $_SESSION['loggedInUser']; 
     
     // Collect the data sent from your prof.js fetch request
@@ -12,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dob     = mysqli_real_escape_with_string($conn, $_POST['dob']);
     $address = mysqli_real_escape_with_string($conn, $_POST['address']);
 
-    // Update the database columns you just added[cite: 14, 16]
+
     $sql = "UPDATE users SET 
             userName = '$name', 
             phone = '$phone', 

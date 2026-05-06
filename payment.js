@@ -12,31 +12,36 @@ window.onload = function() {
     loadPaymentTable();
 };
 
-function loadPaymentTable() {
+// Replace your old loadPaymentTable with this:
+async function loadPaymentTable() {
     const paymentsBody = document.getElementById('payments-body');
-    const myPayments = JSON.parse(localStorage.getItem('userPayments')) || [];
+    
+    try {
+        // You would create a small 'get_payments.php' to SELECT from your table
+        const response = await fetch('get_payments.php'); 
+        const myPayments = await response.json();
 
-    // Optional: Clear existing static rows to show only real data
-    // paymentsBody.innerHTML = '';
+        paymentsBody.innerHTML = ''; // Clear static rows
 
-    myPayments.forEach(pmt => {
-        const row = document.createElement('tr');
-        
-        // Match status (paid, pending, refunded)
-        const statusClass = pmt.status.toLowerCase();
+        myPayments.forEach(pmt => {
+            const row = document.createElement('tr');
+            const statusClass = pmt.status.toLowerCase();
 
-        row.innerHTML = `
-            <td>${pmt.bookingName}</td>
-            <td>${pmt.date}</td>
-            <td>${pmt.amount}</td>
-            <td>${pmt.method}</td>
-            <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
-        `;
-        paymentsBody.appendChild(row);
-    });
+            row.innerHTML = `
+                <td>${pmt.bookingName}</td>
+                <td>${pmt.payment_date}</td>
+                <td>₱${parseFloat(pmt.amount).toLocaleString()}</td>
+                <td>${pmt.method}</td>
+                <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
+            `;
+            paymentsBody.appendChild(row);
+        });
 
-    // After loading rows, update the summary cards (Total Paid, etc.)
-    updatePaymentStats();
+        updatePaymentStats(); // Recalculate your 'Total Paid' cards
+
+    } catch (error) {
+        console.error("Could not load database records:", error);
+    }
 }
 
 function updatePaymentStats() {
@@ -77,20 +82,20 @@ function updatePaymentStats() {
     }
 }
 
-// payment.js
-window.onload = function() {
-    console.log("Payment page loaded with database records.");
-    // You can add code here for search filters or opening modals
-};
+// // payment.js
+// window.onload = function() {
+//     console.log("Payment page loaded with database records.");
+//     // You can add code here for search filters or opening modals
+// };
 
-// If you want to add a search bar later to filter the table:
-function filterPayments() {
-    let input = document.getElementById("paymentSearch");
-    let filter = input.value.toUpperCase();
-    let tr = document.querySelectorAll("#payments-body tr");
+// // If you want to add a search bar later to filter the table:
+// function filterPayments() {
+//     let input = document.getElementById("paymentSearch");
+//     let filter = input.value.toUpperCase();
+//     let tr = document.querySelectorAll("#payments-body tr");
 
-    tr.forEach(row => {
-        let text = row.textContent || row.innerText;
-        row.style.display = text.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-    });
-}
+//     tr.forEach(row => {
+//         let text = row.textContent || row.innerText;
+//         row.style.display = text.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+//     });
+// }
