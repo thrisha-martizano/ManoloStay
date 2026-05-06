@@ -33,11 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $date = date("Y-m-d");
 
         // ✅ INSERT PAYMENT
-        $paymentQuery = "INSERT INTO payment
-        (booking_id, bookingName, payment_date, amount, method, status)
-        VALUES 
-        ('$booking_id', '$bookingName', '$date', '$amount', '$method', '$payment_status')";
-
+       $paymentQuery = "INSERT INTO payment
+(booking_id, userEmail, bookingName, payment_date, amount, method, status)
+VALUES 
+('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', '$payment_status')";
         mysqli_query($conn, $paymentQuery);
 
         echo "Success";

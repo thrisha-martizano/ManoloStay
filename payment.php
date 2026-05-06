@@ -1,10 +1,14 @@
 <?php
 header("Content-Type: application/json");
+include('connection.php');
 
-include('connection.php'); // ✅ reuse your DB connection
+// GET JSON INPUT
+$data = json_decode(file_get_contents("php://input"), true);
+$email = $data['email'] ?? '';
 
 $sql = "SELECT bookingName, payment_date, amount, method, status 
-        FROM payments 
+        FROM payment
+        WHERE userEmail = '$email'
         ORDER BY payment_date DESC";
 
 $result = $conn->query($sql);

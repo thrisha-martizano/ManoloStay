@@ -15,13 +15,21 @@ window.onload = function() {
 // Replace your old loadPaymentTable with this:
 async function loadPaymentTable() {
     const paymentsBody = document.getElementById('payments-body');
-    
+
+    const loggedInUserEmail = localStorage.getItem("loggedInUser");
+
     try {
-        // You would create a small 'get_payments.php' to SELECT from your table
-        const response = await fetch('get_payment.php'); 
+        const response = await fetch('filephp/get_payments.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: loggedInUserEmail })
+        });
+
         const myPayments = await response.json();
 
-        paymentsBody.innerHTML = ''; // Clear static rows
+        paymentsBody.innerHTML = '';
 
         myPayments.forEach(pmt => {
             const row = document.createElement('tr');
@@ -29,18 +37,19 @@ async function loadPaymentTable() {
 
             row.innerHTML = `
                 <td>${pmt.bookingName}</td>
-                <td>${pmt.payment_date}</td>
+                <td>${formatDate(pmt.payment_date)}</td>
                 <td>₱${parseFloat(pmt.amount).toLocaleString()}</td>
                 <td>${pmt.method}</td>
                 <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
             `;
+
             paymentsBody.appendChild(row);
         });
 
-        updatePaymentStats(); // Recalculate your 'Total Paid' cards
+        updatePaymentStats();
 
     } catch (error) {
-        console.error("Could not load database records:", error);
+        console.error("Error loading payments:", error);
     }
 }
 
