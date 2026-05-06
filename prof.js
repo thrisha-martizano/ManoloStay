@@ -44,61 +44,68 @@ window.onload = function() {
     
 };
 
-function loadProfileData(email) {
-    const userData = JSON.parse(localStorage.getItem(email));
+async function loadProfileData() {
 
-    if (userData) {
-        // Display fields
-        if(document.getElementById('display-name')) document.getElementById('display-name').innerText = userData.name;
-        if(document.getElementById('profileEmail')) document.getElementById('profileEmail').innerText = userData.email;
-        if(document.getElementById('display-phone')) document.getElementById('display-phone').innerText = userData.phone;
-        if(document.getElementById('display-dob')) document.getElementById('display-dob').innerText = userData.dob;
-        if(document.getElementById('display-address')) document.getElementById('display-address').innerText = userData.address;
+    const res = await fetch("get_profile.php");
+    const user = await res.json();
 
-        // Modal fields
-        if(document.getElementById('edit-name')) document.getElementById('edit-name').value = userData.name;
-        if(document.getElementById('edit-phone')) document.getElementById('edit-phone').value = userData.phone;
-        if(document.getElementById('edit-dob')) document.getElementById('edit-dob').value = userData.dob;
-        if(document.getElementById('edit-address')) document.getElementById('edit-address').value = userData.address;
-    }
+    document.getElementById('display-name').innerText = user.userName;
+    document.getElementById('profileEmail').innerText = user.userEmail;
+    document.getElementById('display-phone').innerText = user.phone || "";
+    document.getElementById('display-dob').innerText = user.dob || "";
+    document.getElementById('display-address').innerText = user.address || "";
+
+    document.getElementById('edit-name').value = user.userName;
+    document.getElementById('edit-phone').value = user.phone || "";
+    document.getElementById('edit-dob').value = user.dob || "";
+    document.getElementById('edit-address').value = user.address || "";
 }
 
-function saveProfile() {
-    const email = localStorage.getItem(SESSION_KEY);
-    const userData = JSON.parse(localStorage.getItem(email));
+async function saveProfile() {
 
-    userData.name = document.getElementById('edit-name').value;
-    userData.phone = document.getElementById('edit-phone').value;
-    userData.dob = document.getElementById('edit-dob').value;
-    userData.address = document.getElementById('edit-address').value;
+    const data = new URLSearchParams();
+    data.append("name", document.getElementById('edit-name').value);
+    data.append("phone", document.getElementById('edit-phone').value);
+    data.append("dob", document.getElementById('edit-dob').value);
+    data.append("address", document.getElementById('edit-address').value);
 
-    localStorage.setItem(email, JSON.stringify(userData));
-    loadProfileData(email);
-    closeModal();
+    await fetch("update_profile.php", {
+        method: "POST",
+        body: data
+    });
+
     alert("Profile Updated!");
+    closeModal();
+    loadProfileData();
 }
 
-function updatePassword() {
-    const currPass = document.getElementById('curr-pass').value;
+async function updatePassword() {
+
+    const curr = document.getElementById('curr-pass').value;
     const newPass = document.getElementById('new-pass').value;
-    const confirmPass = document.getElementById('confirm-pass').value;
-    
-    const email = localStorage.getItem(SESSION_KEY);
-    const userData = JSON.parse(localStorage.getItem(email));
+    const confirm = document.getElementById('confirm-pass').value;
 
-    if (currPass !== userData.password) {
+    if (newPass !== confirm) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    const data = new URLSearchParams();
+    data.append("current", curr);
+    data.append("new", newPass);
+
+    const res = await fetch("change_password.php", {
+        method: "POST",
+        body: data
+    });
+
+    const result = await res.text();
+
+    if (result === "success") {
+        alert("Password updated!");
+    } else {
         alert("Current password incorrect!");
-        return;
     }
-
-    if (newPass !== confirmPass) {
-        alert("New passwords do not match!");
-        return;
-    }
-
-    userData.password = newPass;
-    localStorage.setItem(email, JSON.stringify(userData));
-    alert("Password updated!");
 }
 
 function editProfile() { document.getElementById('edit-modal').style.display = 'flex'; }

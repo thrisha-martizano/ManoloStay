@@ -8,7 +8,7 @@
 /* Background Image Setup */
 .hero {
     background: linear-gradient(rgba(54, 54, 54, 0.789), rgba(34, 34, 34, 0.296)), 
-                url('/image/BG5.jpg') no-repeat center center/cover;
+             url('image/BG5.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -109,7 +109,7 @@ color: #F3DE2C;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: url(/image/b1.jpg) no-repeat center center/cover;
+    background: url(image/b1.jpg) no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -130,7 +130,7 @@ color: #F3DE2C;
 /* Left side image - making sure it covers the full half */
 .auth-image {
     flex: 1;
-    background: url('/image/b1.jpg') no-repeat center center;
+    background: url('image/b1.jpg') no-repeat center center;
     background-size: cover;
 }
 
