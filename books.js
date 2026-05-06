@@ -67,6 +67,7 @@ function showDetails(button) {
 
     modal.style.display = 'block';
 }
+
 function editBooking() {
     const modal = document.getElementById('detailsModal');
     const rowIndex = modal.dataset.currentRowIndex;
@@ -82,89 +83,68 @@ function editBooking() {
     document.getElementById('edit-view').style.display = 'block';
 }
 
-function saveEdit() {
+async function saveEdit() {
+
     const modal = document.getElementById('detailsModal');
     const rowIndex = modal.dataset.currentRowIndex;
     const table = document.querySelector('.bookings-table');
     const row = table.rows[rowIndex];
 
-    const newDates = document.getElementById('edit-input-dates').value; // Expected format: "YYYY-MM-DD - YYYY-MM-DD"
+    const newDates = document.getElementById('edit-input-dates').value;
     const newGuests = document.getElementById('edit-input-guests').value;
 
-    // --- RECALCULATION LOGIC ---
-    const dateParts = newDates.split(' - ');
-    let formattedTotal = row.cells[3].innerText; // Keep old price if dates are invalid
+    const bookingId = row.dataset.id;
 
-    if (dateParts.length === 2) {
-        const start = new Date(dateParts[0]);
-        const end = new Date(dateParts[1]);
-        const nights = Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24)) || 1;
-        const oldTotal = parseFloat(row.cells[3].innerText.replace(/[₱,]/g, '')) || 0;
-        
-        // This is a simplified update. In a database, you'd pull the real 'price_per_night'
-        row.cells[3].innerText = `₱${(oldTotal).toLocaleString()}`; 
-    }
-
-    // 1. Update
-    row.cells[1].innerText = newDates;
-    row.cells[2].innerText = newGuests;
-
-    // 2. Update LocalStorage
-    const accommodationName = row.cells[0].querySelector('span').innerText;
-    let myBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
-
-    myBookings = myBookings.map(book => {
-        if (book.accommodation === accommodationName) {
-            return { ...book, dates: newDates, guests: newGuests };
-        }
-        return book;
+    const res = await fetch("update_booking.php", {
+        method: "POST",
+        headers: {"Content-Type":"application/x-www-form-urlencoded"},
+        body: `booking_id=${bookingId}&dates=${newDates}&guests=${newGuests}`
     });
 
-    localStorage.setItem('userBookings', JSON.stringify(myBookings));
-
-    alert("Booking updated successfully!");
+    alert("Booking updated!");
     closeModal();
+    loadBookings();
 }
 
-function cancelBooking() {
-    if (confirm("Are you sure you want to cancel this pending booking?")) {
-        const modal = document.getElementById('detailsModal');
-        const rowIndex = modal.dataset.currentRowIndex;
-        const table = document.querySelector('.bookings-table');
-        const row = table.rows[rowIndex];
+// function cancelBooking() {
+//     if (confirm("Are you sure you want to cancel this pending booking?")) {
+//         const modal = document.getElementById('detailsModal');
+//         const rowIndex = modal.dataset.currentRowIndex;
+//         const table = document.querySelector('.bookings-table');
+//         const row = table.rows[rowIndex];
         
-        // 1. Get the identifying info (e.g., accommodation name)
-        const accommodationName = row.cells[0].querySelector('span').innerText;
+//         // 1. Get the identifying info (e.g., accommodation name)
+//         const accommodationName = row.cells[0].querySelector('span').innerText;
 
-        // 2. Update Bookings Storage
-        let myBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
-        myBookings = myBookings.map(book => {
-            if (book.accommodation === accommodationName && book.status === 'pending') {
-                return { ...book, status: 'cancelled' };
-            }
-            return book;
-        });
-        localStorage.setItem('userBookings', JSON.stringify(myBookings));
+//         // 2. Update Bookings Storage
+//         let myBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+//         myBookings = myBookings.map(book => {
+//             if (book.accommodation === accommodationName && book.status === 'pending') {
+//                 return { ...book, status: 'cancelled' };
+//             }
+//             return book;
+//         });
+//         localStorage.setItem('userBookings', JSON.stringify(myBookings));
 
-        // 3. Update"Refunded"
-        let myPayments = JSON.parse(localStorage.getItem('userPayments')) || [];
-        myPayments = myPayments.map(pmt => {
-            // Match the payment to the booking being cancelled
-            if (pmt.bookingName === accommodationName) {
-                return { ...pmt, status: 'Refunded' };
-            }
-            return pmt;
-        });
-        localStorage.setItem('userPayments', JSON.stringify(myPayments));
+//         // 3. Update"Refunded"
+//         let myPayments = JSON.parse(localStorage.getItem('userPayments')) || [];
+//         myPayments = myPayments.map(pmt => {
+//             // Match the payment to the booking being cancelled
+//             if (pmt.bookingName === accommodationName) {
+//                 return { ...pmt, status: 'Refunded' };
+//             }
+//             return pmt;
+//         });
+//         localStorage.setItem('userPayments', JSON.stringify(myPayments));
         
-        // 4. Update
-        row.setAttribute('data-status', 'cancelled');
-        row.cells[4].innerHTML = '<span class="status-badge cancelled">Cancelled</span>';
+//         // 4. Update
+//         row.setAttribute('data-status', 'cancelled');
+//         row.cells[4].innerHTML = '<span class="status-badge cancelled">Cancelled</span>';
         
-        alert("Booking cancelled and payment marked as Refunded.");
-        closeModal();
-    }
-}
+//         alert("Booking cancelled and payment marked as Refunded.");
+//         closeModal();
+//     }
+// }
 
 function cancelEdit() {
     const summaryView = document.getElementById('summary-view');
@@ -179,34 +159,37 @@ function cancelEdit() {
 }
 
 
-function loadBookings() {
+async function loadBookings() {
+    const res = await fetch("get_bookings.php");
+    const myBookings = await res.json();
+
     const bookingsBody = document.getElementById('bookings-body');
-    const myBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+    bookingsBody.innerHTML = "";
 
-    // Clear the current static table rows
-    // bookingsBody.innerHTML = ''; 
+    myBookings.forEach(book => {
 
-    myBookings.forEach((book, index) => {
         const row = document.createElement('tr');
+
         row.setAttribute('data-status', book.status);
-        row.setAttribute('data-index', index); // for editing/deleting 
 
         row.innerHTML = `
             <td>
                 <div class="acc-cell">
-                    <img src="${book.image}" alt="">
-                    <span>${book.accommodation}</span>
+                    <img src="/image/default.jpg">
+                    <span>${book.accommodation_name}</span>
                 </div>
             </td>
-            <td>${book.dates}</td>
+            <td>${book.check_in} - ${book.check_out}</td>
             <td>${book.guests}</td>
-            <td>${book.amount}</td>
-            <td><span class="status-badge ${book.status}">${book.status.charAt(0).toUpperCase() + book.status.slice(1)}</span></td>
+            <td>₱${book.amount}</td>
+            <td><span class="status-badge ${book.status.toLowerCase()}">${book.status}</span></td>
             <td><button class="action-btn" onclick="showDetails(this)">View Details</button></td>
         `;
+
         bookingsBody.appendChild(row);
     });
 }
+
 
 function closeModal() {
     const modal = document.getElementById('detailsModal');
