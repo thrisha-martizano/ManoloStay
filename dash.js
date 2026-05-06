@@ -11,9 +11,17 @@ window.onload = function() {
     updateDashboardStats();
 };
 
-function updateDashboardStats() {
-    const bookings = JSON.parse(localStorage.getItem('userBookings')) || [];
-    const payments = JSON.parse(localStorage.getItem('userPayments')) || [];
+function updateDashboardStats(bookings, payments) {
+    async function fetchDashboardData() {
+    const response = await fetch("dashboard_data.php");
+    const data = await response.json();
+
+    updateDashboardStats(data.bookings, data.payments);
+}
+
+window.onload = function () {
+    fetchDashboardData();
+};
 
     // 1. Calculate Stat Cards
     const totalBookings = bookings.length;
@@ -41,11 +49,20 @@ function updateDashboardStats() {
     recentData.forEach(book => {
         const div = document.createElement('div');
         div.className = 'booking-item';
+        // div.innerHTML = `
+        //     <img src="${book.image}" alt="Stay">
+        //     <div class="details"><h4>${book.accommodation}</h4><p>${book.dates}</p></div>
+        //     <span class="status ${book.status}">${book.status}</span>
+        // `;
+
         div.innerHTML = `
-            <img src="${book.image}" alt="Stay">
-            <div class="details"><h4>${book.accommodation}</h4><p>${book.dates}</p></div>
-            <span class="status ${book.status}">${book.status}</span>
-        `;
+    <img src="${book.image || 'default.jpg'}" alt="Stay">
+    <div class="details">
+        <h4>${book.accommodation_name}</h4>
+        <p>${book.checkin_date} - ${book.checkout_date}</p>
+    </div>
+    <span class="status ${book.status}">${book.status}</span>
+`;
         recentList.appendChild(div);
     });
     recentList.innerHTML += '<a href="books.html" class="view-all">View all bookings →</a>';
@@ -59,7 +76,7 @@ function updateCharts(bookings, payments) {
     const monthCounts = new Array(6).fill(0); // Jan to Jun
     bookings.forEach(b => {
         const datePart = b.dates.split(' - ')[0];
-        const monthIndex = new Date(datePart.replace(/-/g, '/')).getMonth();
+        const monthIndex = new Date(b.checkin_date).getMonth();
         if (monthIndex >= 0 && monthIndex < 6) monthCounts[monthIndex]++;
     });
 
@@ -68,7 +85,7 @@ function updateCharts(bookings, payments) {
     payments.forEach(p => {
         // We only count 'paid' status toward monthly spending
         if (p.status.toLowerCase() === 'paid') {
-            const monthIndex = new Date(p.date.replace(/-/g, '/')).getMonth();
+            const monthIndex = new Date(p.payment_date).getMonth();
             if (monthIndex >= 0 && monthIndex < 6) {
                 const amount = parseFloat(p.amount.replace(/[₱,]/g, ''));
                 monthlySpending[monthIndex] += amount;

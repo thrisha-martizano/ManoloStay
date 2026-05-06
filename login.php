@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['user_name'] = $row['userName'];
 
-            header("Location: dash.php");
+            header("Location: dash.html");
             exit();
 
         } else {

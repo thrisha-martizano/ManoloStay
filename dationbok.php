@@ -20,9 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 👉 INSERT BOOKING
     $query = "INSERT INTO bookings 
-    (fullname, userEmail, contactNo, check_in, check_out, guests, status) 
-    VALUES 
-    ('$fullname','$email', '$contactNo', '$check_in', '$check_out', '$guests', '$status')";
+(fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
+VALUES 
+('$fullname','$email','$contactNo','$bookingName','$check_in','$check_out','$guests','$amount','$status')";
 
     if (mysqli_query($conn, $query)) {
 
@@ -37,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $date = date("Y-m-d");
 
         // ✅ INSERT PAYMENT
-       $paymentQuery = "INSERT INTO payments 
+      $paymentQuery = "INSERT INTO payments 
 (booking_id, userEmail, bookingName, payment_date, amount, method, status)
 VALUES 
-('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', '$payment_status')";
+('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', 'paid')";
         mysqli_query($conn, $paymentQuery);
 
         echo "Success";

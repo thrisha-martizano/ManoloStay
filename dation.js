@@ -121,22 +121,20 @@ function confirmBooking() {
 
     try {
         // PANG Save Booking
-        let myBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
-        myBookings.push(newBooking);
-        localStorage.setItem('userBookings', JSON.stringify(myBookings));
+        // let myBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+        // myBookings.push(newBooking);
+        // localStorage.setItem('userBookings', JSON.stringify(myBookings));
 
-        // PANG Save Payment
-        let myPayments = JSON.parse(localStorage.getItem('userPayments')) || [];
-        myPayments.push(newPayment);
-        localStorage.setItem('userPayments', JSON.stringify(myPayments));
+        // // PANG Save Payment
+        // let myPayments = JSON.parse(localStorage.getItem('userPayments')) || [];
+        // myPayments.push(newPayment);
+        // localStorage.setItem('userPayments', JSON.stringify(myPayments));
 
         alert("Booking Successful! Payment recorded via GCash.");
         closeDetails();
     } catch (error) {
         console.error("Error:", error);
     }
-
-    // SET VALUES BEFORE SUBMIT
 
     document.getElementById('hidden-amount').value = totalAmount;
     document.getElementById('hidden-booking-name').value = accommodation;
