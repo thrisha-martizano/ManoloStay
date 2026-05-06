@@ -48,7 +48,7 @@ function openDetails(name, price, image, location, description) {
     if (hiddenInput) {
         hiddenInput.value = name; 
     }
-    // --------------------------------------
+    
 
     window.scrollTo(0, 0);
 }
@@ -71,7 +71,7 @@ function confirmBooking() {
 const accommodation = document.getElementById('detail-title')?.innerText || "Unknown Property";
     const priceText = document.getElementById('detail-price')?.innerText || "0";
     
-    // Extract numeric price (removes ₱ and commas)
+   
     const pricePerNight = parseFloat(priceText.replace(/[₱,]/g, '')) || 0;
     const mainImg = document.getElementById('detail-main-img')?.src || "";
 
