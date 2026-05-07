@@ -207,7 +207,7 @@ color: #F3DE2C;
 }
 
 body {
-    background-color: #f4f7fe; /* Light grayish-blue background */
+    background-color: #123890; /* Light grayish-blue background */
     color: #333;
 }
 
@@ -283,7 +283,7 @@ body {
 }
 
 .sidebar-footer a {
-    color: #adb5bd;
+    color: #b8bdc2;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -293,14 +293,42 @@ body {
 
 .sidebar-footer p {
     font-size: 11px;
-    color: #666;
+    color: #c7c5c5;
 }
 
 /* --- Main Content Area --- */
+/* --- Main Content Area --- */
+/* --- Main Content Area --- */
 .main-content {
+    position: relative;
     flex: 1;
-    margin-left: 260px; /* Offset for the fixed sidebar */
+    margin-left: 260px;
     padding: 30px 40px;
+
+    background-image: url(image/DASHHH.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+
+    overflow: hidden;
+}
+
+/* DARK TRANSPARENT OVERLAY */
+.main-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45); /* adjust darkness here */
+
+    z-index: 0;
+}
+
+/* PUT CONTENT ABOVE OVERLAY */
+.main-content > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Header */
@@ -312,13 +340,17 @@ body {
 }
 
 .welcome-text h1 {
-    font-size: 26px;
+    font-size: 2.5rem;
     font-weight: 700;
+     color: #ffffff;
+     font-weight: bold;
 }
 
 .welcome-text p {
-    color: #666;
+    color: #ffffff;
     margin-top: 5px;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .user-profile {
@@ -357,7 +389,7 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.119);
 }
 
 .card .icon {
@@ -400,16 +432,16 @@ body {
 }
 
 .chart-container {
-    background: white;
+    background: rgba(164, 189, 232, 0.886);
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.062);
 }
 
 .chart-container h3 {
     font-size: 16px;
     margin-bottom: 20px;
-    color: #444;
+    color: #000000;
 }
 
 /* --- Recent Bookings List --- */
