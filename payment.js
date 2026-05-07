@@ -3,14 +3,27 @@ window.onload = function () {
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
     if (loggedInUserEmail) {
         const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
-        // if(document.getElementById('nav-user-name')) {
-        //     document.getElementById('nav-user-name').innerText = userData.name || "User";
-        // }
     }
 
     // LoadPayments
     loadPaymentTable();
 };
+
+
+    function formatDate(dateString) {
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString('en-US', {
+
+        year: 'numeric',
+
+        month: 'short',
+
+        day: 'numeric'
+
+    });
+}
 
 // Replace your old loadPaymentTable with this:
 async function loadPaymentTable() {
@@ -21,7 +34,7 @@ async function loadPaymentTable() {
 
     try {
 
-        const response = await fetch('filephp/get_payments.php', {
+        const response = await fetch('filephp/payments.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

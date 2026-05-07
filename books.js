@@ -3,10 +3,7 @@ window.onload = function() {
     
     if (loggedInUserEmail) {
         const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
-        // show the name of the login user
-        if(document.getElementById('nav-user-name')) {
-            document.getElementById('nav-user-name').innerText = userData.name || " ";
-        }
+        
     }
 
     loadBookings();
@@ -160,34 +157,55 @@ function cancelEdit() {
 
 
 async function loadBookings() {
-    const res = await fetch("get_bookings.php");
-    const myBookings = await res.json();
+    // const res = await fetch("get_bookings.php");
+    // const myBookings = await res.json();
 
-    const bookingsBody = document.getElementById('bookings-body');
-    bookingsBody.innerHTML = "";
+    // const bookingsBody = document.getElementById('bookings-body');
+    // bookingsBody.innerHTML = "";
 
-    myBookings.forEach(book => {
+    // myBookings.forEach(book => {
 
-        const row = document.createElement('tr');
+    //     const row = document.createElement('tr');
 
-        row.setAttribute('data-status', book.status);
+    //    const row = document.createElement('tr');
 
-        row.innerHTML = `
-            <td>
-                <div class="acc-cell">
-                    <img src="/image/default.jpg">
-                    <span>${book.accommodation_name}</span>
-                </div>
-            </td>
-            <td>${book.check_in} - ${book.check_out}</td>
-            <td>${book.guests}</td>
-            <td>₱${book.amount}</td>
-            <td><span class="status-badge ${book.status.toLowerCase()}">${book.status}</span></td>
-            <td><button class="action-btn" onclick="showDetails(this)">View Details</button></td>
-        `;
+    //     row.dataset.id = book.id;
 
-        bookingsBody.appendChild(row);
-    });
+    //     row.setAttribute('data-status', book.status);
+
+    //     row.innerHTML = `
+    //         <td>
+    //             <div class="acc-cell">
+    //                 <img src="/image/default.jpg">
+    //                 <span>${book.accommodation_name}</span>
+    //             </div>
+    //         </td>
+    //         <td>${book.check_in} - ${book.check_out}</td>
+    //         <td>${book.guests}</td>
+    //         <td>₱${book.amount}</td>
+    //         <td><span class="status-badge ${book.status.toLowerCase()}">${book.status}</span></td>
+    //         <td><button class="action-btn" onclick="showDetails(this)">View Details</button></td>
+    //     `;
+
+    //     bookingsBody.appendChild(row);
+    // });
+
+    const loggedInUserEmail =
+    localStorage.getItem("loggedInUser");
+
+const res = await fetch("get_bookings.php", {
+
+    method: "POST",
+
+    headers: {
+        "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+        email: loggedInUserEmail
+    })
+
+});
 }
 
 

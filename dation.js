@@ -3,10 +3,7 @@ window.onload = function() {
     
     if (loggedInUserEmail) {
         const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
-        // Profile data to the top right corner
-        if(document.getElementById('nav-user-name')) {
-            document.getElementById('nav-user-name').innerText = userData.name || " ";
-        }
+       
     }
 };
 

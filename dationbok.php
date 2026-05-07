@@ -12,11 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_in = $_POST['check_in'];
     $check_out = $_POST['check_out'];
     $guests = $_POST['guests'];
-
     $status = "Pending";
-
     $amount = $_POST['amount'];
-
     $bookingName = $_POST['accommodation_name'];
 
     // INSERT BOOKING
@@ -42,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         mysqli_query($conn, $paymentQuery);
 
-        echo "Success";
+       header("Location: dation.html");
 
     } else {
 

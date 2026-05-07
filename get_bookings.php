@@ -1,12 +1,14 @@
 <?php
-session_start();
+header("Content-Type: application/json");
 include('connection.php');
 
-$user_id = $_SESSION['user_id'];
+$data = json_decode(file_get_contents("php://input"), true);
 
-$sql = "SELECT * FROM bookings WHERE userEmail = (
-    SELECT userEmail FROM users WHERE user_id = $user_id
-)";
+$email = mysqli_real_escape_string($conn, $data['email']);
+
+$sql = "SELECT * FROM bookings 
+        WHERE userEmail = '$email'
+        ORDER BY booking_id DESC";
 
 $result = mysqli_query($conn, $sql);
 
