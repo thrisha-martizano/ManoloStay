@@ -14,47 +14,61 @@ window.onload = function () {
 
 // Replace your old loadPaymentTable with this:
 async function loadPaymentTable() {
+
     const paymentsBody = document.getElementById('payments-body');
 
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
 
     try {
+
         const response = await fetch('filephp/get_payments.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: loggedInUserEmail })
+            body: JSON.stringify({
+                email: loggedInUserEmail
+            })
         });
 
         const myPayments = await response.json();
+
+        console.log(myPayments);
 
         paymentsBody.innerHTML = '';
 
         myPayments.forEach(pmt => {
 
             const row = document.createElement('tr');
+
             const statusClass = (pmt.status || "").toLowerCase();
+
             const method = (pmt.method || "").toUpperCase();
-            console.log("AMOUNT:", pmt.amount);
+
+            // FIX
+            const amount = parseFloat(pmt.amount) || 0;
 
             row.innerHTML = `
-        <td>${pmt.bookingName}</td>
-        <td>${formatDate(pmt.payment_date)}</td>
-        <td>₱${amount.toLocaleString()}</td>
-        <td>${method}</td>
-        <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
-    `;
+                <td>${pmt.bookingName}</td>
+                <td>${formatDate(pmt.payment_date)}</td>
+                <td>₱${amount.toLocaleString()}</td>
+                <td>${method}</td>
+                <td>
+                    <span class="status-pill ${statusClass}">
+                        ${pmt.status}
+                    </span>
+                </td>
+            `;
 
             paymentsBody.appendChild(row);
         });
 
-
-
         updatePaymentStats();
 
     } catch (error) {
+
         console.error("Error loading payments:", error);
+
     }
 }
 
@@ -67,36 +81,36 @@ function updatePaymentStats() {
     let dates = [];
 
     rows.forEach(row => {
-        const amountText = row.cells[2].innerText.replace(/[₱,]/g, '');
-       console.log("AMOUNT:", pmt.amount);
 
-       const amount = Number(pmt.amount);
+    const amountText = row.cells[2].innerText.replace(/[₱,]/g, '');
 
-if (isNaN(amount)) {
-    console.error("Invalid amount from DB:", pmt);
-}
+    const amount = parseFloat(amountText) || 0;
 
-        const statusElement = row.querySelector('.status-pill');
-        if (!statusElement) return;
+    const statusElement = row.querySelector('.status-pill');
 
-        const status = statusElement.innerText.toLowerCase();
-        const dateText = row.cells[1].innerText;
+    if (!statusElement) return;
 
-        if (status === 'paid') {
-            totalPaid += amount;
+    const status = statusElement.innerText.toLowerCase();
+
+    const dateText = row.cells[1].innerText;
+
+    if (status === 'paid') {
+        totalPaid += amount;
+    }
+    else if (status === 'pending') {
+        pendingAmount += amount;
+        pendingCount++;
+    }
+
+    if (dateText && dateText !== "---") {
+
+        const parsedDate = new Date(Date.parse(dateText));
+
+        if (!isNaN(parsedDate)) {
+            dates.push(parsedDate);
         }
-        else if (status === 'pending') {
-            pendingAmount += amount;
-            pendingCount++;
-        }
-
-        if (dateText && dateText !== "---") {
-            const parsedDate = new Date(Date.parse(dateText));
-            if (!isNaN(parsedDate)) {
-                dates.push(parsedDate);
-            }
-        }
-    });
+    }
+});
 
     document.getElementById('stat-total-paid').innerText =
         `₱${totalPaid.toLocaleString()}`;

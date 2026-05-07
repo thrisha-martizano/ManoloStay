@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include('connection.php'); 
+include('connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -12,41 +12,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_in = $_POST['check_in'];
     $check_out = $_POST['check_out'];
     $guests = $_POST['guests'];
+
     $status = "Pending";
 
-
     $amount = $_POST['amount'];
+
     $bookingName = $_POST['accommodation_name'];
 
-    // 👉 INSERT BOOKING
-    $query = "INSERT INTO bookings 
-        (fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
-        VALUES 
-        ('$fullname','$email','$contactNo','$bookingName','$check_in','$check_out','$guests','$amount','$status')";
+    // INSERT BOOKING
+    $query = "INSERT INTO bookings
+    (fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
+    VALUES
+    ('$fullname','$email','$contactNo','$bookingName','$check_in','$check_out','$guests','$amount','$status')";
 
     if (mysqli_query($conn, $query)) {
 
-        // ✅ GET LAST BOOKING ID
         $booking_id = mysqli_insert_id($conn);
 
-        // ✅ CREATE PAYMENT DATA
-        $bookingName = $fullname; // or change to accommodation if you have it
-        $amount = 0; // ⚠️ CHANGE THIS if you have price
+        // PAYMENT DATA
         $method = "GCash";
-        $payment_status = "Pending"; // match your booking status
+        $payment_status = "paid";
         $date = date("Y-m-d");
 
-        // ✅ INSERT PAYMENT
-      $paymentQuery = "INSERT INTO payments 
-(booking_id, userEmail, bookingName, payment_date, amount, method, status)
-VALUES 
-('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', 'paid')";
+        // INSERT PAYMENT
+        $paymentQuery = "INSERT INTO payments
+        (booking_id, userEmail, bookingName, payment_date, amount, method, status)
+        VALUES
+        ('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', '$payment_status')";
+
         mysqli_query($conn, $paymentQuery);
 
-        // echo "Success";
+        echo "Success";
 
     } else {
-        echo "SQL Error: " . mysqli_error($conn); 
+
+        echo "SQL Error: " . mysqli_error($conn);
+
     }
 }
 ?>
