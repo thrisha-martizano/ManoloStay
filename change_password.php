@@ -7,19 +7,22 @@ $email = $_SESSION['email'];
 $current = $_POST['current'];
 $new = $_POST['new'];
 
-$sql = "SELECT password FROM users WHERE userEmail='$email'";
-$result = mysqli_query($conn, $sql);
+// check current password
+$check = "SELECT password FROM users WHERE userEmail='$email'";
+$result = mysqli_query($conn, $check);
 $row = mysqli_fetch_assoc($result);
 
-if (password_verify($current, $row['password'])) {
+if ($row['password'] !== $current) {
+    echo "fail";
+    exit;
+}
 
-    $hashed = password_hash($new, PASSWORD_DEFAULT);
+// update password
+$sql = "UPDATE users SET password='$new' WHERE userEmail='$email'";
 
-    $update = "UPDATE users SET password='$hashed' WHERE userEmail='$email'";
-    mysqli_query($conn, $update);
-
+if (mysqli_query($conn, $sql)) {
     echo "success";
 } else {
-    echo "wrong";
+    echo "error";
 }
 ?>

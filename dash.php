@@ -1,18 +1,33 @@
 <?php
-header("Content-Type: application/json");
+session_start();
 include('connection.php');
 
-$data = json_decode(file_get_contents("php://input"), true);
+header("Content-Type: application/json");
 
-$email = mysqli_real_escape_string($conn, $data['email']);
+if(!isset($_SESSION['userEmail'])){
+    echo json_encode([
+        "bookings" => [],
+        "payments" => []
+    ]);
+    exit;
+}
+
+$email = $_SESSION['userEmail'];
 
 
-// BOOKINGS
+// BOOKINGS WITH USER INFO (INNER JOIN)
 $bookings = [];
 
-$sql1 = "SELECT * FROM bookings
-         WHERE userEmail = '$email'
-         ORDER BY booking_id DESC";
+$sql1 = "
+SELECT 
+    bookings.*,
+    users.userName
+FROM bookings
+INNER JOIN users
+ON bookings.userEmail = users.userEmail
+WHERE bookings.userEmail = '$email'
+ORDER BY bookings.booking_id DESC
+";
 
 $result1 = mysqli_query($conn, $sql1);
 
@@ -21,19 +36,25 @@ while($row = mysqli_fetch_assoc($result1)){
 }
 
 
-// PAYMENTS
+// PAYMENTS WITH BOOKING INFO (INNER JOIN)
 $payments = [];
 
-$sql2 = "SELECT * FROM payments
-         WHERE userEmail = '$email'
-         ORDER BY id DESC";
+$sql2 = "
+SELECT 
+    payments.*,
+    bookings.accommodation_name
+FROM payments
+INNER JOIN bookings
+ON payments.booking_id = bookings.booking_id
+WHERE payments.userEmail = '$email'
+ORDER BY payments.payment_date DESC
+";
 
 $result2 = mysqli_query($conn, $sql2);
 
 while($row = mysqli_fetch_assoc($result2)){
     $payments[] = $row;
 }
-
 
 echo json_encode([
     "bookings" => $bookings,

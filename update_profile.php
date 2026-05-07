@@ -1,19 +1,17 @@
 <?php
-session_start();
-include('connection.php');
+include "connection.php";
 
-$email = $_SESSION['email'];
-
+$oldEmail = $_POST['oldEmail'];
 $name = $_POST['name'];
-$phone = $_POST['phone'];
-$dob = $_POST['dob'];
-$address = $_POST['address'];
+$email = $_POST['email'];
 
-$sql = "UPDATE users 
-SET userName='$name', phone='$phone', dob='$dob', address='$address'
-WHERE userEmail='$email'";
+$sql = "UPDATE user SET userName=?, userEmail=? WHERE userEmail=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sss", $name, $email, $oldEmail);
 
-mysqli_query($conn, $sql);
-
-echo "updated";
+if ($stmt->execute()) {
+    echo "updated";
+} else {
+    echo "error";
+}
 ?>

@@ -296,15 +296,13 @@ body {
     color: #c7c5c5;
 }
 
-/* --- Main Content Area --- */
-/* --- Main Content Area --- */
+
 /* --- Main Content Area --- */
 .main-content {
     position: relative;
     flex: 1;
     margin-left: 260px;
     padding: 30px 40px;
-
     background-image: url(image/DASHHH.jpg);
     background-size: cover;
     background-position: center;
@@ -319,9 +317,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-
     background: rgba(0, 0, 0, 0.45); /* adjust darkness here */
-
     z-index: 0;
 }
 
@@ -329,7 +325,7 @@ body {
 .main-content > * {
     position: relative;
     z-index: 1;
-}
+} */
 
 /* Header */
 .content-header {
@@ -432,7 +428,7 @@ body {
 }
 
 .chart-container {
-    background: rgba(164, 189, 232, 0.886);
+    background: rgba(255, 255, 255, 0.793);
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.062);

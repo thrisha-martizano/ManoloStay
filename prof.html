@@ -59,18 +59,7 @@
                         <label>Email Address</label>
                         <span id="profileEmail"></span>
                     </div>
-                    <div class="info-group">
-                        <label>Phone Number</label>
-                        <p id="display-phone"></p>
-                    </div>
-                    <div class="info-group">
-                        <label>Date of Birth</label>
-                        <p id="display-dob"></p>
-                    </div>
-                    <div class="info-group">
-                        <label>Address</label>
-                        <p id="display-address"></p>
-                    </div>
+                   
                     <button class="primary-btn" onclick="editProfile()">Edit Profile</button>
                 </div>
 
@@ -81,30 +70,19 @@
                             <h2>Edit Personal Information</h2>
                             <button class="close-btn" onclick="closeModal()">&times;</button>
                         </div>
-                        <div class="modal-body">
-                            <div class="input-field">
-                                <label>Full Name</label>
-                                <input type="text" id="edit-name">
-                            </div>
-                            <!-- <div class="input-field">
-                <label>Email Address</label>
-                <input type="email" id="edit-email">
-            </div> -->
-                            <div class="input-field">
-                                <label>Phone Number</label>
-                                <input type="text" id="edit-phone">
-                            </div>
-                            <div class="input-field">
-                                <label>Date of Birth</label>
-                                <input type="text" id="edit-dob">
-                            </div>
-                            <div class="input-field">
-                                <label>Address</label>
-                                <input type="text" id="edit-address">
-                            </div>
-                            <button class="primary-btn" style="width: 100%; margin-top: 10px;"
-                                onclick="saveProfile()">Save Changes</button>
+                    <div class="modal-body">
+                        <div class="input-field">
+                            <label>Full Name</label>
+                            <input type="text" id="edit-name">
                         </div>
+                    
+                        <div class="input-field">
+                            <label>Email Address</label>
+                            <input type="email" id="edit-email">
+                        </div>
+                    
+                          <button class="primary-btn" onclick="saveProfile()">Save Changes</button>
+                    </div>
                     </div>
                 </div>
 

@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $row['password'])) {
 
-            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['userEmail'] = $row['userEmail'];
             $_SESSION['user_name'] = $row['userName'];
 
             header("Location: dash.html");

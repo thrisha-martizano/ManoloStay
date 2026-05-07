@@ -1,13 +1,13 @@
 <?php
-session_start();
-include('connection.php');
+include "connection.php";
 
-$email = $_SESSION['email'];
+$email = $_GET['email'];
 
-$sql = "SELECT * FROM users WHERE userEmail = '$email'";
-$result = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM user WHERE userEmail=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $email);
+$stmt->execute();
 
-$user = mysqli_fetch_assoc($result);
-
-echo json_encode($user);
+$result = $stmt->get_result();
+echo json_encode($result->fetch_assoc());
 ?>

@@ -11,17 +11,17 @@ if(!isset($_SESSION['userEmail'])){
 
 $email = $_SESSION['userEmail'];
 
-$sql = "SELECT * FROM bookings
+$sql = "SELECT * FROM payments
         WHERE userEmail = '$email'
-        ORDER BY booking_id DESC";
+        ORDER BY payment_date DESC";
 
 $result = mysqli_query($conn, $sql);
 
-$bookings = [];
+$payments = [];
 
 while($row = mysqli_fetch_assoc($result)){
-    $bookings[] = $row;
+    $payments[] = $row;
 }
 
-echo json_encode($bookings);
+echo json_encode($payments);
 ?>
