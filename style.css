@@ -63,7 +63,7 @@ display: none;
 .landing {
      position: relative;
 height: 100vh;
-background: url(/image/bgland.jpg) no-repeat center center/cover;
+background: url(image/bgland.jpg) no-repeat center center/cover;
 display: flex;
 justify-content: center;
  align-items: center;
@@ -707,7 +707,7 @@ body {
 }
 
 .main-content-area {
-    background-image: url(/image/BG5.jpg);
+    background-image: url(image/BG5.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -851,7 +851,7 @@ z-index: 0;
     right: 0%;
     width: 200px;
     height: 200px;
-    background: url(/image/b1.jpg) center / cover;
+    background: url(image/b1.jpg) center / cover;
     border-radius: 100%; 
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
     transform: rotate(5deg);

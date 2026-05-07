@@ -2,72 +2,51 @@ window.onload = function() {
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
     if (loggedInUserEmail) {
         const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
-        if(document.getElementById('nav-user-name')) {
-            document.getElementById('nav-user-name').innerText = userData.name || "User";
-        }
+        // if(document.getElementById('nav-user-name')) {
+        //     document.getElementById('nav-user-name').innerText = userData.name || "User";
+        // }
     }
 
     // Load and Calculate everything
     updateDashboardStats();
+    fetchDashboardData();
 };
 
 function updateDashboardStats(bookings, payments) {
     async function fetchDashboardData() {
-    const response = await fetch("dashboard_data.php");
-    const data = await response.json();
+    try {
+        const response = await fetch("dashboard_data.php");
+        const data = await response.json();
 
-    updateDashboardStats(data.bookings, data.payments);
+        updateDashboardStats(data.bookings, data.payments);
+    } catch (error) {
+        console.error("Dashboard load error:", error);
+    }
 }
 
-window.onload = function () {
-    fetchDashboardData();
-};
-
-    // 1. Calculate Stat Cards
     const totalBookings = bookings.length;
-    
+
+    // SPENT
     const totalSpent = payments
-        .filter(p => p.status === 'paid')
-        .reduce((sum, p) => sum + parseFloat(p.amount.replace(/[₱,]/g, '')), 0);
+        .filter(p => p.status.toLowerCase() === 'paid')
+        .reduce((sum, p) => sum + parseFloat(p.amount), 0);
 
-    const upcoming = bookings.filter(b => b.status === 'pending' || b.status === 'confirmed').length;
-    const completed = bookings.filter(b => b.status === 'completed').length;
+    // UPCOMING
+    const upcoming = bookings.filter(b =>
+        b.status === 'pending' || b.status === 'confirmed'
+    ).length;
 
-    // Update UI Cards
+    // COMPLETED
+    const completed = bookings.filter(b =>
+        b.status === 'completed'
+    ).length;
+
     document.getElementById('total-bookings-count').innerText = totalBookings;
     document.getElementById('total-spent-amount').innerText = `₱${totalSpent.toLocaleString()}`;
     document.getElementById('upcoming-bookings-count').innerText = upcoming;
     document.getElementById('completed-stays-count').innerText = completed;
 
-    // 2. Load Recent Bookings (Last 3)
-    const recentList = document.getElementById('recent-bookings-list');
-    const recentData = bookings.slice(-3).reverse(); // Get last 3 bookings added
-    
-    // Clear static list but keep the header and "view all" link
-    recentList.innerHTML = '<h3>Recent Accommodation Bookings</h3>';
-    
-    recentData.forEach(book => {
-        const div = document.createElement('div');
-        div.className = 'booking-item';
-        // div.innerHTML = `
-        //     <img src="${book.image}" alt="Stay">
-        //     <div class="details"><h4>${book.accommodation}</h4><p>${book.dates}</p></div>
-        //     <span class="status ${book.status}">${book.status}</span>
-        // `;
-
-        div.innerHTML = `
-    <img src="${book.image || 'default.jpg'}" alt="Stay">
-    <div class="details">
-        <h4>${book.accommodation_name}</h4>
-        <p>${book.checkin_date} - ${book.checkout_date}</p>
-    </div>
-    <span class="status ${book.status}">${book.status}</span>
-`;
-        recentList.appendChild(div);
-    });
-    recentList.innerHTML += '<a href="books.html" class="view-all">View all bookings →</a>';
-
-    // 3. Prepare THE Chart Data
+    loadRecent(bookings);
     updateCharts(bookings, payments);
 }
 
@@ -155,4 +134,30 @@ function updateCharts(bookings, payments) {
         },
         options: { cutout: '60%' }
     });
+}
+
+function loadRecent(bookings) {
+    const recentList = document.getElementById('recent-bookings-list');
+
+    recentList.innerHTML = '<h3>Recent Accommodation Bookings</h3>';
+
+    const recentData = bookings.slice(-3).reverse();
+
+    recentData.forEach(book => {
+        const div = document.createElement('div');
+        div.className = 'booking-item';
+
+        div.innerHTML = `
+            <img src="${book.image || 'image/default.jpg'}">
+            <div class="details">
+                <h4>${book.accommodation_name}</h4>
+                <p>${book.checkin_date} - ${book.checkout_date}</p>
+            </div>
+            <span class="status ${book.status}">${book.status}</span>
+        `;
+
+        recentList.appendChild(div);
+    });
+
+    recentList.innerHTML += `<a href="books.html" class="view-all">View all bookings →</a>`;
 }

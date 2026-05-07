@@ -1,13 +1,13 @@
-window.onload = function() {
+window.onload = function () {
     // User Name Sync
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
     if (loggedInUserEmail) {
         const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
-        if(document.getElementById('nav-user-name')) {
-            document.getElementById('nav-user-name').innerText = userData.name || "User";
-        }
+        // if(document.getElementById('nav-user-name')) {
+        //     document.getElementById('nav-user-name').innerText = userData.name || "User";
+        // }
     }
-    
+
     // LoadPayments
     loadPaymentTable();
 };
@@ -32,19 +32,24 @@ async function loadPaymentTable() {
         paymentsBody.innerHTML = '';
 
         myPayments.forEach(pmt => {
+
             const row = document.createElement('tr');
-            const statusClass = pmt.status.toLowerCase();
+            const statusClass = (pmt.status || "").toLowerCase();
+            const method = (pmt.method || "").toUpperCase();
+            console.log("AMOUNT:", pmt.amount);
 
             row.innerHTML = `
-                <td>${pmt.bookingName}</td>
-                <td>${formatDate(pmt.payment_date)}</td>
-                <td>₱${parseFloat(pmt.amount).toLocaleString()}</td>
-                const method = pmt.method.toUpperCase();
-                <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
-            `;
+        <td>${pmt.bookingName}</td>
+        <td>${formatDate(pmt.payment_date)}</td>
+        <td>₱${amount.toLocaleString()}</td>
+        <td>${method}</td>
+        <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
+    `;
 
             paymentsBody.appendChild(row);
         });
+
+
 
         updatePaymentStats();
 
@@ -55,6 +60,7 @@ async function loadPaymentTable() {
 
 function updatePaymentStats() {
     const rows = document.querySelectorAll('#payments-body tr');
+
     let totalPaid = 0;
     let pendingAmount = 0;
     let pendingCount = 0;
@@ -62,34 +68,53 @@ function updatePaymentStats() {
 
     rows.forEach(row => {
         const amountText = row.cells[2].innerText.replace(/[₱,]/g, '');
-        const amount = parseFloat(amountText) || 0;
+       console.log("AMOUNT:", pmt.amount);
+
+       const amount = Number(pmt.amount);
+
+if (isNaN(amount)) {
+    console.error("Invalid amount from DB:", pmt);
+}
+
         const statusElement = row.querySelector('.status-pill');
-        if (!statusElement) return; 
+        if (!statusElement) return;
 
         const status = statusElement.innerText.toLowerCase();
         const dateText = row.cells[1].innerText;
 
         if (status === 'paid') {
             totalPaid += amount;
-        } else if (status === 'pending') {
+        }
+        else if (status === 'pending') {
             pendingAmount += amount;
             pendingCount++;
         }
-        // Note: MAWALA SA TOTAL PAID IF REFUNDED 'Total Paid'
-        
-        // if (dateText !== "---") dates.push(new Date(dateText));
-        const dateParts = dateText.split(" ");
-        const date = new Date(dateText);
+
+        if (dateText && dateText !== "---") {
+            const parsedDate = new Date(Date.parse(dateText));
+            if (!isNaN(parsedDate)) {
+                dates.push(parsedDate);
+            }
+        }
     });
 
-    document.getElementById('stat-total-paid').innerText = `₱${totalPaid.toLocaleString()}`;
-    document.getElementById('stat-pending-amount').innerText = `₱${pendingAmount.toLocaleString()}`;
-    document.getElementById('stat-pending-count').innerText = `${pendingCount} payments`;
+    document.getElementById('stat-total-paid').innerText =
+        `₱${totalPaid.toLocaleString()}`;
+
+    document.getElementById('stat-pending-amount').innerText =
+        `₱${pendingAmount.toLocaleString()}`;
+
+    document.getElementById('stat-pending-count').innerText =
+        `${pendingCount} payments`;
+
     if (dates.length > 0) {
         const latestDate = new Date(Math.max(...dates));
-        document.getElementById('stat-last-date').innerText = latestDate.toLocaleDateString('en-US', { 
-            year: 'numeric', month: 'short', day: 'numeric' 
-        });
+        document.getElementById('stat-last-date').innerText =
+            latestDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
     }
 }
 

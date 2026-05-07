@@ -20,9 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 👉 INSERT BOOKING
     $query = "INSERT INTO bookings 
-(fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
-VALUES 
-('$fullname','$email','$contactNo','$bookingName','$check_in','$check_out','$guests','$amount','$status')";
+        (fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
+        VALUES 
+        ('$fullname','$email','$contactNo','$bookingName','$check_in','$check_out','$guests','$amount','$status')";
 
     if (mysqli_query($conn, $query)) {
 
@@ -43,7 +43,7 @@ VALUES
 ('$booking_id', '$email', '$bookingName', '$date', '$amount', '$method', 'paid')";
         mysqli_query($conn, $paymentQuery);
 
-        echo "Success";
+        // echo "Success";
 
     } else {
         echo "SQL Error: " . mysqli_error($conn); 
