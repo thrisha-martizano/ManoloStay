@@ -798,7 +798,7 @@ body {
 .booking-filters {
     display: flex;
     gap: 30px;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid #0a0131;
 }
 
 .filter-btn {
@@ -807,13 +807,13 @@ body {
     padding: 10px 0;
     font-size: 15px;
     cursor: pointer;
-    color: #666;
-    font-weight: 500;
+    color: #dddddd;
+    font-weight: bold;
 }
 
 .filter-btn.active {
-    color: #1a73e8;
-    border-bottom: 3px solid #1a73e8;
+    color: #8392a6;
+    border-bottom: 3px solid #0a0131;
 }
 
 /* The White Card */
