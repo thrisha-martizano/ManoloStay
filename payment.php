@@ -7,12 +7,10 @@ header("Content-Type: application/json");
 
 $email = null;
 
-// Priority 1: session
 if (!empty($_SESSION['userEmail'])) {
     $email = trim($_SESSION['userEmail']);
 }
 
-// Priority 2: JSON POST body
 if (!$email) {
     $body = file_get_contents("php://input");
     $data = json_decode($body, true);
