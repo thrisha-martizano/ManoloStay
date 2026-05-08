@@ -312,7 +312,7 @@ body {
     overflow: hidden;
 }
 
-/* DARK TRANSPARENT OVERLAY */
+/* DARK TRANSPARENT OVERLAY */ 
 .main-content::before {
     content: "";
     position: absolute;
@@ -325,7 +325,7 @@ body {
 .main-content > * {
     position: relative;
     z-index: 1;
-} */
+}
 
 /* Header */
 .content-header {
@@ -552,7 +552,7 @@ body {
 
 .card-body { padding: 20px; }
 .card-body h3 { font-size: 18px; margin-bottom: 5px; }
-.loc { font-size: 13px; color: #666; margin-bottom: 5px; }
+.loc { font-size: 13px; color: #ffffff; margin-bottom: 5px; }
 .rate { font-size: 13px; font-weight: 600; color: #bd760a; margin-bottom: 10px; }
 .desc { font-size: 12px; color: #313030; margin-bottom: 20px; line-height: 1.4; }
 

@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session at the very top
+session_start(); 
 include('connection.php'); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,12 +11,12 @@ $sql = "INSERT INTO users (userName, userEmail, password)
 VALUES ('$name', '$email', '$pass')";
 
     if (mysqli_query($conn, $sql)) {
-        // 1. Store the email in a session so other pages (like prof.php) can use it
+        
         $_SESSION['loggedInUser'] = $email;
 
         // 2. Redirect to the dashboard
         header("Location: dash.html"); 
-        exit(); // Always call exit() after a header redirect
+        exit(); 
     } else {
         echo "Error: " . mysqli_error($conn);
     }
