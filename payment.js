@@ -32,14 +32,14 @@ async function loadPaymentTable() {
         </tr>`;
 
     try {
-        const response = await fetch('filephp/payments.php', {
+        const response = await fetch('payment.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: loggedInUserEmail })
         });
 
         const text = await response.text(); // Read as text first to catch PHP errors
-        console.log("Raw response from payments.php:", text);
+        console.log("Raw response from payment.php:", text);
 
         let myPayments;
         try {

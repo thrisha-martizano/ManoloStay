@@ -2,34 +2,52 @@ window.onload = function () {
     loadBookings();
 };
 
+// ✅ Maps accommodation name to its image file
+function getAccomImage(name) {
+    const map = {
+        'Dream Residence'    : 'image/dreamres.png',
+        'Sky Travellers Inn' : 'image/sky.png',
+        'Sky\'s Travellers Inn': 'image/sky.png',
+        'Concetta Inn'       : 'image/contdres.png',
+        'Sorelle'            : 'image/sorelle.png',
+        'Balai Dicklum'      : 'image/bali.png',
+        'KJSGrandeInnOpens'  : 'image/kjs.png',
+    };
+    // Exact match first, then partial match
+    if (map[name]) return map[name];
+    for (const key in map) {
+        if (name && name.toLowerCase().includes(key.toLowerCase())) return map[key];
+    }
+    return 'image/dreamres.png'; // fallback
+}
+
 // Filter rows by status tab
 function filterBookings(status) {
-    const rows = document.querySelectorAll('#bookings-body tr');
+    const rows    = document.querySelectorAll('#bookings-body tr');
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
     if (event) event.target.classList.add('active');
 
     rows.forEach(row => {
-        if (status === 'all' || row.getAttribute('data-status') === status.toLowerCase()) {
-            row.style.display = 'table-row';
-        } else {
-            row.style.display = 'none';
-        }
+        const rowStatus = row.getAttribute('data-status');
+        const show = status === 'all' || rowStatus === status.toLowerCase();
+        row.style.display = show ? 'table-row' : 'none';
     });
 }
 
 function showDetails(button) {
-    const modal      = document.getElementById('detailsModal');
-    const modalBody  = document.getElementById('modal-details-body');
+    const modal        = document.getElementById('detailsModal');
+    const modalBody    = document.getElementById('modal-details-body');
     const modalActions = document.getElementById('modal-actions');
-    const row        = button.closest('tr');
-    const statusAttr = row.getAttribute('data-status');
+    const row          = button.closest('tr');
+    const statusAttr   = row.getAttribute('data-status');
 
     const accommodation = row.cells[0].querySelector('span').innerText;
-    const dates    = row.cells[1].innerText;
-    const guests   = row.cells[2].innerText;
-    const amount   = row.cells[3].innerText;
-    const statusText = row.cells[4].innerText.trim();
+    const dates         = row.cells[1].innerText;
+    const guests        = row.cells[2].innerText;
+    const amount        = row.cells[3].innerText;
+    const statusText    = row.cells[4].innerText.trim();
+    const bookingId     = row.dataset.id;
 
     modalBody.innerHTML = `
         <p><strong>🏨 Accommodation:</strong> ${accommodation}</p>
@@ -43,14 +61,51 @@ function showDetails(button) {
     if (statusAttr === 'pending') {
         modalActions.innerHTML = `
             <button onclick="editBooking()" class="edit-btn">Edit Details</button>
-            <button onclick="cancelBooking()" class="cancel-btn">Cancel Booking</button>
+            <button onclick="cancelBooking('${bookingId}')" class="cancel-btn">Cancel Booking</button>
         `;
         modal.dataset.currentRowIndex = row.rowIndex;
+        modal.dataset.bookingId       = bookingId;
     } else {
-        modalActions.innerHTML = `<p style="font-size:12px;color:#888;"><i>This booking is ${statusAttr} and cannot be modified.</i></p>`;
+        modalActions.innerHTML = `<p style="font-size:12px;color:#888;"><i>This booking is <strong>${statusText}</strong> and cannot be modified.</i></p>`;
     }
 
     modal.style.display = 'block';
+}
+
+// ✅ CANCEL BOOKING — updates booking to Cancelled + payment to Refunded
+async function cancelBooking(bookingId) {
+    const confirmed = confirm("Are you sure you want to cancel this booking? The payment will be marked as Refunded.");
+    if (!confirmed) return;
+
+    try {
+        const response = await fetch('cancel_booking.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ booking_id: bookingId })
+        });
+
+        const text = await response.text();
+        console.log("Cancel response:", text);
+
+        let result;
+        try {
+            result = JSON.parse(text);
+        } catch (e) {
+            alert("Server error during cancellation. Check console.");
+            return;
+        }
+
+        if (result.success) {
+            alert("✅ Booking cancelled. Payment has been marked as Refunded.");
+            closeModal();
+            loadBookings(); // Refresh the table
+        } else {
+            alert("Error: " + (result.error || "Could not cancel booking."));
+        }
+    } catch (err) {
+        console.error("Cancel error:", err);
+        alert("Network error. Could not cancel booking.");
+    }
 }
 
 function editBooking() {
@@ -101,10 +156,9 @@ function closeModal() {
     }
 }
 
-// ✅ FULLY FIXED: sends email via POST, renders real DB rows
 async function loadBookings() {
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
-    const bookingsBody = document.getElementById('bookings-body');
+    const bookingsBody      = document.getElementById('bookings-body');
 
     try {
         const res = await fetch("get_bookings.php", {
@@ -116,7 +170,6 @@ async function loadBookings() {
         const myBookings = await res.json();
         console.log("Bookings from DB:", myBookings);
 
-        // Clear both hardcoded demo rows AND any previous dynamic rows
         bookingsBody.innerHTML = "";
 
         if (!myBookings || myBookings.length === 0) {
@@ -130,19 +183,20 @@ async function loadBookings() {
         }
 
         myBookings.forEach(book => {
-            const row = document.createElement('tr');
-            row.dataset.id = book.booking_id;  // DB column: booking_id
-
-            // DB enum: 'Pending','Confirmed','Cancelled'
+            const row         = document.createElement('tr');
+            row.dataset.id    = book.booking_id;
             const statusLower = (book.status || "pending").toLowerCase();
             row.setAttribute('data-status', statusLower);
-
             const amount = parseFloat(book.amount) || 0;
+
+            // ✅ Use mapped image instead of missing default.jpg
+            const imgSrc = getAccomImage(book.accommodation_name);
 
             row.innerHTML = `
                 <td>
                     <div class="acc-cell">
-                        <img src="image/default.jpg" alt="">
+                        <img src="${imgSrc}" alt="${book.accommodation_name}"
+                             style="width:50px;height:50px;object-fit:cover;border-radius:6px;">
                         <span>${book.accommodation_name}</span>
                     </div>
                 </td>
@@ -160,7 +214,7 @@ async function loadBookings() {
         bookingsBody.innerHTML = `
             <tr>
                 <td colspan="6" style="text-align:center;padding:20px;color:red;">
-                    Error loading bookings. Check console.
+                    Error loading bookings. Check console (F12).
                 </td>
             </tr>`;
     }
