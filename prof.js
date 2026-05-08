@@ -2,10 +2,13 @@ const SESSION_KEY = "loggedInUser";
 
 window.onload = function () {
     const email = localStorage.getItem(SESSION_KEY);
+    
+    // FIX: If NO email is found, send them to the LOGIN page (index.html)
     if (!email) {
-        window.location.href = "index.html"; // Redirect if not logged in
+        window.location.href = "prof.html"; 
         return;
     }
+    
     loadProfile();
 };
 

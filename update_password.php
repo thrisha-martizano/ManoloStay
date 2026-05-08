@@ -1,41 +1,28 @@
 <?php
-include "connection.php";
+session_start();
+include('connection.php');
 
-$email = $_POST['email'];
-$currentPassword = $_POST['currentPassword'];
-$newPassword = $_POST['newPassword'];
+$email = $_SESSION['email'];
 
-// FIND USER
-$sql = "SELECT * FROM user WHERE userEmail=?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
+$current = $_POST['current'];
+$new = $_POST['new'];
 
-$result = $stmt->get_result();
+// check current password
+$check = "SELECT password FROM users WHERE userEmail='$email'";
+$result = mysqli_query($conn, $check);
+$row = mysqli_fetch_assoc($result);
 
-if ($result->num_rows > 0) {
+if ($row['password'] !== $current) {
+    echo "fail";
+    exit;
+}
 
-    $user = $result->fetch_assoc();
+// update password
+$sql = "UPDATE users SET password='$new' WHERE userEmail='$email'";
 
-    // CHECK CURRENT PASSWORD
-    if ($user['password'] === $currentPassword) {
-
-        // UPDATE PASSWORD
-        $update = "UPDATE users SET password=? WHERE userEmail=?";
-        $stmt2 = $conn->prepare($update);
-        $stmt2->bind_param("ss", $newPassword, $email);
-
-        if ($stmt2->execute()) {
-            echo "success";
-        } else {
-            echo "Failed to update password";
-        }
-
-    } else {
-        echo "Current password is incorrect";
-    }
-
+if (mysqli_query($conn, $sql)) {
+    echo "success";
 } else {
-    echo "User not found";
+    echo "error";
 }
 ?>

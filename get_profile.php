@@ -3,7 +3,7 @@ include "connection.php";
 
 $email = $_GET['email'];
 
-$sql = "SELECT * FROM users WHERE userEmail=?";
+$sql = "SELECT * FROM user WHERE userEmail=?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
