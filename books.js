@@ -72,7 +72,7 @@ function showDetails(button) {
     modal.style.display = 'block';
 }
 
-// ✅ CANCEL BOOKING — updates booking to Cancelled + payment to Refunded
+// CANCEL BOOKING — updates booking to Cancelled + payment to Refunded
 async function cancelBooking(bookingId) {
     const confirmed = confirm("Are you sure you want to cancel this booking?");
     if (!confirmed) return;
@@ -189,7 +189,7 @@ async function loadBookings() {
             row.setAttribute('data-status', statusLower);
             const amount = parseFloat(book.amount) || 0;
 
-            // ✅ Use mapped image instead of missing default.jpg
+            // Use mapped image instead of missing default.jpg
             const imgSrc = getAccomImage(book.accommodation_name);
 
             row.innerHTML = `
