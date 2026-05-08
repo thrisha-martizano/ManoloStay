@@ -1,25 +1,50 @@
 <?php
-header("Content-Type: application/json");
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include('connection.php');
+header("Content-Type: application/json");
 
-// GET JSON INPUT
-$data = json_decode(file_get_contents("php://input"), true);
-$email = mysqli_real_escape_string($conn, $data['email']);
+$email = null;
 
-$sql = "SELECT bookingName, payment_date, amount, method, status 
-        FROM payments
-        WHERE userEmail = '$email'
-        ORDER BY payment_date DESC";
+// Priority 1: session
+if (!empty($_SESSION['userEmail'])) {
+    $email = trim($_SESSION['userEmail']);
+}
 
-$result = $conn->query($sql);
-
-$payments = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $payments[] = $row;
+// Priority 2: JSON POST body
+if (!$email) {
+    $body = file_get_contents("php://input");
+    $data = json_decode($body, true);
+    if (!empty($data['email'])) {
+        $email = trim($data['email']);
+        $_SESSION['userEmail'] = $email;
     }
 }
 
+if (!$email) {
+    echo json_encode([]);
+    exit;
+}
+
+$email = mysqli_real_escape_string($conn, $email);
+
+// ✅ LOWER() on both sides = case-insensitive match (fixes Gmail capitalisation issues)
+$sql = "SELECT * FROM payments
+        WHERE LOWER(TRIM(userEmail)) = LOWER(TRIM('$email'))
+        ORDER BY payment_date DESC";
+
+$result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    echo json_encode(["error" => mysqli_error($conn)]);
+    exit;
+}
+
+$payments = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $payments[] = $row;
+}
+
 echo json_encode($payments);
-$conn->close();
 ?>

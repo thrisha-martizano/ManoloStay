@@ -551,7 +551,10 @@ body {
 }
 
 .card-body { padding: 20px; }
-.card-body h3 { font-size: 18px; margin-bottom: 5px; }
+.card-body h3 { font-size: 18px; 
+    color: #000000;
+    margin-bottom: 5px; }
+
 .loc { font-size: 13px; color: #ffffff; margin-bottom: 5px; }
 .rate { font-size: 13px; font-weight: 600; color: #bd760a; margin-bottom: 10px; }
 .desc { font-size: 12px; color: #313030; margin-bottom: 20px; line-height: 1.4; }
@@ -624,20 +627,21 @@ body {
 .details-main h1{
     font-size: 2rem;
     margin-top: 2%;
-    color: black;
+    color: rgb(255, 255, 255);
     line-height: 4rem;
 }
 
 .details-main p{
     font-size: 1rem;
     margin-top: 2%;
-    color: black;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
     /* line-height: 4rem; */
 }
 .details-main h3{
     font-size: 2rem;
     margin-top: 5%;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 .amenities-grid span { font-size: 13px; background: #f8f9fa; padding: 10px; border-radius: 8px; 
     box-shadow: 0 5px 5px rgba(14, 5, 52, 0.353);

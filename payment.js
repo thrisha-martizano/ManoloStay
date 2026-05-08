@@ -1,164 +1,123 @@
 window.onload = function () {
-    // User Name Sync
-    const loggedInUserEmail = localStorage.getItem("loggedInUser");
-    if (loggedInUserEmail) {
-        const userData = JSON.parse(localStorage.getItem(loggedInUserEmail));
-    }
-
-    // LoadPayments
     loadPaymentTable();
 };
 
-
-    function formatDate(dateString) {
-
+function formatDate(dateString) {
+    if (!dateString) return "—";
     const date = new Date(dateString);
-
+    if (isNaN(date)) return dateString;
     return date.toLocaleDateString('en-US', {
-
-        year: 'numeric',
-
-        month: 'short',
-
-        day: 'numeric'
-
+        year: 'numeric', month: 'short', day: 'numeric'
     });
 }
 
-// Replace your old loadPaymentTable with this:
 async function loadPaymentTable() {
-
     const paymentsBody = document.getElementById('payments-body');
 
-    const loggedInUserEmail = localStorage.getItem("loggedInUser");
+    // ✅ Try multiple common localStorage key names for the logged-in email
+    const loggedInUserEmail =
+        localStorage.getItem("loggedInUser") ||
+        localStorage.getItem("userEmail") ||
+        localStorage.getItem("email") ||
+        null;
+
+    console.log("Email from localStorage:", loggedInUserEmail);
+
+    // Clear the hardcoded demo rows immediately
+    paymentsBody.innerHTML = `
+        <tr>
+            <td colspan="5" style="text-align:center;padding:20px;color:#aaa;">
+                Loading payments...
+            </td>
+        </tr>`;
 
     try {
-
         const response = await fetch('filephp/payments.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: loggedInUserEmail
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: loggedInUserEmail })
         });
 
-        const myPayments = await response.json();
+        const text = await response.text(); // Read as text first to catch PHP errors
+        console.log("Raw response from payments.php:", text);
 
-        console.log(myPayments);
+        let myPayments;
+        try {
+            myPayments = JSON.parse(text);
+        } catch (e) {
+            console.error("PHP returned non-JSON:", text);
+            paymentsBody.innerHTML = `<tr><td colspan="5" style="color:red;padding:20px;text-align:center;">NO PAYMENTS MADE</td></tr>`;
+            return;
+        }
 
         paymentsBody.innerHTML = '';
 
+        if (!myPayments || myPayments.length === 0) {
+            paymentsBody.innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align:center;padding:20px;color:#aaa;">
+                        No payment records found.
+                    </td>
+                </tr>`;
+            updatePaymentStats([]);
+            return;
+        }
+
         myPayments.forEach(pmt => {
-
             const row = document.createElement('tr');
-
             const statusClass = (pmt.status || "").toLowerCase();
-
             const method = (pmt.method || "").toUpperCase();
-
-            // FIX
             const amount = parseFloat(pmt.amount) || 0;
 
             row.innerHTML = `
-                <td>${pmt.bookingName}</td>
+                <td>${pmt.bookingName || "—"}</td>
                 <td>${formatDate(pmt.payment_date)}</td>
                 <td>₱${amount.toLocaleString()}</td>
                 <td>${method}</td>
-                <td>
-                    <span class="status-pill ${statusClass}">
-                        ${pmt.status}
-                    </span>
-                </td>
+                <td><span class="status-pill ${statusClass}">${pmt.status}</span></td>
             `;
-
             paymentsBody.appendChild(row);
         });
 
-        updatePaymentStats();
+        updatePaymentStats(myPayments);
 
     } catch (error) {
-
-        console.error("Error loading payments:", error);
-
+        console.error("Fetch error:", error);
+        paymentsBody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center;padding:20px;color:red;">
+                    Could not load payments. Check console for details.
+                </td>
+            </tr>`;
     }
 }
 
-function updatePaymentStats() {
-    const rows = document.querySelectorAll('#payments-body tr');
-
-    let totalPaid = 0;
+function updatePaymentStats(payments) {
+    let totalPaid     = 0;
     let pendingAmount = 0;
-    let pendingCount = 0;
-    let dates = [];
+    let pendingCount  = 0;
+    let lastDate      = null;
 
-    rows.forEach(row => {
+    payments.forEach(pmt => {
+        const amount = parseFloat(pmt.amount) || 0;
+        const status = (pmt.status || "").toLowerCase();
 
-    const amountText = row.cells[2].innerText.replace(/[₱,]/g, '');
-
-    const amount = parseFloat(amountText) || 0;
-
-    const statusElement = row.querySelector('.status-pill');
-
-    if (!statusElement) return;
-
-    const status = statusElement.innerText.toLowerCase();
-
-    const dateText = row.cells[1].innerText;
-
-    if (status === 'paid') {
-        totalPaid += amount;
-    }
-    else if (status === 'pending') {
-        pendingAmount += amount;
-        pendingCount++;
-    }
-
-    if (dateText && dateText !== "---") {
-
-        const parsedDate = new Date(Date.parse(dateText));
-
-        if (!isNaN(parsedDate)) {
-            dates.push(parsedDate);
+        if (status === 'paid') {
+            totalPaid += amount;
+            if (pmt.payment_date) {
+                const d = new Date(pmt.payment_date);
+                if (!lastDate || d > lastDate) lastDate = d;
+            }
+        } else if (status === 'pending') {
+            pendingAmount += amount;
+            pendingCount++;
         }
-    }
-});
+    });
 
-    document.getElementById('stat-total-paid').innerText =
-        `₱${totalPaid.toLocaleString()}`;
-
-    document.getElementById('stat-pending-amount').innerText =
-        `₱${pendingAmount.toLocaleString()}`;
-
-    document.getElementById('stat-pending-count').innerText =
-        `${pendingCount} payments`;
-
-    if (dates.length > 0) {
-        const latestDate = new Date(Math.max(...dates));
-        document.getElementById('stat-last-date').innerText =
-            latestDate.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-    }
+    document.getElementById('stat-total-paid').innerText    = `₱${totalPaid.toLocaleString()}`;
+    document.getElementById('stat-pending-amount').innerText = `₱${pendingAmount.toLocaleString()}`;
+    document.getElementById('stat-pending-count').innerText  = `${pendingCount} payment${pendingCount !== 1 ? 's' : ''}`;
+    document.getElementById('stat-last-date').innerText = lastDate
+        ? lastDate.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })
+        : '---';
 }
-
-// // payment.js
-// window.onload = function() {
-//     console.log("Payment page loaded with database records.");
-//     // You can add code here for search filters or opening modals
-// };
-
-// // If you want to add a search bar later to filter the table:
-// function filterPayments() {
-//     let input = document.getElementById("paymentSearch");
-//     let filter = input.value.toUpperCase();
-//     let tr = document.querySelectorAll("#payments-body tr");
-
-//     tr.forEach(row => {
-//         let text = row.textContent || row.innerText;
-//         row.style.display = text.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-//     });
-// }
