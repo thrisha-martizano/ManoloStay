@@ -2,7 +2,7 @@ window.onload = function () {
     loadBookings();
 };
 
-// ✅ Maps accommodation name to its image file
+//Maps accommodation name to its image file
 function getAccomImage(name) {
     const map = {
         'Dream Residence'    : 'image/dreamres.png',
@@ -74,7 +74,7 @@ function showDetails(button) {
 
 // ✅ CANCEL BOOKING — updates booking to Cancelled + payment to Refunded
 async function cancelBooking(bookingId) {
-    const confirmed = confirm("Are you sure you want to cancel this booking? The payment will be marked as Refunded.");
+    const confirmed = confirm("Are you sure you want to cancel this booking?");
     if (!confirmed) return;
 
     try {
@@ -96,7 +96,7 @@ async function cancelBooking(bookingId) {
         }
 
         if (result.success) {
-            alert("✅ Booking cancelled. Payment has been marked as Refunded.");
+            alert("Booking cancelled. Payment has been marked as Refunded.");
             closeModal();
             loadBookings(); // Refresh the table
         } else {
