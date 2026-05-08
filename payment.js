@@ -14,7 +14,6 @@ function formatDate(dateString) {
 async function loadPaymentTable() {
     const paymentsBody = document.getElementById('payments-body');
 
-    // ✅ Try multiple common localStorage key names for the logged-in email
     const loggedInUserEmail =
         localStorage.getItem("loggedInUser") ||
         localStorage.getItem("userEmail") ||
@@ -23,7 +22,7 @@ async function loadPaymentTable() {
 
     console.log("Email from localStorage:", loggedInUserEmail);
 
-    // Clear the hardcoded demo rows immediately
+    // WALA ANG HARDCODED NA PAYMENTS DAAN DONE
     paymentsBody.innerHTML = `
         <tr>
             <td colspan="5" style="text-align:center;padding:20px;color:#aaa;">
@@ -38,7 +37,7 @@ async function loadPaymentTable() {
             body: JSON.stringify({ email: loggedInUserEmail })
         });
 
-        const text = await response.text(); // Read as text first to catch PHP errors
+        const text = await response.text(); 
         console.log("Raw response from payment.php:", text);
 
         let myPayments;
@@ -46,7 +45,7 @@ async function loadPaymentTable() {
             myPayments = JSON.parse(text);
         } catch (e) {
             console.error("PHP returned non-JSON:", text);
-            paymentsBody.innerHTML = `<tr><td colspan="5" style="color:red;padding:20px;text-align:center;">NO PAYMENTS MADE</td></tr>`;
+            paymentsBody.innerHTML = `<tr><td colspan="5" style="color:red;padding:20px;text-align:center;">NO PAYMENTS RECORD</td></tr>`;
             return;
         }
 

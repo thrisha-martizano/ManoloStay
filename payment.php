@@ -27,7 +27,6 @@ if (!$email) {
 
 $email = mysqli_real_escape_string($conn, $email);
 
-// ✅ LOWER() on both sides = case-insensitive match (fixes Gmail capitalisation issues)
 $sql = "SELECT * FROM payments
         WHERE LOWER(TRIM(userEmail)) = LOWER(TRIM('$email'))
         ORDER BY payment_date DESC";

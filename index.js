@@ -1,4 +1,4 @@
-// Change navbar background on scroll
+
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
@@ -10,19 +10,19 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Simple click event for the Explore button
+// EXPLORE BUTTON
 document.querySelector('.explore-btn').addEventListener('click', () => {
     alert("Redirecting to accommodations...");
 });
 
-// --- Section Navigation ---
+// SA NAVIGATION SECTION
 function showSection(sectionId) {
     const hero   = document.querySelector('.hero');
     const login  = document.getElementById('login-section');
     const signup = document.getElementById('signup-section');
     const nav    = document.querySelector('.navbar');
 
-    // Hide everything first
+    // KANI HIDES EVERYTHING FIRST
     hero.style.display   = 'none';
     login.style.display  = 'none';
     signup.style.display = 'none';
@@ -40,13 +40,11 @@ function showSection(sectionId) {
     }
 }
 
-// --- Auth Handling ---
+// FOR LOGIN N SIGN UP 
 function handleLogin(event) {
     event.preventDefault();
 
     const email = document.getElementById('loginEmail').value;
-
-    // ✅ THIS LINE WAS COMMENTED OUT — now uncommented so all pages can read the email
     localStorage.setItem("loggedInUser", email);
 
     alert("Login successful! Redirecting to your dashboard...");

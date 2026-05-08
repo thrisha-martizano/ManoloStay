@@ -1,5 +1,4 @@
 window.onload = function () {
-    // ✅ Auto-fill email from localStorage so user doesn't type it manually
     const loggedInUserEmail =
         localStorage.getItem("loggedInUser") ||
         localStorage.getItem("userEmail") ||
@@ -9,12 +8,12 @@ window.onload = function () {
         const emailField = document.getElementById('guest-email');
         if (emailField) {
             emailField.value = loggedInUserEmail;
-            emailField.readOnly = true; // Prevent accidental edits
+            emailField.readOnly = true; 
         }
     }
 };
 
-// SEARCH BAR
+// THIS IS FOR SEARCH BAR
 function filterPlaces() {
     const input = document.getElementById('searchInput').value.toLowerCase();
     const cards = document.getElementsByClassName('accomm-card');
@@ -25,7 +24,7 @@ function filterPlaces() {
     }
 }
 
-// Open accommodation details view
+// DETAILS VIEW FOR ACCOMMO.
 function openDetails(name, price, image, location, description) {
     document.getElementById('accomm-list-view').style.display     = 'none';
     document.getElementById('property-details-view').style.display = 'block';
@@ -39,7 +38,6 @@ function openDetails(name, price, image, location, description) {
     const hiddenInput = document.getElementById('hidden-booking-name');
     if (hiddenInput) hiddenInput.value = name;
 
-    // ✅ Re-fill email every time details open (safety net)
     const loggedInUserEmail =
         localStorage.getItem("loggedInUser") ||
         localStorage.getItem("userEmail") ||
@@ -64,7 +62,7 @@ function confirmBooking() {
     const guestName      = guestNameInput ? guestNameInput.value.trim() : "";
 
     if (!guestName) {
-        alert("Please enter your Full Name to book.");
+        alert("Please enter your Name to book.");
         return;
     }
 

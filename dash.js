@@ -29,7 +29,6 @@ async function fetchDashboardData() {
 function updateDashboardStats(bookings, payments) {
     const totalBookings = bookings.length;
 
-    // TOTAL SPENT — sum all paid payments
     // payments table uses 'paid' status (lowercase from dationbok.php)
     const totalSpent = payments
         .filter(p => (p.status || "").toLowerCase() === 'paid')
@@ -41,8 +40,6 @@ function updateDashboardStats(bookings, payments) {
         return s === 'pending' || s === 'confirmed';
     }).length;
 
-    // NOTE: Your DB enum is 'Pending','Confirmed','Cancelled' — no 'Completed'
-    // Completed stays = bookings that are NOT pending/confirmed/cancelled
     const completed = bookings.filter(b =>
         (b.status || "").toLowerCase() === 'completed'
     ).length;
@@ -164,7 +161,6 @@ function loadRecent(bookings) {
     if (bookings.length === 0) {
         recentList.innerHTML += '<p style="color:#aaa;padding:10px;">No recent bookings.</p>';
     } else {
-        // Already ordered DESC from PHP — take first 3
         bookings.slice(0, 3).forEach(book => {
             const status = (book.status || "pending").toLowerCase();
             const div = document.createElement('div');

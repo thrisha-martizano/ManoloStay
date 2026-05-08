@@ -3,7 +3,7 @@ const SESSION_KEY = "loggedInUser";
 window.onload = function () {
     const email = localStorage.getItem(SESSION_KEY);
     
-    // FIX: If NO email is found, send them to the LOGIN page (index.html)
+    // IF WALAY EMAIL, SEND BALIK SA LANDING PAGE
     if (!email) {
         window.location.href = "prof.html"; 
         return;
@@ -37,7 +37,6 @@ async function loadProfile() {
     }
 }
 
-// TOGGLE MODAL (Renamed to match your HTML onclick="editProfile()")
 function editProfile() {
     document.getElementById("edit-modal").style.display = "flex";
 }
@@ -66,7 +65,7 @@ async function saveProfile() {
 
     if (result.trim() === "updated") {
         alert("Profile updated successfully!");
-        localStorage.setItem(SESSION_KEY, newEmail); // Update session with new email
+        localStorage.setItem(SESSION_KEY, newEmail);
         closeModal();
         loadProfile();
     } else {
@@ -74,7 +73,6 @@ async function saveProfile() {
     }
 }
 
-// UPDATE PASSWORD LOGIC
 // UPDATE PASSWORD
 async function updatePassword() {
 

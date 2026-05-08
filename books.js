@@ -2,7 +2,7 @@ window.onload = function () {
     loadBookings();
 };
 
-//Maps accommodation name to its image file
+//THIS IS FOR THE PICS TO SHOW IN THE BOOKING TAB
 function getAccomImage(name) {
     const map = {
         'Dream Residence'    : 'image/dreamres.png',
@@ -13,12 +13,11 @@ function getAccomImage(name) {
         'Balai Dicklum'      : 'image/bali.png',
         'KJSGrandeInnOpens'  : 'image/kjs.png',
     };
-    // Exact match first, then partial match
     if (map[name]) return map[name];
     for (const key in map) {
         if (name && name.toLowerCase().includes(key.toLowerCase())) return map[key];
     }
-    return 'image/dreamres.png'; // fallback
+    return 'image/dreamres.png';
 }
 
 // Filter rows by status tab
@@ -72,11 +71,11 @@ function showDetails(button) {
     modal.style.display = 'block';
 }
 
-// CANCEL BOOKING — updates booking to Cancelled + payment to Refunded
+// PARA SA CANCEL BOOKING — updates booking to Cancelled + payment to Refunded
 async function cancelBooking(bookingId) {
     const confirmed = confirm("Are you sure you want to cancel this booking?");
     if (!confirmed) return;
-
+    //NAAY PHP
     try {
         const response = await fetch('cancel_booking.php', {
             method: 'POST',
@@ -98,13 +97,13 @@ async function cancelBooking(bookingId) {
         if (result.success) {
             alert("Booking cancelled. Payment has been marked as Refunded.");
             closeModal();
-            loadBookings(); // Refresh the table
+            loadBookings(); 
         } else {
             alert("Error: " + (result.error || "Could not cancel booking."));
         }
     } catch (err) {
         console.error("Cancel error:", err);
-        alert("Network error. Could not cancel booking.");
+        alert("Could not cancel the booking.");
     }
 }
 
@@ -131,11 +130,12 @@ async function saveEdit() {
     const newDates  = document.getElementById('edit-input-dates').value;
     const newGuests = document.getElementById('edit-input-guests').value;
 
+    //NAAY PHP
     await fetch("update_booking.php", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `booking_id=${bookingId}&dates=${encodeURIComponent(newDates)}&guests=${newGuests}`
-    });
+    }); 
 
     alert("Booking updated!");
     closeModal();
@@ -159,7 +159,7 @@ function closeModal() {
 async function loadBookings() {
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
     const bookingsBody      = document.getElementById('bookings-body');
-
+    //NAAY PHP
     try {
         const res = await fetch("get_bookings.php", {
             method: "POST",
