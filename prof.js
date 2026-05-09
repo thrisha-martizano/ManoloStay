@@ -1,37 +1,62 @@
 const SESSION_KEY = "loggedInUser";
 
 window.onload = function () {
-    const email = localStorage.getItem(SESSION_KEY);
-    
-    // IF WALAY EMAIL, SEND BALIK SA LANDING PAGE
-    if (!email) {
-        window.location.href = "prof.html"; 
-        return;
-    }
-    
     loadProfile();
 };
 
-// LOAD PROFILE
 async function loadProfile() {
-    const email = localStorage.getItem(SESSION_KEY);
+    // Try localStorage first, then fall back to asking PHP for the session email
+    let email = localStorage.getItem(SESSION_KEY) ||
+                localStorage.getItem("userEmail")  ||
+                localStorage.getItem("email")      || null;
+
+    // If still no email, ask PHP session (set by dationbok.php after booking)
+    if (!email) {
+        try {
+            const sessionRes = await fetch("get_session_email.php");
+            const sessionData = await sessionRes.json();
+            if (sessionData.email) {
+                email = sessionData.email;
+                localStorage.setItem(SESSION_KEY, email); // Save for future use
+            }
+        } catch (e) {
+            console.warn("Could not get session email:", e);
+        }
+    }
+
+    if (!email) {
+        document.getElementById("display-name").innerText = "Not logged in";
+        document.getElementById("profileEmail").innerText = "Please log in again.";
+        return; // ✅ No redirect — just show empty, don't boot them out
+    }
 
     try {
-        const res = await fetch("get_profile.php?email=" + email);
-        const user = await res.json();
+        const res  = await fetch("get_profile.php?email=" + encodeURIComponent(email));
+        const text = await res.text();
+        console.log("Profile response:", text);
 
-        // Update the display text
-        document.getElementById("display-name").innerText = user.userName;
-        document.getElementById("profileEmail").innerText = user.userEmail;
-        
-        // Also update the header/nav name if it exists
-        if(document.getElementById("nav-user-name")) {
+        let user;
+        try {
+            user = JSON.parse(text);
+        } catch (e) {
+            console.error("Non-JSON from get_profile.php:", text);
+            return;
+        }
+
+        if (user.error) {
+            console.warn("Profile error:", user.error);
+            return;
+        }
+
+        document.getElementById("display-name").innerText = user.userName  || "—";
+        document.getElementById("profileEmail").innerText = user.userEmail || "—";
+        document.getElementById("edit-name").value        = user.userName  || "";
+        document.getElementById("edit-email").value       = user.userEmail || "";
+
+        if (document.getElementById("nav-user-name")) {
             document.getElementById("nav-user-name").innerText = user.userName;
         }
 
-        // Fill the modal inputs
-        document.getElementById("edit-name").value = user.userName;
-        document.getElementById("edit-email").value = user.userEmail;
     } catch (error) {
         console.error("Error loading profile:", error);
     }
@@ -45,22 +70,22 @@ function closeModal() {
     document.getElementById("edit-modal").style.display = "none";
 }
 
-// SAVE PROFILE CHANGES
 async function saveProfile() {
     const oldEmail = localStorage.getItem(SESSION_KEY);
-    const newName = document.getElementById("edit-name").value;
-    const newEmail = document.getElementById("edit-email").value;
+    const newName  = document.getElementById("edit-name").value.trim();
+    const newEmail = document.getElementById("edit-email").value.trim();
+
+    if (!newName || !newEmail) {
+        alert("Name and email cannot be empty.");
+        return;
+    }
 
     const data = new URLSearchParams();
     data.append("oldEmail", oldEmail);
-    data.append("name", newName);
-    data.append("email", newEmail);
+    data.append("name",     newName);
+    data.append("email",    newEmail);
 
-    const res = await fetch("update_profile.php", {
-        method: "POST",
-        body: data
-    });
-
+    const res    = await fetch("update_profile.php", { method: "POST", body: data });
     const result = await res.text();
 
     if (result.trim() === "updated") {
@@ -69,56 +94,43 @@ async function saveProfile() {
         closeModal();
         loadProfile();
     } else {
-        alert("Update failed! " + result);
+        alert("Update failed: " + result);
     }
 }
 
-// UPDATE PASSWORD
 async function updatePassword() {
-
-    const email = localStorage.getItem(SESSION_KEY);
-
+    const email       = localStorage.getItem(SESSION_KEY);
     const currentPass = document.getElementById("curr-pass").value;
-    const newPass = document.getElementById("new-pass").value;
+    const newPass     = document.getElementById("new-pass").value;
     const confirmPass = document.getElementById("confirm-pass").value;
 
-    // CHECK EMPTY
     if (!currentPass || !newPass || !confirmPass) {
         alert("Please fill in all password fields.");
         return;
     }
-
-    // CHECK MATCH
     if (newPass !== confirmPass) {
         alert("New passwords do not match!");
         return;
     }
 
     const data = new URLSearchParams();
-    data.append("email", email);
+    data.append("email",           email);
     data.append("currentPassword", currentPass);
-    data.append("newPassword", newPass);
+    data.append("newPassword",     newPass);
 
-    const res = await fetch("update_password.php", {
-        method: "POST",
-        body: data
-    });
-
+    const res    = await fetch("update_password.php", { method: "POST", body: data });
     const result = await res.text();
 
-    if (result === "success") {
+    if (result.trim() === "success") {
         alert("Password updated successfully!");
-
-        document.getElementById("curr-pass").value = "";
-        document.getElementById("new-pass").value = "";
+        document.getElementById("curr-pass").value    = "";
+        document.getElementById("new-pass").value     = "";
         document.getElementById("confirm-pass").value = "";
-
     } else {
         alert(result);
     }
 }
 
-// LOGOUT LOGIC
 function handleLogout() {
     if (confirm("Are you sure you want to logout?")) {
         localStorage.removeItem(SESSION_KEY);

@@ -1,13 +1,34 @@
 <?php
-include "connection.php";
+// FILE LOCATION: ROOT folder (same as dash.php, connection.php)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include('connection.php');
+header("Content-Type: application/json");
 
-$email = $_GET['email'];
+// Get email from GET param (sent by prof.js) OR session
+$email = null;
+if (!empty($_GET['email'])) {
+    $email = trim($_GET['email']);
+} elseif (!empty($_SESSION['userEmail'])) {
+    $email = trim($_SESSION['userEmail']);
+}
 
-$sql = "SELECT * FROM users WHERE userEmail=?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
+if (!$email) {
+    echo json_encode(["error" => "No email provided"]);
+    exit;
+}
 
-$result = $stmt->get_result();
-echo json_encode($result->fetch_assoc());
+$email = mysqli_real_escape_string($conn, $email);
+
+$sql    = "SELECT userName, userEmail FROM users WHERE LOWER(TRIM(userEmail)) = LOWER(TRIM('$email'))";
+$result = mysqli_query($conn, $sql);
+
+if (!$result || mysqli_num_rows($result) === 0) {
+    echo json_encode(["error" => "User not found", "email_searched" => $email]);
+    exit;
+}
+
+$user = mysqli_fetch_assoc($result);
+echo json_encode($user);
 ?>
