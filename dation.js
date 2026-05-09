@@ -13,7 +13,7 @@ window.onload = function () {
     }
 };
 
-// THIS IS FOR SEARCH BAR
+// para sa search bar
 function filterPlaces() {
     const input = document.getElementById('searchInput').value.toLowerCase();
     const cards = document.getElementsByClassName('accomm-card');

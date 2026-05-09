@@ -1,12 +1,10 @@
 <?php
-// FILE LOCATION: ROOT folder (same as dash.php, connection.php)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 include('connection.php');
 header("Content-Type: application/json");
 
-// Get email from GET param (sent by prof.js) OR session
 $email = null;
 if (!empty($_GET['email'])) {
     $email = trim($_GET['email']);

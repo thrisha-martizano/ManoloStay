@@ -29,7 +29,7 @@ async function fetchDashboardData() {
 function updateDashboardStats(bookings, payments) {
     const totalBookings = bookings.length;
 
-    // payments table uses 'paid' status (lowercase from dationbok.php)
+    // TOTAL SPENT ang sum of all paid payments
     const totalSpent = payments
         .filter(p => (p.status || "").toLowerCase() === 'paid')
         .reduce((sum, p) => sum + parseFloat(p.amount || 0), 0);
@@ -121,7 +121,6 @@ function updateCharts(bookings, payments) {
     });
 
     // DOUGHNUT CHART — Bookings by Accommodation
-    // DB column: accommodation_name (in bookings table)
     const accMap = {};
     bookings.forEach(b => {
         const name = b.accommodation_name || "Unknown";
@@ -154,6 +153,24 @@ function updateCharts(bookings, payments) {
     }
 }
 
+// para sa pictures sa dashboard recent bookings
+function getAccomImage(name) {
+    const map = {
+        'Dream Residence'      : 'image/dreamres.png',
+        'Sky Travellers Inn'   : 'image/sky.png',
+        "Sky's Travellers Inn" : 'image/sky.png',
+        'Concetta Inn'         : 'image/contdres.png',
+        'Sorelle'              : 'image/sorelle.png',
+        'Balai Dicklum'        : 'image/bali.png',
+        'KJSGrandeInnOpens'    : 'image/kjs.png',
+    };
+    if (map[name]) return map[name];
+    for (const key in map) {
+        if (name && name.toLowerCase().includes(key.toLowerCase())) return map[key];
+    }
+    return 'image/dreamres.png';
+}
+
 function loadRecent(bookings) {
     const recentList = document.getElementById('recent-bookings-list');
     recentList.innerHTML = '<h3>Recent Accommodation Bookings</h3>';
@@ -163,10 +180,12 @@ function loadRecent(bookings) {
     } else {
         bookings.slice(0, 3).forEach(book => {
             const status = (book.status || "pending").toLowerCase();
+            const imgSrc = getAccomImage(book.accommodation_name);
             const div = document.createElement('div');
             div.className = 'booking-item';
             div.innerHTML = `
-                <img src="image/default.jpg" alt="">
+                <img src="${imgSrc}" alt="${book.accommodation_name}"
+                     style="width:55px;height:55px;object-fit:cover;border-radius:8px;">
                 <div class="details">
                     <h4>${book.accommodation_name || "—"}</h4>
                     <p>${book.check_in || "—"} → ${book.check_out || "—"}</p>

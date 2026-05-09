@@ -1,13 +1,11 @@
 <?php
-// FILE LOCATION: ROOT folder
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 include('connection.php');
 
-// ✅ Get email from POST (sent by prof.js) — NOT from session
 $email       = trim($_POST['email']          ?? '');
-// ✅ Correct field names matching prof.js: currentPassword / newPassword
+
 $currentPass = trim($_POST['currentPassword'] ?? '');
 $newPass     = trim($_POST['newPassword']     ?? '');
 

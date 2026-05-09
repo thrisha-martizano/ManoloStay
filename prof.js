@@ -5,19 +5,17 @@ window.onload = function () {
 };
 
 async function loadProfile() {
-    // Try localStorage first, then fall back to asking PHP for the session email
     let email = localStorage.getItem(SESSION_KEY) ||
                 localStorage.getItem("userEmail")  ||
                 localStorage.getItem("email")      || null;
 
-    // If still no email, ask PHP session (set by dationbok.php after booking)
     if (!email) {
         try {
             const sessionRes = await fetch("get_session_email.php");
             const sessionData = await sessionRes.json();
             if (sessionData.email) {
                 email = sessionData.email;
-                localStorage.setItem(SESSION_KEY, email); // Save for future use
+                localStorage.setItem(SESSION_KEY, email);
             }
         } catch (e) {
             console.warn("Could not get session email:", e);
@@ -27,7 +25,7 @@ async function loadProfile() {
     if (!email) {
         document.getElementById("display-name").innerText = "Not logged in";
         document.getElementById("profileEmail").innerText = "Please log in again.";
-        return; // ✅ No redirect — just show empty, don't boot them out
+        return; //
     }
 
     try {

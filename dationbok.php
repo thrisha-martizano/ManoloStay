@@ -1,5 +1,5 @@
 <?php
-session_start(); // <-- ADD THIS at the very top
+session_start(); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include('connection.php');
@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $amount     = $_POST['amount'];
     $bookingName = $_POST['accommodation_name'];
 
-    // SET THE SESSION so dash.php, get_bookings.php, payments.php can find the user
+    // this is SET THE SESSION so that dash.php, get_bookings.php, payments.php can find the user
     $_SESSION['userEmail'] = $email;
 
-    // INSERT BOOKING
+    //  FOR INSERT BOOKING
     $query = "INSERT INTO bookings
     (fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
     VALUES
@@ -27,12 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_query($conn, $query)) {
         $booking_id = mysqli_insert_id($conn);
 
-        // PAYMENT DATA
+        // FOR PAYMENT DATA
         $method         = "GCash";
         $payment_status = "paid";
         $date           = date("Y-m-d");
 
-        // INSERT PAYMENT
+        // FOR INSERT PAYMENT
         $paymentQuery = "INSERT INTO payments
         (booking_id, userEmail, bookingName, payment_date, amount, method, status)
         VALUES
@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         mysqli_query($conn, $paymentQuery);
 
-        // Redirect to dashboard so it reloads fresh data from DB
         header("Location: dash.html");
         exit;
     } else {

@@ -15,7 +15,7 @@ VALUES ('$name', '$email', '$pass')";
         $_SESSION['loggedInUser'] = $email;
 
         // 2. Redirect to the dashboard
-        header("Location: dash.html"); 
+        header("Location: index.html"); 
         exit(); 
     } else {
         echo "Error: " . mysqli_error($conn);

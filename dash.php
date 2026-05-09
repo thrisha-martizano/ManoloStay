@@ -30,6 +30,7 @@ $sql1 = "SELECT bookings.*, users.userName
          LEFT JOIN users ON LOWER(TRIM(bookings.userEmail)) = LOWER(TRIM(users.userEmail))
          WHERE LOWER(TRIM(bookings.userEmail)) = LOWER(TRIM('$email'))
          ORDER BY bookings.booking_id DESC";
+         
 $result1 = mysqli_query($conn, $sql1);
 if ($result1) {
     while ($row = mysqli_fetch_assoc($result1)) $bookings[] = $row;

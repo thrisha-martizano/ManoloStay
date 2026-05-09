@@ -1,5 +1,4 @@
 <?php
-// FILE LOCATION: ROOT folder (same as dash.php, connection.php)
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,7 +7,6 @@ if (session_status() === PHP_SESSION_NONE) {
 include('connection.php');
 header("Content-Type: application/json");
 
-// Read the booking_id from POST JSON body
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 
@@ -19,7 +17,7 @@ if (empty($data['booking_id'])) {
 
 $booking_id = intval($data['booking_id']);
 
-// STEP 1: Update bookings table — set status to 'Cancelled'
+//  Update bookings table ang ga set sa status to 'Cancelled' booking nav
 $sql1 = "UPDATE bookings SET status = 'Cancelled' WHERE booking_id = $booking_id";
 $result1 = mysqli_query($conn, $sql1);
 
@@ -28,7 +26,7 @@ if (!$result1) {
     exit;
 }
 
-// STEP 2: Update payments table — set status to 'Refunded'
+// Update payments table ang ga sa set status to 'Refunded' in payment nav
 $sql2 = "UPDATE payments SET status = 'Refunded' WHERE booking_id = $booking_id";
 $result2 = mysqli_query($conn, $sql2);
 
