@@ -24,6 +24,10 @@ if (!$email) {
 
 $email = mysqli_real_escape_string($conn, $email);
 
+//To provide a personalized dashboard, a LEFT JOIN is used to combine the bookings and users tables. 
+//This allows the system to display the user's name alongside their specific booking details by linking 
+//them via the userEmail field.
+
 $bookings = [];
 $sql1 = "SELECT bookings.*, users.userName
          FROM bookings

@@ -29,6 +29,8 @@ async function loadPaymentTable() {
                 Loading payments...
             </td>
         </tr>`;
+//This function retrieves payment records from the database. 
+// Retrieves payment history & Displays payment records dynamically
 
     try {
         const response = await fetch('payment.php', {

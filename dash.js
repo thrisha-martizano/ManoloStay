@@ -2,6 +2,8 @@ window.onload = function () {
     fetchDashboardData();
 };
 
+//This function retrieves booking and payment data from the database using 
+// (fetch API) and sends the logged-in user's email to the backend.
 async function fetchDashboardData() {
     try {
         const loggedInUserEmail = localStorage.getItem("loggedInUser");

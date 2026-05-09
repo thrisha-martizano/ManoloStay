@@ -6,6 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = $_POST['email'];
     $password = $_POST['password'];
+    
+//This function validates user login credentials using password_verify(). 
+// Authenticates users securely. Creates user session after successful login
 
     $sql = "SELECT * FROM users WHERE userEmail='$email'";
     $result = mysqli_query($conn, $sql);

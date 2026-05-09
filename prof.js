@@ -10,7 +10,9 @@ async function loadProfile() {
                 localStorage.getItem("email")      || null;
 
     if (!email) {
-        try {
+        try { //This function loads the logged-in user's profile information. 
+        // Retrieves user profile data & Displays account information dynamically. 
+
             const sessionRes = await fetch("get_session_email.php");
             const sessionData = await sessionRes.json();
             if (sessionData.email) {
@@ -82,6 +84,8 @@ async function saveProfile() {
     data.append("oldEmail", oldEmail);
     data.append("name",     newName);
     data.append("email",    newEmail);
+//This function updates the user's account information. 
+// Updates user records in database & Demonstrates UPDATE operation. 
 
     const res    = await fetch("update_profile.php", { method: "POST", body: data });
     const result = await res.text();

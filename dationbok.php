@@ -18,7 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // this is SET THE SESSION so that dash.php, get_bookings.php, payments.php can find the user
     $_SESSION['userEmail'] = $email;
 
-    //  FOR INSERT BOOKING
+    //  FOR INSERT BOOKING //This code inserts booking 
+    // information into the bookings table. Saves booking information. 
+
     $query = "INSERT INTO bookings
     (fullname, userEmail, contactNo, accommodation_name, check_in, check_out, guests, amount, status)
     VALUES
@@ -32,7 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $payment_status = "paid";
         $date           = date("Y-m-d");
 
-        // FOR INSERT PAYMENT
+        // FOR INSERT PAYMENT,  automatically inserts payment data after a booking is created. 
+        // Stores payment transactions & Connects payment to booking records.
+
         $paymentQuery = "INSERT INTO payments
         (booking_id, userEmail, bookingName, payment_date, amount, method, status)
         VALUES

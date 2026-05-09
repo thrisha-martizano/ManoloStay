@@ -24,6 +24,7 @@ if (!$email) {
 
 $email = mysqli_real_escape_string($conn, $email);
 
+//retrieves all bookings of the logged-in user. Displays user-specific booking history 
 $sql = "SELECT * FROM bookings
         WHERE LOWER(TRIM(userEmail)) = LOWER(TRIM('$email'))
         ORDER BY booking_id DESC";

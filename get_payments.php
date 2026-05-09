@@ -11,6 +11,9 @@ if(!isset($_SESSION['userEmail'])){
 
 $email = $_SESSION['userEmail'];
 
+//retrieves payment history from the database. Retrieves payment transactions & 
+// Displays payment records dynamically
+
 $sql = "SELECT * FROM payments
         WHERE userEmail = '$email'
         ORDER BY payment_date DESC";
