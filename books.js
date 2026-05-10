@@ -1,3 +1,34 @@
+//SA RESPONSIVE MENU
+const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+const sidebar          = document.getElementById('sidebar');
+const sidebarOverlay   = document.getElementById('sidebar-overlay');
+
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    sidebarToggleBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    sidebarToggleBtn.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+sidebarToggleBtn.addEventListener('click', function () {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+sidebar.querySelectorAll('.sidebar-nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
+window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) closeSidebar();
+});
+
 window.onload = function () {
     loadBookings();
 };
@@ -5,13 +36,13 @@ window.onload = function () {
 //THIS IS FOR THE PICS TO SHOW IN THE BOOKING TAB
 function getAccomImage(name) {
     const map = {
-        'Dream Residence'    : 'image/dreamres.png',
-        'Sky Travellers Inn' : 'image/sky.png',
-        'Sky\'s Travellers Inn': 'image/sky.png',
-        'Concetta Inn'       : 'image/contdres.png',
-        'Sorelle'            : 'image/sorelle.png',
-        'Balai Dicklum'      : 'image/bali.png',
-        'KJSGrandeInnOpens'  : 'image/kjs.png',
+        'Dream Residence'      : 'image/dreamres.png',
+        'Sky Travellers Inn'   : 'image/sky.png',
+        "Sky's Travellers Inn" : 'image/sky.png',
+        'Concetta Inn'         : 'image/contdres.png',
+        'Sorelle'              : 'image/sorelle.png',
+        'Balai Dicklum'        : 'image/bali.png',
+        'KJSGrandeInnOpens'    : 'image/kjs.png',
     };
     if (map[name]) return map[name];
     for (const key in map) {
@@ -65,7 +96,10 @@ function showDetails(button) {
         modal.dataset.currentRowIndex = row.rowIndex;
         modal.dataset.bookingId       = bookingId;
     } else {
-        modalActions.innerHTML = `<p style="font-size:12px;color:#888;"><i>This booking is <strong>${statusText}</strong> and cannot be modified.</i></p>`;
+        modalActions.innerHTML = `
+            <p style="font-size:12px;color:#888;">
+                <i>This booking is <strong>${statusText}</strong> and cannot be modified.</i>
+            </p>`;
     }
 
     modal.style.display = 'block';
@@ -75,7 +109,9 @@ function showDetails(button) {
 async function cancelBooking(bookingId) {
     const confirmed = confirm("Are you sure you want to cancel this booking?");
     if (!confirmed) return;
-    //NAAY PHP
+
+//NAAY PHP
+
     try {
         const response = await fetch('cancel_booking.php', {
             method: 'POST',
@@ -97,7 +133,7 @@ async function cancelBooking(bookingId) {
         if (result.success) {
             alert("Booking cancelled. Payment has been marked as Refunded.");
             closeModal();
-            loadBookings(); 
+            loadBookings();
         } else {
             alert("Error: " + (result.error || "Could not cancel booking."));
         }
@@ -135,7 +171,7 @@ async function saveEdit() {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `booking_id=${bookingId}&dates=${encodeURIComponent(newDates)}&guests=${newGuests}`
-    }); 
+    });
 
     alert("Booking updated!");
     closeModal();
@@ -159,6 +195,7 @@ function closeModal() {
 async function loadBookings() {
     const loggedInUserEmail = localStorage.getItem("loggedInUser");
     const bookingsBody      = document.getElementById('bookings-body');
+
     //NAAY PHP
     try {
         const res = await fetch("get_bookings.php", {
@@ -187,10 +224,8 @@ async function loadBookings() {
             row.dataset.id    = book.booking_id;
             const statusLower = (book.status || "pending").toLowerCase();
             row.setAttribute('data-status', statusLower);
-            const amount = parseFloat(book.amount) || 0;
-
-            // Use mapped image instead of missing default.jpg
-            const imgSrc = getAccomImage(book.accommodation_name);
+            const amount  = parseFloat(book.amount) || 0;
+            const imgSrc  = getAccomImage(book.accommodation_name);
 
             row.innerHTML = `
                 <td>

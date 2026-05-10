@@ -1,20 +1,22 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Payments | ManoloStays</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="responsive.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-
 <body>
-
     <div class="dashboard-container">
 
-        <aside class="sidebar">
-            <div class="sidebar-header">
+        <!-- OVERLAY -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
                 <div>
                     <h2>ManoloStays</h2>
                     <p>Book. Stay. Relax.</p>
@@ -32,16 +34,22 @@
             </div>
         </aside>
 
+        <!-- MAIN CONTENT -->
         <main class="main-content">
             <!-- Top Header -->
             <header class="content-header">
                 <div class="welcome-text">
-                    <h1>Payments</h1>
-                    <p>View your payment history and details.</p>
+                    <!-- HAMBURGER BUTTON -->
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Open sidebar">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <div>
+                        <h1>Payments</h1>
+                        <p>View your payment history and details.</p>
+                    </div>
                 </div>
                 <div class="header-actions">
                     <div class="user-profile">
-
                         <img src="image/AVA1.jpg" alt="User">
                     </div>
                 </div>
@@ -57,7 +65,6 @@
                         <small>All time</small>
                     </div>
                 </div>
-
                 <div class="card pending-pmt">
                     <div class="card-icon">⏳</div>
                     <div class="card-info">
@@ -70,7 +77,7 @@
                     <div class="card-icon">💳</div>
                     <div class="card-info">
                         <span>Last Payment</span>
-                        <h3 id="stat-last-date">---</h3> <!-- Added ID -->
+                        <h3 id="stat-last-date">---</h3>
                         <small>Recent</small>
                     </div>
                 </div>
@@ -89,13 +96,13 @@
                         </tr>
                     </thead>
                     <tbody id="payments-body">
-                        <!-- Rows are loaded dynamically from database by payment.js -->
+                        <!-- Rows loaded dynamically from database by payment.js -->
                     </tbody>
                 </table>
             </div>
         </main>
+    </div>
 
-        <script src="payment.js"></script>
+    <script src="payment.js"></script>
 </body>
-
 </html>

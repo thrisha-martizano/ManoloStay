@@ -1,19 +1,74 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile | ManoloStays</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="responsive.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .sidebar-toggle-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .sidebar-toggle-btn span {
+            display: block;
+            width: 22px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .sidebar-toggle-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .sidebar-toggle-btn.open span:nth-child(2) { opacity: 0; }
+        .sidebar-toggle-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+        .sidebar-overlay.active { display: block; }
+        @media (max-width: 768px) {
+            .sidebar-toggle-btn { display: flex !important; }
+            .sidebar {
+                position: fixed !important;
+                top: 0 !important;
+                left: -280px !important;
+                width: 260px !important;
+                height: 100vh !important;
+                z-index: 100 !important;
+                transition: left 0.3s ease !important;
+            }
+            .sidebar.open {
+                left: 0 !important;
+                box-shadow: 4px 0 30px rgba(0,0,0,0.4) !important;
+            }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; }
+            .dashboard-container { flex-direction: column; }
+            .content-header { display: flex !important; align-items: center !important; }
+            .welcome-text { display: flex !important; align-items: center !important; }
+        }
+    </style>
 </head>
-
 <body>
     <div class="dashboard-container">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
 
+        <!-- OVERLAY -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
                 <div>
                     <h2>ManoloStays</h2>
                     <p>Book. Stay. Relax.</p>
@@ -35,12 +90,17 @@
         <main class="main-content">
             <header class="content-header">
                 <div class="welcome-text">
-                    <h1>Profile</h1>
-                    <p>Manage your account information.</p>
+                    <!-- HAMBURGER BUTTON -->
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Open sidebar">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <div>
+                        <h1>Profile</h1>
+                        <p>Manage your account information.</p>
+                    </div>
                 </div>
                 <div class="header-actions">
                     <div class="user-profile">
-                     
                         <img src="image/AVA1.jpg" alt="User">
                     </div>
                 </div>
@@ -50,7 +110,6 @@
                 <!-- Personal Information Card -->
                 <div class="profile-card">
                     <h3>Personal Information</h3>
-
                     <div class="info-group">
                         <label>Full Name</label>
                         <p id="display-name"></p>
@@ -59,31 +118,7 @@
                         <label>Email Address</label>
                         <span id="profileEmail"></span>
                     </div>
-                   
                     <button class="primary-btn" onclick="editProfile()">Edit Profile</button>
-                </div>
-
-                <!-- EDIT PROFILE MODAL -->
-                <div id="edit-modal" class="modal-overlay" style="display: none;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2>Edit Personal Information</h2>
-                            <button class="close-btn" onclick="closeModal()">&times;</button>
-                        </div>
-                    <div class="modal-body">
-                        <div class="input-field">
-                            <label>Full Name</label>
-                            <input type="text" id="edit-name">
-                        </div>
-                    
-                        <div class="input-field">
-                            <label>Email Address</label>
-                            <input type="email" id="edit-email">
-                        </div>
-                    
-                          <button class="primary-btn" onclick="saveProfile()">Save Changes</button>
-                    </div>
-                    </div>
                 </div>
 
                 <!-- Change Password Card -->
@@ -109,9 +144,27 @@
         </main>
     </div>
 
+    <!-- EDIT PROFILE MODAL -->
+    <div id="edit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Personal Information</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-field">
+                    <label>Full Name</label>
+                    <input type="text" id="edit-name">
+                </div>
+                <div class="input-field">
+                    <label>Email Address</label>
+                    <input type="email" id="edit-email">
+                </div>
+                <button class="primary-btn" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <script src="prof.js"></script>
-
-
 </body>
-
 </html>

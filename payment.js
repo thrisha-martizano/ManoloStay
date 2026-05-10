@@ -1,3 +1,33 @@
+//SA MENU
+const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+const sidebar          = document.getElementById('sidebar');
+const sidebarOverlay   = document.getElementById('sidebar-overlay');
+
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    sidebarToggleBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    sidebarToggleBtn.classList.remove('open');
+    document.body.style.overflow = '';
+}
+sidebarToggleBtn.addEventListener('click', function () {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+sidebar.querySelectorAll('.sidebar-nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
+window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) closeSidebar();
+});
+
 window.onload = function () {
     loadPaymentTable();
 };
@@ -16,22 +46,19 @@ async function loadPaymentTable() {
 
     const loggedInUserEmail =
         localStorage.getItem("loggedInUser") ||
-        localStorage.getItem("userEmail") ||
-        localStorage.getItem("email") ||
-        null;
+        localStorage.getItem("userEmail")    ||
+        localStorage.getItem("email")        || null;
 
     console.log("Email from localStorage:", loggedInUserEmail);
 
-    // WALA ANG HARDCODED NA PAYMENTS DAAN DONE
     paymentsBody.innerHTML = `
         <tr>
             <td colspan="5" style="text-align:center;padding:20px;color:#aaa;">
                 Loading payments...
             </td>
         </tr>`;
-//This function retrieves payment records from the database. 
-// Retrieves payment history & Displays payment records dynamically
-
+        
+//This function retrieves payment records from the database. Retrieves payment history & Displays payment records dynamically
     try {
         const response = await fetch('payment.php', {
             method: 'POST',
@@ -39,7 +66,7 @@ async function loadPaymentTable() {
             body: JSON.stringify({ email: loggedInUserEmail })
         });
 
-        const text = await response.text(); 
+        const text = await response.text();
         console.log("Raw response from payment.php:", text);
 
         let myPayments;
@@ -65,10 +92,10 @@ async function loadPaymentTable() {
         }
 
         myPayments.forEach(pmt => {
-            const row = document.createElement('tr');
+            const row         = document.createElement('tr');
             const statusClass = (pmt.status || "").toLowerCase();
-            const method = (pmt.method || "").toUpperCase();
-            const amount = parseFloat(pmt.amount) || 0;
+            const method      = (pmt.method || "").toUpperCase();
+            const amount      = parseFloat(pmt.amount) || 0;
 
             row.innerHTML = `
                 <td>${pmt.bookingName || "—"}</td>
@@ -115,10 +142,10 @@ function updatePaymentStats(payments) {
         }
     });
 
-    document.getElementById('stat-total-paid').innerText    = `₱${totalPaid.toLocaleString()}`;
-    document.getElementById('stat-pending-amount').innerText = `₱${pendingAmount.toLocaleString()}`;
-    document.getElementById('stat-pending-count').innerText  = `${pendingCount} payment${pendingCount !== 1 ? 's' : ''}`;
+    document.getElementById('stat-total-paid').innerText     = `₱${totalPaid.toLocaleString()}`;
+    document.getElementById('stat-pending-amount').innerText  = `₱${pendingAmount.toLocaleString()}`;
+    document.getElementById('stat-pending-count').innerText   = `${pendingCount} payment${pendingCount !== 1 ? 's' : ''}`;
     document.getElementById('stat-last-date').innerText = lastDate
-        ? lastDate.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })
+        ? lastDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
         : '---';
 }

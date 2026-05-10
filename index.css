@@ -1357,9 +1357,7 @@ footer .container .sec h2 {
 .mobile-auth .signup-btn { flex: 1; }
  
  
-/* ================================================================
-   SIDEBAR TOGGLE  (used by dash.html)
-   ================================================================ */
+/* // SIDEBAR TOGGLE  (used by dash.html) */
  
 .sidebar-toggle-btn {
     display: none;

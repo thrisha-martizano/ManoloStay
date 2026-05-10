@@ -1,3 +1,33 @@
+//SA MENU
+const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+const sidebar          = document.getElementById('sidebar');
+const sidebarOverlay   = document.getElementById('sidebar-overlay');
+
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    sidebarToggleBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    sidebarToggleBtn.classList.remove('open');
+    document.body.style.overflow = '';
+}
+sidebarToggleBtn.addEventListener('click', function () {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+sidebar.querySelectorAll('.sidebar-nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
+window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) closeSidebar();
+});
+
 const SESSION_KEY = "loggedInUser";
 
 window.onload = function () {
@@ -5,15 +35,16 @@ window.onload = function () {
 };
 
 async function loadProfile() {
-    let email = localStorage.getItem(SESSION_KEY) ||
-                localStorage.getItem("userEmail")  ||
-                localStorage.getItem("email")      || null;
+    let email =
+        localStorage.getItem(SESSION_KEY)   ||
+        localStorage.getItem("userEmail")   ||
+        localStorage.getItem("email")       || null;
+
+//This function loads the logged-in user's profile information. Retrieves user profile data & Displays account information dynamically. 
 
     if (!email) {
-        try { //This function loads the logged-in user's profile information. 
-        // Retrieves user profile data & Displays account information dynamically. 
-
-            const sessionRes = await fetch("get_session_email.php");
+        try {
+            const sessionRes  = await fetch("get_session_email.php");
             const sessionData = await sessionRes.json();
             if (sessionData.email) {
                 email = sessionData.email;
@@ -25,9 +56,9 @@ async function loadProfile() {
     }
 
     if (!email) {
-        document.getElementById("display-name").innerText = "Not logged in";
-        document.getElementById("profileEmail").innerText = "Please log in again.";
-        return; //
+        document.getElementById("display-name").innerText  = "Not logged in";
+        document.getElementById("profileEmail").innerText  = "Please log in again.";
+        return;
     }
 
     try {
@@ -48,10 +79,10 @@ async function loadProfile() {
             return;
         }
 
-        document.getElementById("display-name").innerText = user.userName  || "—";
-        document.getElementById("profileEmail").innerText = user.userEmail || "—";
-        document.getElementById("edit-name").value        = user.userName  || "";
-        document.getElementById("edit-email").value       = user.userEmail || "";
+        document.getElementById("display-name").innerText  = user.userName  || "—";
+        document.getElementById("profileEmail").innerText  = user.userEmail || "—";
+        document.getElementById("edit-name").value         = user.userName  || "";
+        document.getElementById("edit-email").value        = user.userEmail || "";
 
         if (document.getElementById("nav-user-name")) {
             document.getElementById("nav-user-name").innerText = user.userName;
@@ -84,8 +115,8 @@ async function saveProfile() {
     data.append("oldEmail", oldEmail);
     data.append("name",     newName);
     data.append("email",    newEmail);
-//This function updates the user's account information. 
-// Updates user records in database & Demonstrates UPDATE operation. 
+
+    //This function updates the user's account information.Updates user records in database & Demonstrates UPDATE operation. 
 
     const res    = await fetch("update_profile.php", { method: "POST", body: data });
     const result = await res.text();

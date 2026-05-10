@@ -1,17 +1,21 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Accommodations | ManoloStays</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="responsive.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-
 <body>
     <div class="dashboard-container">
+
+        <!-- OVERLAY -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
         <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div>
                     <h2>ManoloStays</h2>
@@ -30,35 +34,36 @@
             </div>
         </aside>
 
-
         <!-- MAIN LIST VIEW -->
         <main class="main-content" id="accomm-list-view">
             <header class="content-header">
                 <div class="welcome-text">
-                    <h1>Accommodations</h1>
-                    <p>Discover and book your perfect stay.</p>
+                    <!-- HAMBURGER BUTTON -->
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Open sidebar">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <div>
+                        <h1>Accommodations</h1>
+                        <p>Discover and book your perfect stay.</p>
+                    </div>
                 </div>
                 <div class="header-actions">
                     <div class="user-profile">
-
                         <img src="image/AVA1.jpg" alt="User">
                     </div>
                 </div>
             </header>
 
             <!-- Filter Bar -->
-
             <section class="filter-section">
                 <div class="search-box">
                     <span><i class='bx bxs-search-alt-2'></i></span>
-                    <!-- Added id="searchInput" and onkeyup function -->
                     <input type="text" id="searchInput" onkeyup="filterPlaces()" placeholder="Search accommodations...">
                 </div>
             </section>
 
             <!-- Cards Grid -->
             <div class="accomm-grid">
-
                 <div class="accomm-card">
                     <div class="card-banner" style="background-image: url('image/dreamres.png');">
                         <span class="price-badge">₱2,500 / night</span>
@@ -67,11 +72,8 @@
                         <h3>Dream Residence</h3>
                         <p class="loc"><i class='bx bx-location-plus'></i> San Miguel, Manolo Fortich, Bukidnon</p>
                         <p class="rate">⭐ 4.8 (120 reviews)</p>
-                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                            beachfront paradise.</p>
-                        <button class="primary-btn"
-                            onclick="openDetails('Dream Residence', '₱2,500', 'image/dreamres.png', 'San Miguel, Manolo Fortich', 'Dream Golftel by Dream Residences in Manolo Fortich offers family rooms with air-conditioning, private bathrooms, and free WiFi. Each room includes a bidet, shower, TV, and wardrobe.')">View
-                            Details</button>
+                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
+                        <button class="primary-btn" onclick="openDetails('Dream Residence','₱2,500','image/dreamres.png','San Miguel, Manolo Fortich','Dream Golftel by Dream Residences in Manolo Fortich offers family rooms with air-conditioning, private bathrooms, and free WiFi. Each room includes a bidet, shower, TV, and wardrobe.')">View Details</button>
                     </div>
                 </div>
 
@@ -83,14 +85,10 @@
                         <h3>Sky's Travellers Inn</h3>
                         <p class="loc"><i class='bx bx-location-plus'></i> Damilag, Manolo Fortich, Bukidnon</p>
                         <p class="rate">⭐ 4.9 (200 reviews)</p>
-                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                            beachfront paradise.</p>
-                        <button class="primary-btn"
-                            onclick="openDetails('Sky Travellers Inn', '₱2,980', 'image/sky.png', 'Damilag, Manolo Fortich', 'Skys Travelers Inn is located just 11 miles from Dahilayan Adventure Park.')">View
-                            Details</button>
+                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
+                        <button class="primary-btn" onclick="openDetails('Sky Travellers Inn','₱2,980','image/sky.png','Damilag, Manolo Fortich','Skys Travelers Inn is located just 11 miles from Dahilayan Adventure Park.')">View Details</button>
                     </div>
                 </div>
-
 
                 <div class="accomm-card">
                     <div class="card-banner" style="background-image: url('image/contdres.png');">
@@ -100,14 +98,10 @@
                         <h3>Concetta Inn</h3>
                         <p class="loc"><i class='bx bx-location-plus'></i> Damilag, Manolo Fortich, Bukidnon</p>
                         <p class="rate">⭐ 4.9 (200 reviews)</p>
-                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                            beachfront paradise.</p>
-                        <button class="primary-btn"
-                            onclick="openDetails('Concetta Inn', '₱3,780', 'image/contdres.png', 'Damilag, Manolo Fortich', 'Concetta Inn in Manolo Fortich offers recently renovated aparthotel units with air-conditioning, private bathrooms, and kitchenettes. Each room includes a dining area, TV, and free WiFi.')">View
-                            Details</button>
+                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
+                        <button class="primary-btn" onclick="openDetails('Concetta Inn','₱3,780','image/contdres.png','Damilag, Manolo Fortich','Concetta Inn in Manolo Fortich offers recently renovated aparthotel units with air-conditioning, private bathrooms, and kitchenettes. Each room includes a dining area, TV, and free WiFi.')">View Details</button>
                     </div>
                 </div>
-
 
                 <div class="accomm-card">
                     <div class="card-banner" style="background-image: url('image/sorelle.png');">
@@ -117,14 +111,10 @@
                         <h3>Sorelle</h3>
                         <p class="loc"><i class='bx bx-location-plus'></i> Libona, Manolo Fortich, Bukidnon</p>
                         <p class="rate">⭐ 6.4 (500 reviews)</p>
-                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                            beachfront paradise.</p>
-                        <button class="primary-btn"
-                            onclick="openDetails('Sorelle', '₱1,755','image/sorelle.png', 'Libona, Manolo Fortich', 'a cozy home offers accommodations in Manolo Fortich, 11 miles from Dahilayan Adventure Park and 19 miles from The Atrium.')">View
-                            Details</button>
+                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
+                        <button class="primary-btn" onclick="openDetails('Sorelle','₱1,755','image/sorelle.png','Libona, Manolo Fortich','a cozy home offers accommodations in Manolo Fortich, 11 miles from Dahilayan Adventure Park and 19 miles from The Atrium.')">View Details</button>
                     </div>
                 </div>
-
 
                 <div class="accomm-card">
                     <div class="card-banner" style="background-image: url('image/bali.png');">
@@ -134,14 +124,10 @@
                         <h3>Balai Dicklum</h3>
                         <p class="loc"><i class='bx bx-location-plus'></i> Dicklum, Manolo Fortich, Bukidnon</p>
                         <p class="rate">⭐ 4.10 (459 reviews)</p>
-                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                            beachfront paradise.</p>
-                        <button class="primary-btn"
-                            onclick="openDetails('Balai Dicklum', '₱4,000','image/bali.png', 'Dicklum, Manolo Fortich', 'Balai Diclum is a recently renovated vacation home in Manolo Fortich where guests can make the most of the garden and shared lounge.')">View
-                            Details</button>
+                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
+                        <button class="primary-btn" onclick="openDetails('Balai Dicklum','₱4,000','image/bali.png','Dicklum, Manolo Fortich','Balai Diclum is a recently renovated vacation home in Manolo Fortich where guests can make the most of the garden and shared lounge.')">View Details</button>
                     </div>
                 </div>
-
 
                 <div class="accomm-card">
                     <div class="card-banner" style="background-image: url('image/kjs.png');">
@@ -151,66 +137,51 @@
                         <h3>KJSGrandeInnOpens</h3>
                         <p class="loc"><i class='bx bx-location-plus'></i> Tankulan, Manolo Fortich, Bukidnon</p>
                         <p class="rate">⭐ 5.8 (500 reviews)</p>
-                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                            beachfront paradise.</p>
-                        <button class="primary-btn"
-                            onclick="openDetails('KJSGrandeInnOpens', '₱4,650','image/kjs.png', 'Tankulan, Manolo Fortich', 'KJSGrandeInn in Manolo Fortich offers 4-star comfort with family rooms and free WiFi. Guests can relax on the terrace or enjoy the outdoor seating area.')">View
-                            Details</button>
+                        <p class="desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
+                        <button class="primary-btn" onclick="openDetails('KJSGrandeInnOpens','₱4,650','image/kjs.png','Tankulan, Manolo Fortich','KJSGrandeInn in Manolo Fortich offers 4-star comfort with family rooms and free WiFi. Guests can relax on the terrace or enjoy the outdoor seating area.')">View Details</button>
                     </div>
                 </div>
-
             </div>
         </main>
 
-
+        <!-- DETAILS VIEW -->
         <main class="main-content" id="property-details-view" style="display: none;">
-            <button class="back-btn" onclick="closeDetails()">Back to Accommodations</button>
-
+            <button class="back-btn" onclick="closeDetails()">← Back to Accommodations</button>
             <div class="details-container">
-
                 <div class="details-main">
                     <img src="image/dreamres.png" class="hero-image" id="detail-main-img">
                     <h1 id="detail-title">Dream Residence</h1>
-                    <p class="sub-info">⭐ 4.8 (120 reviews) | <i class='bx bx-location-plus'></i> San Miguel, Manolo
-                        Fortich, Bukidnon</p>
-                    <p class="long-desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this
-                        beachfront paradise.</p>
-
+                    <p class="sub-info">⭐ 4.8 (120 reviews) | <i class='bx bx-location-plus'></i> San Miguel, Manolo Fortich, Bukidnon</p>
+                    <p class="long-desc">Enjoy the stunning sunset, cozy rooms, and excellent amenities at this beachfront paradise.</p>
                     <h3>Amenities</h3>
                     <div class="amenities-grid">
-                        <span>📶 Free Wi-Fi</span> <span>🏊 Swimming Pool</span> <span>🏖️ Gym Access</span>
-                        <span>🍴 Restaurant</span> <span>❄️ Air Conditioning</span> <span>🅿️ Free Parking</span>
+                        <span>📶 Free Wi-Fi</span>
+                        <span>🏊 Swimming Pool</span>
+                        <span>🏖️ Gym Access</span>
+                        <span>🍴 Restaurant</span>
+                        <span>❄️ Air Conditioning</span>
+                        <span>🅿️ Free Parking</span>
                     </div>
                 </div>
 
-
                 <aside class="booking-sticky">
-                    <!-- Form points to your PHP processing script -->
                     <form action="dationbok.php" method="POST" class="booking-card">
                         <h2 id="detail-price">₱2,500 <small>/ night</small></h2>
-
-                        <!-- Placeholder for the accommodation name from dation.js -->
-                        <!-- <input type="hidden" name="accommodation" id="hidden-booking-name" value=""> -->
-
                         <div class="user-info-preview">
                             <h4>Guest Details</h4>
                             <div class="input-field">
                                 <label>Full Name</label>
-                                <input type="text" name="fullname" id="guest-name" placeholder="Enter your name"
-                                    required>
+                                <input type="text" name="fullname" id="guest-name" placeholder="Enter your name" required>
                             </div>
                             <div class="input-field">
                                 <label>Email Address</label>
-                                <!-- This helps link to the userEmail column in your table -->
-                                <input type="email" name="userEmail" id="guest-email" placeholder="Enter your email"
-                                    required>
+                                <input type="email" name="userEmail" id="guest-email" placeholder="Enter your email" required>
                             </div>
                             <div class="input-field">
                                 <label>Contact Number</label>
                                 <input type="text" name="contactNo" id="guest-phone" placeholder="+63 9XX XXX XXXX">
                             </div>
                         </div>
-
                         <div class="input-field">
                             <label>Check-in</label>
                             <input type="date" name="check_in" required>
@@ -229,16 +200,13 @@
                         </div>
                         <input type="hidden" name="amount" id="hidden-amount">
                         <input type="hidden" name="accommodation_name" id="hidden-booking-name">
-
-                        <button type="button" class="book-btn" onclick="confirmBooking()">
-                            Confirm Booking
-                        </button>
+                        <button type="button" class="book-btn" onclick="confirmBooking()">Confirm Booking</button>
                     </form>
                 </aside>
             </div>
         </main>
+    </div>
 
-        <script src="dation.js"></script>
+    <script src="dation.js"></script>
 </body>
-
 </html>
