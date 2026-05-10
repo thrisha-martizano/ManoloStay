@@ -6,17 +6,18 @@
     <title>ManoloStays Dashboard</title>
     <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-
     <div class="dashboard-container">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
 
+        <!-- OVERLAY (tap to close sidebar on mobile) -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
                 <div>
                     <h2>ManoloStays</h2>
                     <p>Book. Stay. Relax.</p>
@@ -38,8 +39,16 @@
         <main class="main-content">
             <header class="content-header">
                 <div class="welcome-text">
-                    <h1>Dashboard</h1>
-                    <p>Welcome To MANOLOSTAY!</p>
+                    <!-- HAMBURGER BUTTON (shows only on mobile) -->
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Open sidebar">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Welcome To MANOLOSTAY!</p>
+                    </div>
                 </div>
                 <div class="header-actions">
                     <div class="user-profile">
@@ -47,7 +56,6 @@
                     </div>
                 </div>
             </header>
-
 
             <section class="stat-cards">
                 <div class="card blue">
@@ -80,7 +88,6 @@
                 </div>
             </section>
 
-            <!-- Add an ID to the Recent Bookings container -->
             <div class="recent-bookings" id="recent-bookings-list">
                 <h3>Recent Accommodation Bookings</h3>
             </div>
@@ -102,12 +109,11 @@
                     <h3>Monthly Spending</h3>
                     <canvas id="lineChart"></canvas>
                 </div>
-
             </section>
+
         </main>
     </div>
 
     <script src="dash.js"></script>
 </body>
-
 </html>

@@ -1305,348 +1305,367 @@ footer .container .sec h2 {
     }
 }
 
-
-/* =========================================
-   RESPONSIVE DESIGN
-========================================= */
-
-/* -------- LARGE TABLETS (1024px) -------- */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 200;
+}
+.hamburger-btn span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background: #fff;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+.hamburger-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger-btn.open span:nth-child(2) { opacity: 0; }
+.hamburger-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+ 
+/* Mobile dropdown menu — hidden by default on ALL screens */
+.mobile-menu {
+    display: none !important;
+    flex-direction: column;
+    background: #1a1347;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 9998;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+.mobile-menu.open { display: flex !important; }
+.mobile-menu a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    padding: 14px 24px;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.mobile-menu a:hover { background: rgba(255,255,255,0.07); }
+.mobile-auth {
+    display: flex;
+    gap: 10px;
+    padding: 14px 24px 20px;
+}
+.mobile-auth .login-btn,
+.mobile-auth .signup-btn { flex: 1; }
+ 
+ 
+/* ================================================================
+   SIDEBAR TOGGLE  (used by dash.html)
+   ================================================================ */
+ 
+.sidebar-toggle-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.sidebar-toggle-btn span {
+    display: block;
+    width: 22px;
+    height: 3px;
+    background: #231b5a;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+.sidebar-toggle-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.sidebar-toggle-btn.open span:nth-child(2) { opacity: 0; }
+.sidebar-toggle-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+ 
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+}
+.sidebar-overlay.active { display: block; }
+ 
+ 
+/* ================================================================
+   TABLET LANDSCAPE / SMALL LAPTOP  (≤ 1024px)
+   ================================================================ */
 @media (max-width: 1024px) {
-
-    .stat-cards,
-    .payment-cards {
-        grid-template-columns: repeat(2, 1fr);
+ 
+    /* --- NAVBAR --- */
+    .navbar { padding: 16px 4%; }
+    .nav-links { gap: 18px; }
+    .nav-links a { font-size: 0.9rem; }
+ 
+    /* --- HERO --- */
+    .hero { padding: 0 5%; }
+    .hero-content h1 { font-size: 2.8rem; }
+ 
+    /* --- DASHBOARD --- */
+    .sidebar { width: 220px; }
+    .main-content { margin-left: 220px; padding: 25px 28px; }
+    .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    .charts-grid { grid-template-columns: 1fr; }
+    .lower-grid  { grid-template-columns: 1fr; }
+ 
+    /* --- ACCOMMODATIONS --- */
+    .accomm-grid { grid-template-columns: repeat(2, 1fr); }
+    .details-container { grid-template-columns: 1fr; }
+    .booking-card { position: static; }
+ 
+    /* --- PAYMENTS --- */
+    .payment-cards { grid-template-columns: repeat(2, 1fr); }
+ 
+    /* --- PROFILE --- */
+    .profile-grid { grid-template-columns: 1fr; }
+ 
+    /* --- FOOTER --- */
+    footer { padding: 40px 5%; }
+    footer .container { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+ 
+    /* --- AUTH --- */
+    .auth-container { width: 90%; height: auto; }
+}
+ 
+ 
+/* ================================================================
+   TABLET PORTRAIT / LARGE PHONE  (≤ 768px)
+   ================================================================ */
+@media (max-width: 768px) {
+ 
+    /* --- NAVBAR: hide desktop links, show hamburger --- */
+    .navbar .nav-links    { display: none !important; }
+    .navbar .auth-buttons { display: none !important; }
+    .hamburger-btn        { display: flex !important; }
+    .navbar {
+        position: fixed !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 14px 5% !important;
+        background: #1a1347 !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.2) !important;
     }
-
-    .charts-grid,
-    .lower-grid,
-    .details-container,
-    .profile-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .accomm-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .about-container {
-        flex-direction: column;
-    }
-
-    .about-features {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .hero-content h1 {
-        font-size: 2.8rem;
-    }
-
+ 
+    /* Push hero content below fixed navbar */
+    .hero { padding-top: 70px; padding-left: 5%; padding-right: 5%; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-content p  { font-size: 1rem; margin: 15px 0 25px; }
+    .explore-btn     { padding: 12px 28px; font-size: 0.95rem; }
+ 
+    /* --- ABOUT --- */
+    .about-section { padding: 50px 5%; }
+    .about-container { flex-direction: column; }
+    .about-text h2 { font-size: 2rem; }
+    .about-features { grid-template-columns: 1fr; }
+ 
+    /* --- AUTH (Login / Signup) --- */
     .auth-container {
+        flex-direction: column;
         width: 95%;
         height: auto;
-        flex-direction: column;
+        max-height: 95vh;
+        overflow-y: auto;
     }
-
-    .auth-image {
-        height: 300px;
-    }
-
-    .auth-form-side {
-        padding: 40px;
-    }
-}
-
-
-/* -------- TABLETS (768px) -------- */
-@media (max-width: 768px) {
-
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-        padding: 20px;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .hero {
-        padding: 0 5%;
-        text-align: center;
-        justify-content: center;
-    }
-
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-    }
-
+    .auth-image  { display: none; }        /* hide image on mobile */
+    .auth-form-side { padding: 35px 28px; }
+    .auth-form-side h1 { font-size: 28px; }
+    .auth-form-side h2 { font-size: 18px; }
+ 
+    /* --- DASHBOARD SIDEBAR: slide in from left --- */
+    .sidebar-toggle-btn { display: flex !important; }
     .sidebar {
-        width: 220px;
+        position: fixed !important;
+        top: 0 !important;
+        left: -280px !important;
+        width: 260px !important;
+        height: 100vh !important;
+        z-index: 100 !important;
+        transition: left 0.3s ease !important;
     }
-
+    .sidebar.open {
+        left: 0 !important;
+        box-shadow: 4px 0 30px rgba(0,0,0,0.4) !important;
+    }
     .main-content {
-        margin-left: 220px;
-        padding: 20px;
+        margin-left: 0 !important;
+        padding: 20px 16px !important;
     }
-
-    .stat-cards,
-    .payment-cards,
-    .accomm-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .filter-section {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .filter-group {
-        flex-wrap: wrap;
-    }
-
-    .bookings-table,
-    .payments-table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .about-features {
-        grid-template-columns: 1fr;
-    }
-
-    footer {
-        padding: 40px 20px;
-    }
-
-    footer .container {
-        grid-template-columns: 1fr;
-    }
-
-    .copyrightText {
-        padding: 10px 20px;
-    }
-}
-
-
-/* -------- MOBILE PHONES (576px) -------- */
-@media (max-width: 576px) {
-
-    .navbar {
-        padding: 15px;
-    }
-
-    .logo {
-        font-size: 20px;
-    }
-
-    .nav-links a {
-        font-size: 14px;
-    }
-
-    .hero {
-        height: auto;
-        padding: 120px 20px 60px;
-    }
-
-    .hero-content h1 {
-        font-size: 1.8rem;
-        line-height: 1.3;
-    }
-
-    .hero-content p {
-        font-size: 0.95rem;
-    }
-
-    .explore-btn,
-    .blue-btn,
-    .primary-btn,
-    .book-btn {
-        width: 100%;
-    }
-
-    .auth-form-side {
-        padding: 25px;
-    }
-
-    .auth-form-side h1 {
-        font-size: 30px;
-    }
-
-    .auth-form-side h2 {
-        font-size: 20px;
-    }
-
-    .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-
-    .dashboard-container {
-        flex-direction: column;
-    }
-
-    .main-content {
-        margin-left: 0;
-        padding: 15px;
-    }
-
+    .dashboard-container { flex-direction: column; }
+ 
+    /* Header row with toggle btn */
     .content-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        display: flex !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        padding: 0 0 20px !important;
+        margin-bottom: 20px !important;
     }
-
-    .welcome-text h1 {
-        font-size: 1.8rem;
+    .welcome-text {
+        display: flex !important;
+        align-items: center !important;
     }
-
-    .welcome-text p {
-        font-size: 1rem;
-    }
-
-    .card {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .details-main h1 {
-        font-size: 1.5rem;
-        line-height: 2rem;
-    }
-
-    .details-main h3 {
-        font-size: 1.3rem;
-    }
-
-    .hero-image {
-        height: 250px;
-    }
-
-    .image-gallery {
-        flex-wrap: wrap;
-    }
-
-    .image-gallery img {
-        width: 80px;
-        height: 60px;
-    }
-
-    .amenities-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .booking-card {
-        padding: 20px;
-    }
-
-    .modal-content {
-        width: 90%;
-    }
-
-    .logout-btn {
-        right: 1rem;
-        bottom: 1rem;
-        padding: 0.7rem 1.5rem;
-    }
-
-    footer .container {
-        text-align: center;
-    }
-
-    .info li {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
+    .welcome-text h1 { font-size: 1.6rem; }
+    .welcome-text p  { font-size: 1rem; }
+ 
+    /* --- STAT CARDS: 2 per row --- */
+    .stat-cards { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    .card .info h3 { font-size: 18px; }
+ 
+    /* --- CHARTS: single column --- */
+    .charts-grid { grid-template-columns: 1fr; gap: 16px; }
+    .lower-grid  { grid-template-columns: 1fr; }
+ 
+    /* --- RECENT BOOKINGS --- */
+    .recent-bookings { padding: 16px; }
+    .booking-item { gap: 10px; }
+ 
+    /* --- ACCOMMODATIONS --- */
+    .accomm-grid { grid-template-columns: 1fr; gap: 16px; }
+    .filter-section { flex-direction: column; gap: 12px; padding: 14px; }
+    .filter-group   { flex-wrap: wrap; gap: 10px; }
+    .details-container { grid-template-columns: 1fr; gap: 20px; }
+    .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-image { height: 260px; }
+    .image-gallery img { width: 80px; height: 60px; }
+    .booking-card { padding: 20px; }
+    .booking-card h2 { font-size: 1.5rem; }
+ 
+    /* --- BOOKINGS TABLE: scroll horizontally --- */
+    .table-card { overflow-x: auto; padding: 14px; }
+    .bookings-table { min-width: 580px; }
+    .payments-table { min-width: 560px; }
+ 
+    /* --- BOOKING FILTERS --- */
+    .booking-filters { gap: 16px; overflow-x: auto; }
+    .filter-btn { font-size: 13px; white-space: nowrap; }
+ 
+    /* --- PAYMENTS --- */
+    .payment-cards { grid-template-columns: 1fr; gap: 12px; }
+ 
+    /* --- PROFILE --- */
+    .profile-grid { grid-template-columns: 1fr; gap: 16px; }
+    .profile-card { padding: 1.4rem; }
+    .logout-btn { bottom: 1rem; right: 1rem; padding: 0.7rem 1.4rem; font-size: 0.9rem; }
+ 
+    /* --- MODAL --- */
+    .modal-content { width: 92%; margin: 15% auto; padding: 20px; }
+ 
+    /* --- FOOTER --- */
+    footer { padding: 36px 5%; }
+    footer .container { grid-template-columns: 1fr 1fr; gap: 24px; }
+    footer .container .sec h2 { font-size: 1.4rem; }
+    .quicklinks li a, .extralinks li a, .info a, .sci-list a { font-size: 1rem; }
+    .copyrightText { padding: 10px 5%; }
+    .copyrightText .copyright { font-size: 0.9rem; }
 }
-
-
-/* -------- EXTRA SMALL DEVICES (400px) -------- */
-@media (max-width: 400px) {
-
-    .hero-content h1 {
-        font-size: 1.5rem;
-    }
-
-    .hero-content p {
-        font-size: 0.85rem;
-    }
-
-    .welcome-text h1 {
-        font-size: 1.5rem;
-    }
-
-    .card .info h3 {
-        font-size: 20px;
-    }
-
-    .booking-card h2 {
-        font-size: 1.5rem;
-    }
-
-    .auth-form-side {
-        padding: 20px;
-    }
+ 
+ 
+/* ================================================================
+   PHONE  (≤ 480px)
+   ================================================================ */
+@media (max-width: 480px) {
+ 
+    /* --- HERO --- */
+    .hero { padding-top: 75px; padding-left: 5%; padding-right: 5%; min-height: 100vh; }
+    .hero-content h1 { font-size: 1.8rem; }
+    .hero-content p  { font-size: 0.95rem; }
+    .explore-btn     { width: 100%; padding: 13px; font-size: 0.95rem; }
+ 
+    /* --- ABOUT --- */
+    .about-section { padding: 36px 5%; }
+    .about-text h2  { font-size: 1.6rem; }
+    .about-text p   { font-size: 0.95rem; }
+    .feature-card   { padding: 14px; }
+ 
+    /* --- AUTH --- */
+    .auth-form-side { padding: 28px 20px; }
+    .auth-form-side h1 { font-size: 24px; margin-bottom: 12px; }
+    .auth-form-side h2 { font-size: 16px; margin-bottom: 18px; }
+    .auth-form-side input { padding: 12px; font-size: 13px; }
+    .blue-btn { padding: 13px; font-size: 14px; }
+ 
+    /* --- DASHBOARD --- */
+    .stat-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card { padding: 14px; gap: 10px; }
+    .card .icon { width: 40px; height: 40px; font-size: 18px; }
+    .card .info h3 { font-size: 16px; }
+    .card .info p  { font-size: 11px; }
+    .welcome-text h1 { font-size: 1.3rem; }
+    .welcome-text p  { font-size: 0.85rem; margin-top: 3px; }
+    .user-profile img { width: 36px; height: 36px; }
+ 
+    /* Charts */
+    .chart-container { padding: 16px; }
+    .chart-container h3 { font-size: 14px; margin-bottom: 14px; }
+ 
+    /* --- ACCOMMODATIONS --- */
+    .card-banner { height: 160px; }
+    .card-body h3 { font-size: 15px; }
+    .primary-btn  { padding: 10px; font-size: 13px; }
+    .amenities-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .hero-image { height: 200px; }
+    .details-main h1 { font-size: 1.5rem; line-height: 2.2rem; }
+    .details-main h3 { font-size: 1.4rem; }
+    .details-main p  { font-size: 0.9rem; }
+ 
+    /* --- BOOKINGS --- */
+    .bookings-table { min-width: 520px; }
+    .bookings-table th, .bookings-table td { padding: 12px 10px; font-size: 12px; }
+    .acc-cell img { width: 36px; height: 36px; }
+    .booking-filters { gap: 12px; }
+ 
+    /* --- PAYMENTS --- */
+    .payment-cards { grid-template-columns: 1fr; }
+    .card-info h3  { font-size: 18px; }
+    .payments-table th, .payments-table td { padding: 12px 10px; font-size: 12px; }
+ 
+    /* --- PROFILE --- */
+    .profile-card { padding: 1.2rem; }
+    .profile-card h3 { font-size: 1rem; }
+    .logout-btn { width: calc(100% - 2rem); bottom: 1rem; right: 1rem; }
+ 
+    /* --- MODAL --- */
+    .modal-content { width: 95%; padding: 18px; }
+    #modal-actions { flex-direction: column; }
+    .edit-btn, .cancel-btn { width: 100%; }
+ 
+    /* --- FOOTER --- */
+    footer .container { grid-template-columns: 1fr; gap: 28px; }
+    footer .container .sec h2 { font-size: 1.2rem; margin-bottom: 14px; }
+    footer { padding: 30px 5%; }
 }
-
-/* MOBILE NAVIGATION */
-
-.menu-icon {
-    display: none;
-    font-size: 32px;
-    color: white;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-
-    .menu-icon {
-        display: block;
-    }
-
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 80px;
-        left: 0;
-        width: 100%;
-        background: #0A1931;
-        padding: 20px 0;
-        z-index: 999;
-    }
-
-    .nav-links.active {
-        display: flex;
-    }
-
-    .nav-links li {
-        margin: 15px 0;
-        text-align: center;
-    }
-}
-
-.sidebar {
-    width: 250px;
-    transition: 0.3s ease;
-}
-
-.sidebar.collapsed {
-    width: 70px;
-}
-
-.main-content {
-    margin-left: 250px;
-    transition: 0.3s ease;
-}
-
-.main-content.expanded {
-    margin-left: 70px;
+ 
+ 
+/* ================================================================
+   SMALL PHONE  (≤ 360px)
+   ================================================================ */
+@media (max-width: 360px) {
+ 
+    /* --- HERO --- */
+    .hero-content h1 { font-size: 1.5rem; }
+    .explore-btn     { padding: 11px; font-size: 0.9rem; }
+ 
+    /* --- NAVBAR --- */
+    .logo { font-size: 18px; }
+ 
+    /* --- DASHBOARD --- */
+    .stat-cards { grid-template-columns: 1fr; }   /* 1 per row on tiny screens */
+    .main-content { padding: 14px 12px !important; }
+ 
+    /* --- AUTH --- */
+    .auth-form-side { padding: 22px 16px; }
+ 
+    /* --- FOOTER --- */
+    footer { padding: 24px 4%; }
+    .quicklinks li a, .extralinks li a,
+    .info a, .sci-list a { font-size: 0.9rem; }
+    .copyrightText .copyright { font-size: 0.8rem; }
 }

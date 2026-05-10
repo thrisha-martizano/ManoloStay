@@ -1,27 +1,64 @@
+// =============================================
+// SIDEBAR TOGGLE — RESPONSIVE MOBILE MENU
+// =============================================
+const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+const sidebar          = document.getElementById('sidebar');
+const sidebarOverlay   = document.getElementById('sidebar-overlay');
+
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    sidebarToggleBtn.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    sidebarToggleBtn.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+sidebarToggleBtn.addEventListener('click', function() {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// Close sidebar when a nav link is tapped on mobile
+sidebar.querySelectorAll('.sidebar-nav a').forEach(function(link) {
+    link.addEventListener('click', function() {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
+
+// Auto-close when rotating to desktop
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) closeSidebar();
+});
+
+
+// =============================================
+// DASHBOARD DATA
+// =============================================
 window.onload = function () {
     fetchDashboardData();
 };
 
-//This function retrieves booking and payment data from the database using 
-// (fetch API) and sends the logged-in user's email to the backend.
 async function fetchDashboardData() {
     try {
         const loggedInUserEmail = localStorage.getItem("loggedInUser");
-
         const response = await fetch("dash.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: loggedInUserEmail })
         });
-
         const data = await response.json();
         console.log("Dashboard data from DB:", data);
-
         if (!data.bookings || !data.payments) {
             console.warn("No data returned from dash.php");
             return;
         }
-
         updateDashboardStats(data.bookings, data.payments);
     } catch (error) {
         console.error("Dashboard load error:", error);
@@ -31,12 +68,10 @@ async function fetchDashboardData() {
 function updateDashboardStats(bookings, payments) {
     const totalBookings = bookings.length;
 
-    // TOTAL SPENT ang sum of all paid payments
     const totalSpent = payments
         .filter(p => (p.status || "").toLowerCase() === 'paid')
         .reduce((sum, p) => sum + parseFloat(p.amount || 0), 0);
 
-    // UPCOMING — Pending or Confirmed (matches your enum values)
     const upcoming = bookings.filter(b => {
         const s = (b.status || "").toLowerCase();
         return s === 'pending' || s === 'confirmed';
@@ -47,9 +82,9 @@ function updateDashboardStats(bookings, payments) {
     ).length;
 
     document.getElementById('total-bookings-count').innerText = totalBookings;
-    document.getElementById('total-spent-amount').innerText = `₱${totalSpent.toLocaleString()}`;
+    document.getElementById('total-spent-amount').innerText   = `₱${totalSpent.toLocaleString()}`;
     document.getElementById('upcoming-bookings-count').innerText = upcoming;
-    document.getElementById('completed-stays-count').innerText = completed;
+    document.getElementById('completed-stays-count').innerText   = completed;
 
     loadRecent(bookings);
     updateCharts(bookings, payments);
@@ -59,17 +94,14 @@ function updateCharts(bookings, payments) {
     const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun',
                          'Jul','Aug','Sep','Oct','Nov','Dec'];
 
-    // --- BOOKINGS PER MONTH ---
     const monthCounts = new Array(12).fill(0);
     bookings.forEach(b => {
-        // DB column name: check_in (date type)
         if (b.check_in) {
             const monthIndex = new Date(b.check_in).getMonth();
             if (!isNaN(monthIndex)) monthCounts[monthIndex]++;
         }
     });
 
-    // --- MONTHLY SPENDING ---
     const monthlySpending = new Array(12).fill(0);
     payments.forEach(p => {
         if ((p.status || "").toLowerCase() === 'paid' && p.payment_date) {
@@ -80,12 +112,10 @@ function updateCharts(bookings, payments) {
         }
     });
 
-    // Destroy old charts before redrawing
     if (window._barChart)      window._barChart.destroy();
     if (window._lineChart)     window._lineChart.destroy();
     if (window._doughnutChart) window._doughnutChart.destroy();
 
-    // BAR CHART — Bookings Per Month
     window._barChart = new Chart(document.getElementById('barChart'), {
         type: 'bar',
         data: {
@@ -102,7 +132,6 @@ function updateCharts(bookings, payments) {
         }
     });
 
-    // LINE CHART — Monthly Spending
     window._lineChart = new Chart(document.getElementById('lineChart'), {
         type: 'line',
         data: {
@@ -122,7 +151,6 @@ function updateCharts(bookings, payments) {
         }
     });
 
-    // DOUGHNUT CHART — Bookings by Accommodation
     const accMap = {};
     bookings.forEach(b => {
         const name = b.accommodation_name || "Unknown";
@@ -131,8 +159,8 @@ function updateCharts(bookings, payments) {
 
     const accLabels = Object.keys(accMap);
     const accData   = Object.values(accMap);
-
     const doughnutCanvas = document.getElementById('doughnutChart');
+
     if (accLabels.length === 0) {
         doughnutCanvas.parentElement.querySelector('h3').insertAdjacentHTML(
             'afterend', '<p style="text-align:center;color:#aaa;font-size:13px;margin-top:10px;">No bookings yet</p>'
@@ -155,7 +183,6 @@ function updateCharts(bookings, payments) {
     }
 }
 
-// para sa pictures sa dashboard recent bookings
 function getAccomImage(name) {
     const map = {
         'Dream Residence'      : 'image/dreamres.png',
@@ -197,6 +224,5 @@ function loadRecent(bookings) {
             recentList.appendChild(div);
         });
     }
-
     recentList.innerHTML += `<a href="books.html" class="view-all">View all bookings →</a>`;
 }

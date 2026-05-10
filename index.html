@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +13,8 @@
 <body>
 
     <header class="navbar">
-        <div class="logo"><span>ManoloStays</span>
-        </div>
+        <div class="logo"><span>ManoloStays</span></div>
+
         <nav>
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
@@ -25,22 +24,41 @@
                 <li><a href="#">Profile</a></li>
             </ul>
         </nav>
+
         <div class="auth-buttons">
             <button class="login-btn" onclick="showSection('login')">Login</button>
             <button class="signup-btn" onclick="showSection('signup')">Sign Up</button>
         </div>
+
+        <!-- HAMBURGER BUTTON -->
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
+
+    <!-- MOBILE DROPDOWN MENU -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#">🏠 Home</a>
+        <a href="#">🏨 Accommodations</a>
+        <a href="#">📅 My Booking</a>
+        <a href="#">💳 Payments</a>
+        <a href="#">👤 Profile</a>
+        <div class="mobile-auth">
+            <button class="login-btn" onclick="showSection('login')">Login</button>
+            <button class="signup-btn" onclick="showSection('signup')">Sign Up</button>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <main class="hero">
-
         <div class="hero-content">
             <h1>"Your Stay, <br>Just a Click Away"</h1>
             <p>Discover comfortable places to stay and create unforgettable memories with ManoloStays.</p>
             <button class="explore-btn">Explore Accommodations</button>
         </div>
     </main>
-
 
     <section id="about" class="about-section">
         <div class="about-container">
@@ -62,21 +80,18 @@
         </div>
     </section>
 
-    <!-- SA LOGIN  -->
+    <!-- LOGIN SECTION -->
     <div id="login-section" class="auth-overlay" style="display: none;">
         <div class="auth-container">
-            <!-- Image Side -->
             <div class="auth-image"></div>
             <div class="auth-form-side">
                 <h1>ManoloStays</h1>
                 <h2>Welcome Back!</h2>
-
                 <form action="login.php" method="POST">
                     <input type="email" name="email" placeholder="Enter your email" required>
                     <input type="password" name="password" placeholder="Enter your password" required>
                     <button type="submit" class="blue-btn">Login</button>
                 </form>
-
                 <div class="auth-footer">
                     <p>Don't have an account? <span class="link" onclick="showSection('signup')">Sign up here</span></p>
                     <a href="#" class="back-home-link" onclick="showSection('hero')">Back to Home</a>
@@ -84,25 +99,20 @@
             </div>
         </div>
     </div>
-    
-    
+
+    <!-- SIGNUP SECTION -->
     <div id="signup-section" class="page-section auth-overlay" style="display: none;">
         <div class="auth-container">
-            <!-- Image Side -->
             <div class="auth-image"></div>
-
-            <!-- Form Side -->
             <div class="auth-form-side">
                 <h1>ManoloStays</h1>
                 <h2>Create an Account</h2>
-
                 <form action="signup.php" method="POST">
                     <input type="text" name="userName" placeholder="Full Name" required>
                     <input type="email" name="userEmail" placeholder="Email Address" required>
                     <input type="password" name="password" placeholder="Create Password" required>
                     <button type="submit" class="blue-btn">Sign Up</button>
                 </form>
-
                 <div class="auth-footer">
                     <p>Already have an account? <span class="link" onclick="showSection('login')">Login here</span></p>
                     <a href="#" class="back-home-link" onclick="showSection('hero')">Back to Home</a>
@@ -111,11 +121,11 @@
         </div>
     </div>
 
-<footer>
+    <footer>
         <div class="container">
             <div class="sec quicklinks">
                 <h2>Quick Links</h2>
-               <ul>
+                <ul>
                     <li><a href="dash.html">Dashboard</a></li>
                     <li><a href="dation.html">Accommodations</a></li>
                     <li><a href="books.html">My Booking</a></li>
@@ -123,49 +133,37 @@
                     <li><a href="prof.html">Profile</a></li>
                 </ul>
             </div>
-
             <div class="sec extralinks">
                 <h2>Creators</h2>
                 <ul>
-                     <li><a href="#">Martizano,Thrisha Mae</a></li>
+                    <li><a href="#">Martizano,Thrisha Mae</a></li>
                     <li><a href="#">Gudes, Irish Joy</a></li>
                 </ul>
             </div>
-
             <div class="sec contact">
                 <h2>Contact Us</h2>
                 <ul class="info">
-
-                    <li> <span><i class='bx bxs-location-plus'></i></span> <span>Sto. nino & Alae, Manolo Fortich,
-                            Bukidnon <br> Philippines, 8703</span> </li>
-                    <li> <span><i class='bx bx-phone'></i></span> <span> <a href="tel:09381402034">09381402034</a> <a
-                                href="tel:09709993420">09709993420</a>  </span>
-                    </li>
-
-                    <li> <span><i class='bx bxs-envelope'></i></span> <span> <a
-                                href="mailto:martizanothrisha@gmail.com">martizanothrisha@gmail.com</a>  <a
-                                href="mailto:gudesirish2@gmail.com">gudesirish2@gmail.com</a> </span> </li>
+                    <li><span><i class='bx bxs-location-plus'></i></span> <span>Sto. nino & Alae, Manolo Fortich, Bukidnon <br> Philippines, 8703</span></li>
+                    <li><span><i class='bx bx-phone'></i></span> <span><a href="tel:09381402034">09381402034</a> <a href="tel:09709993420">09709993420</a></span></li>
+                    <li><span><i class='bx bxs-envelope'></i></span> <span><a href="mailto:martizanothrisha@gmail.com">martizanothrisha@gmail.com</a> <a href="mailto:gudesirish2@gmail.com">gudesirish2@gmail.com</a></span></li>
                 </ul>
             </div>
-
             <div class="sec followus">
                 <h2>Follow Us</h2>
                 <ul class="sci-list">
-                    <li><a href="martizanothrisha@gmail.com"><i class='bx bxl-facebook'></i> Facebook</a>
-                    </li>
-                    <li><a href="https://www.instagram.com/thrshm_?igsh=OTV2eHduNW5jd2c0"><i
-                                class='bx bxl-instagram-alt'></i> Instagram</a></li>
-                    <li><a href="gudesirish2@gmail.com"><i class='bx bxs-envelope'></i> Email</a></li>
+                    <li><a href="#"><i class='bx bxl-facebook'></i> Facebook</a></li>
+                    <li><a href="https://www.instagram.com/thrshm_?igsh=OTV2eHduNW5jd2c0"><i class='bx bxl-instagram-alt'></i> Instagram</a></li>
+                    <li><a href="#"><i class='bx bxs-envelope'></i> Email</a></li>
                     <li><a href="https://github.com/thrisha-martizano"><i class='bx bxl-github'></i> Github</a></li>
                 </ul>
             </div>
         </div>
     </footer>
+
     <div class="copyrightText">
-        <p class="copyright"> &copy; 2026 ManoloStays - All Right Reserved</p>
+        <p class="copyright">&copy; 2026 ManoloStays - All Right Reserved</p>
     </div>
 
     <script src="index.js"></script>
 </body>
-
 </html>
