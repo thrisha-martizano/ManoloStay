@@ -3,7 +3,7 @@ session_start();
 include('connection.php'); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = mysqli_real_escape_string($conn, $_POST['userName']);
+$name = mysqli_real_escape_string($conn, $_POST['userName']);
 $email = mysqli_real_escape_string($conn, $_POST['userEmail']);
 $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
